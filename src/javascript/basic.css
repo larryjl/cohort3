@@ -1,0 +1,28 @@
+body {
+    font-family: 'Josefin Sans', sans-serif;
+    background: linear-gradient(to bottom, rgb(0, 12, 99), rgb(0, 0, 0));
+    height: 100vh;
+    /* handled by bootstrap */
+    /* color: #ffffff; */
+    /* text-align: center; */
+}
+
+input {
+    margin: 0 1rem;
+}
+
+#inputId {
+    width: 6em;
+}
+
+#resultId {
+    font-size: 2em;
+}
+
+h1 {
+  transition: filter 1s;
+}
+h1:hover {
+  transition: filter 0.5s;
+  filter:blur(1em);
+}
