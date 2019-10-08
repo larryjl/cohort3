@@ -1,6 +1,9 @@
-// --------------- Copy this section into your code syntax.js as comments --------
+const functions = {
 
 // define attributes / variables
+    define: () => {
+        return 0;
+    }
 // number
 // string
 // boolean
@@ -24,5 +27,6 @@
 // Objects / Dictionaries
 // declare object
 // lookup key to retrieve value
+};
 
-// --------------- Copy ends here --------
+export default functions;
