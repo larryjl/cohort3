@@ -5,7 +5,8 @@ const functions = {
         if (num <0) return "negative";
         if (num < 10) return "small";
         if (num < 20) return "medium";
-        return "large";
+        if (num < 101) return "large";
+        return "extra large";
     },
 
     add: (num1, num2) => {
@@ -14,8 +15,11 @@ const functions = {
 
     subtract: (num1, num2) => {
         return num1 - num2;
-    }
+    },
 
+    foo: (bar) => {
+        return 0;
+    }
     
 };
 
