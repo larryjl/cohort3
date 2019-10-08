@@ -15,9 +15,15 @@
 // Write the function after this comment ---
 
 
-const assertEquals = (a,b) => 
-    (a===b) ? true : false;
-
+const assertEquals = (a,b) => {
+    if (!(a===b)) {
+        console.log(
+            ` *** the two values are not the same
+            p1-->${a}
+            p2-->${b}`);
+    }
+    return (a===b) ? true : false;
+}
 export default assertEquals;
 
 
