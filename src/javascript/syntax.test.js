@@ -10,5 +10,10 @@ test('test return variable types', () => {
 });
 
 test('test if else', () => {
-    expect(functions.ifElse()).toBe(1);
+    expect(functions.ifElse(true)).toBe(true);
+    expect(functions.ifElse(false)).toBe(false);
+});
+
+test('test function with parameters', () => {
+    expect(functions.funParameters()).toBe(1);
 });

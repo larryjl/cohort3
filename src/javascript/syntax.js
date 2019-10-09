@@ -12,14 +12,16 @@ define: (a) => {
 },
 
 // sample if / else
-ifElse: () => {
-    return undefined;
-}
+ifElse: (bool) => {
+    return (bool) ? true : false;
+},
 
 // functions
 //  parameters
 //  returns
-
+funParameters: () => {
+    return undefined;
+}
 // arrays
 //  add to the front
 //  add to the end
