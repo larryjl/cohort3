@@ -8,7 +8,8 @@ const functions = {
 //  dictionary / objects
 //  undefined
 define: (a) => {
-    return a;
+    let b=a;
+    return b;
 },
 
 // sample if / else
@@ -19,13 +20,18 @@ ifElse: (bool) => {
 // functions
 //  parameters
 //  returns
-funParameters: () => {
-    return undefined;
-}
+funParameters: (a) => {
+    let foo = (a) => a;
+    return foo(a);
+},
+
 // arrays
 //  add to the front
 //  add to the end
 //  update values
+funArray: (a) => {
+    return undefined;
+}
 
 // loops 
 //  for
