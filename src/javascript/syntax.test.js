@@ -22,8 +22,24 @@ test('test array manipulation', () => {
     expect(JSON.stringify(functions.funArray([0,1],'a','z'))).toBe(JSON.stringify(['a',0,1,'z']));
 });
 
-test('test function with loops', () => {
-    expect(functions.funLoop(0)).toBe('9a3b3');
+test('test function with for loop', () => {
+    expect(functions.funFor(0)).toBe(3);
+});
+
+test('test function with for in loop', () => {
+    expect(JSON.stringify(functions.funForIn(0))).toBe(JSON.stringify({a:'a0',b:'b0'}));
+});
+
+test('test function with while loop', () => {
+    expect(functions.funWhile(0)).toBe(3);
+});
+
+test('test function with do-while loop', () => {
+    expect(functions.funDoWhile(0)).toBe(3);
+});
+
+test('test function with for-each loop', () => {
+    expect(functions.funForEach(0)).toBe('0ab');
 });
 
 test('test objects', () => {

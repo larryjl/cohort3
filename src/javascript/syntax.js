@@ -36,43 +36,51 @@ funArray: (array,first,last) => {
 },
 
 // loops 
-funLoop: (x) => {
-
-    // for
+// for
+funFor: (a) => {
     for (let i=0;i<3;i++) { // loop 3x
-        x++;
-    }; // add 3 to x
-        // e.g. x=3
+        a++;
+    }; // add 3 to a
+    return a;
+},
 
-    // for/in
-    let obj = {a:'a',b:'b'}; // loop 2x
+// for/in
+funForIn: (a) => {
+    let obj = {a:'a',b:'b'};
     for (let i in obj) {
-        obj[i]=obj[i]+x;
-    }; // obj = {a:`a${x+3}`,b:`b${x+3}`}
-        // e.g. x=3; obj={a:'a3',b:'b3'}
-    
-    // while 
+        obj[i]=obj[i]+a;
+    }; 
+    return obj;
+},
+
+// while 
+funWhile: (a) => {
     let n=0;
     while (n<3) { // loop 3x
-        x++;
+        a++;
         n++;
-    }; // add 3 more to x
-        // e.g. x=6; n=3
+    }; // add 3 to a
+    return a;
+},
 
-    // do while
+// do while
+funDoWhile: (a) => {
+    let n=0;
     do {
-        x++;
+        a++;
         n++;
-    } while (n<6); // add 3 more to x
-        // e.g. x=9; n=6
+    } while (n<3); // add 3 to a
+    return a;
+},
 
-    // forEach 
-    let arr = Object.values(obj); // e.g. arr=['a3','b3']
-    let str = x.toString(); // e.g. x='6'
+// forEach
+funForEach: (x) => {
+    let obj = {a:'a',b:'b'};
+    let arr = Object.values(obj);
+    let str = x.toString();
     arr.forEach( function(v) {
         str=str+v;
-    }); // e.g. '6a3b3'
-
+    }); // e.g. '0ab'
     return str;
 },
 
