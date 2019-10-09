@@ -29,11 +29,18 @@ funParameters: (a) => {
 //  add to the front
 //  add to the end
 //  update values
-funArray: (a) => {
+funArray: (array,first,last) => {
+    array.unshift(first);
+    array.push(last);
+    console.log(array);
+    return array;
+},
+
+// loops 
+funLoop: (a) => {
     return undefined;
 }
 
-// loops 
 //  for
 //  for/in
 //  while

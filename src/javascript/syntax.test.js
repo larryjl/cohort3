@@ -19,5 +19,9 @@ test('test function with parameters', () => {
 });
 
 test('test array manipulation', () => {
-    expect(functions.funParameters(['a',1])).toBe(['a',1]);
+    expect(JSON.stringify(functions.funArray([0,1],'a','z'))).toBe(JSON.stringify(['a',0,1,'z']));
+});
+
+test('test function with loops', () => {
+    expect(functions.funLoop()).toBe(1);
 });
