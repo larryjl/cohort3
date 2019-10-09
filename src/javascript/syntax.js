@@ -69,19 +69,30 @@ funLoop: (x) => {
     // forEach 
     let arr = Object.values(obj); // e.g. arr=['a3','b3']
     let str = x.toString(); // e.g. x='6'
-    arr.forEach( function(a) {
-        str=str+a;
+    arr.forEach( function(v) {
+        str=str+v;
     }); // e.g. '6a3b3'
 
     return str;
 },
 
 // Objects / Dictionaries
-//  declare object
-//  lookup key to retrieve value
-funObject: (a) => {
-    return;
+funObject: (arr) => {
+    //  declare object
+    let obj=[];
+    arr.forEach( function(v, i) {
+        obj[i]=v;
+    }); // e.g. obj = {0:'a',1:'b'}
+    //  lookup key to retrieve value
+    let values = Object.values(obj);
+    let keys = Object.keys(obj);
+    let str = '';
+    for (let i in obj) {
+        str = str + obj[i];
+    };
+    return str;
 }
+
 };
 
 export default functions;

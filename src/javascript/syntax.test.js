@@ -27,5 +27,5 @@ test('test function with loops', () => {
 });
 
 test('test objects', () => {
-    expect(functions.funObject).toBe(1);
+    expect(functions.funObject(['a','b'])).toBe('ab');
 });
