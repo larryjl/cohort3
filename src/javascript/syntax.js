@@ -21,51 +21,67 @@ ifElse: (bool) => {
 //  parameters
 //  returns
 funParameters: (a) => {
-    let foo = (a) => a;
+    let foo = (b) => b;
     return foo(a);
 },
 
 // arrays
-//  add to the front
-//  add to the end
-//  update values
 funArray: (array,first,last) => {
+    //  add to the front
     array.unshift(first);
+    //  add to the end
     array.push(last);
-    console.log(array);
+    //  update values
     return array;
 },
 
 // loops 
 funLoop: (x) => {
-    for (let i=1;i<4;i++) { 
+
+    // for
+    for (let i=0;i<3;i++) { // loop 3x
         x++;
     }; // add 3 to x
-    let obj = {a:'a',b:'b'};
+        // e.g. x=3
+
+    // for/in
+    let obj = {a:'a',b:'b'}; // loop 2x
     for (let i in obj) {
         obj[i]=obj[i]+x;
     }; // obj = {a:`a${x+3}`,b:`b${x+3}`}
-    return obj;
-    // while () {
-        
-    // };
-    // do ()
-    // while ();
-    // foreach () {
+        // e.g. x=3; obj={a:'a3',b:'b3'}
+    
+    // while 
+    let n=0;
+    while (n<3) { // loop 3x
+        x++;
+        n++;
+    }; // add 3 more to x
+        // e.g. x=6; n=3
 
-    // };
-    return undefined;
-}
+    // do while
+    do {
+        x++;
+        n++;
+    } while (n<6); // add 3 more to x
+        // e.g. x=9; n=6
 
-//  for
-//  for/in
-//  while
-//  do while
-//  forEach (with array and function)
+    // forEach 
+    let arr = Object.values(obj); // e.g. arr=['a3','b3']
+    let str = x.toString(); // e.g. x='6'
+    arr.forEach( function(a) {
+        str=str+a;
+    }); // e.g. '6a3b3'
+
+    return str;
+},
 
 // Objects / Dictionaries
 //  declare object
 //  lookup key to retrieve value
+funObject: (a) => {
+    return;
+}
 };
 
 export default functions;

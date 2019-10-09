@@ -23,5 +23,9 @@ test('test array manipulation', () => {
 });
 
 test('test function with loops', () => {
-    expect(JSON.stringify(functions.funLoop(1))).toBe(JSON.stringify({a:'a4',b:'b4'}));
+    expect(functions.funLoop(0)).toBe('9a3b3');
+});
+
+test('test objects', () => {
+    expect(functions.funObject).toBe(1);
 });
