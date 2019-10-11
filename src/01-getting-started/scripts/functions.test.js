@@ -16,5 +16,9 @@ test('Does that add function work?', () => {
 });
 
 test('Test new function.', () => {
-    expect(functions.foo('bar')).toBe('foobar');
+    expect(functions.calcButton('bar')).toBe('foobar');
+});
+
+test('Test new function.', () => {
+    expect(functions.calcSubmit('bar')).toBe('foobar');
 });

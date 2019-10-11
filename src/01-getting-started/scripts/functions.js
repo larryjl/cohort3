@@ -17,10 +17,30 @@ const functions = {
         return num1 - num2;
     },
 
-    foo: (bar) => {
-        return 0;
-    }
-    
+    multiply: (num1, num2) => {
+        return num1 * num2;
+    },
+
+    divide: (num1, num2) => {
+        return num1 / num2;
+    }, 
+
+    calcButton: (operation) => {switch(operation) {
+            case '+':
+            calcInputNd.value = calcInputNd.value + '+';
+            break;
+            case '&minus':
+            calcInputNd.value = calcInputNd.value + '-';
+            break;
+            case '&times':
+            calcInputNd.value = calcInputNd.value + '*';
+            break;
+            case '&divide':
+            calcInputNd.value = calcInputNd.value + '/';
+            break;
+        }
+    },
+    calcSubmit: () => {}
 };
 
 export default functions;
