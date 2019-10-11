@@ -32,8 +32,8 @@ const functions = {
         switch(operation) {
             case 'add':
                 result = functions.add(num1, num2);
-                if (node!==null) {node.textContent = result;};
-                return result;
+                if (node!==null) {node.textContent = result;}; // null check only for testing
+                return result; // only for testing
             case 'minus':
                 result = functions.minus(num1, num2);
                 if (node!==null) {node.textContent = result;};

@@ -29,7 +29,10 @@ test('Does that divide function work?', () => {
 
 test('Test calc function.', () => {
     expect(functions.calcSubmit(null,3,4,'add')).toBe(7);
+    expect(functions.calcSubmit(null,-3,4,'add')).toBe(1);
+    expect(functions.calcSubmit(null,3.1,4,'add')).toBe(7.1);
     expect(functions.calcSubmit(null,3,4,'minus')).toBe(-1);
     expect(functions.calcSubmit(null,3,4,'times')).toBe(12);
     expect(functions.calcSubmit(null,3,4,'divide')).toBe(0.75);
+    expect(functions.calcSubmit(null,3,0,'divide')).toBe(Infinity);
 });
