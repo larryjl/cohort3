@@ -75,8 +75,7 @@ funDoWhile: (a) => {
 
 // forEach
 funForEach: (x) => {
-    let obj = {a:'a',b:'b'};
-    let arr = Object.values(obj);
+    let arr = ['a','b'];
     let str = x.toString();
     arr.forEach( function(v) {
         str=str+v;

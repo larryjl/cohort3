@@ -46,8 +46,16 @@ const functions = {
         const lastName = arr[1].toLowerCase();
         const email = `${firstName}.${lastName}@evolveu.ca`;
         return email;
-    }
+    },
 
+    // *** 2019-10-09 ***
+
+    makeEmailObj: (obj) => {
+        const firstName = obj['fname'].toLowerCase();
+        const lastName = obj['lname'].toLowerCase();
+        const email = `${firstName}.${lastName}@evolveu.ca`;
+        return email;
+    }
 
 };
 
