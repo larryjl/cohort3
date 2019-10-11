@@ -13,11 +13,11 @@ const functions = {
         return num1 + num2;
     },
 
-    subtract: (num1, num2) => {
+    minus: (num1, num2) => {
         return num1 - num2;
     },
 
-    multiply: (num1, num2) => {
+    times: (num1, num2) => {
         return num1 * num2;
     },
 
@@ -25,22 +25,29 @@ const functions = {
         return num1 / num2;
     }, 
 
-    calcButton: (operation) => {switch(operation) {
-            case '+':
-            calcInputNd.value = calcInputNd.value + '+';
-            break;
-            case '&minus':
-            calcInputNd.value = calcInputNd.value + '-';
-            break;
-            case '&times':
-            calcInputNd.value = calcInputNd.value + '*';
-            break;
-            case '&divide':
-            calcInputNd.value = calcInputNd.value + '/';
-            break;
+    calcSubmit: (node, num1, num2, operation) => {
+        num1 = Number(num1);
+        num2 = Number(num2);
+        let result;
+        switch(operation) {
+            case 'add':
+                result = functions.add(num1, num2);
+                if (node!==null) {node.textContent = result;};
+                return result;
+            case 'minus':
+                result = functions.minus(num1, num2);
+                if (node!==null) {node.textContent = result;};
+                return result;
+            case 'times':
+                result = functions.times(num1, num2);
+                if (node!==null) {node.textContent = result;};
+                return result;
+            case 'divide':
+                result = functions.divide(num1, num2);
+                if (node!==null) {node.textContent = result;};
+                return result;
         }
-    },
-    calcSubmit: () => {}
+    }
 };
 
 export default functions;

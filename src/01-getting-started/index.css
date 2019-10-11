@@ -65,6 +65,40 @@ html {
     width: 50px;
 }
 
+/* Calculator */
+#idCalc {
+    font-size: 3em;
+}
+#idCalc input, #idCalc select {
+    background-color: transparent;
+    border: none;
+    text-align: center;
+    color:#777;
+}
+
+/* Remove arrow buttons */
+/* - number inputs - */
+#idCalc input[type="number"]::-webkit-inner-spin-button, 
+#idCalc input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; /* Chrome, IE */
+  margin: 0; 
+}
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+/* - dropdowns - */
+select::-ms-expand {
+    display: none;  /* IE */
+}
+select {
+    -webkit-appearance: none; /* Chrome */
+    -moz-appearance: none; /* Firefox */
+    text-indent: 1px;
+    text-overflow: '';
+}
+#idCalc input[type="number"] {
+    width:3em;
+}
 
 /* Turn off parallax scrolling for tablets and phones */
 

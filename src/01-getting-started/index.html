@@ -106,15 +106,19 @@
     </div>
 
     <div class="w3-content w3-container w3-padding-64 w3-center" id="idCalc">
-        <input id="idCalcInput" type="text" placeholder="0">
-        <div id="idCalcButtons">
-            <input id="idCalcPlus" class="classCalcButton" type="button" value="+">
-            <input id="idCalcPlus" class="classCalcButton" type="button" value="&minus;">
-            <input id="idCalcPlus" class="classCalcButton" type="button" value="&times;">
-            <input id="idCalcPlus" class="classCalcButton" type="button" value="&divide;">
-        </div>
-        <input id="idCalcSubmit" type="button" value="calculate">
-        <div id='idCalcHist'></div>
+        <form>
+        <input id="idCalcInput1" type="number" size="100" placeholder="0">
+            <select name="operations" id="idCalcButton">
+                <option value="add">+</option>
+                <option value="minus">&minus;</option>
+                <option value="times">&times;</option>
+                <option value="divide">&divide;</option>
+            </select>
+        <input id="idCalcInput2" type="number" size="100" placeholder="0">
+        <!-- <input id="idCalcSubmit" type="button" value="="> -->
+        <hr>
+        <div id='idCalcResult'></div>
+        </form>
     </div>
 
 

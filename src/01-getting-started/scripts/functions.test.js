@@ -14,11 +14,22 @@ test('Does that add function work?', () => {
     expect(functions.add(1,2)).toBe(3);
     expect(functions.add(101,202)).toBe(303);
 });
-
-test('Test new function.', () => {
-    expect(functions.calcButton('bar')).toBe('foobar');
+test('Does that minus function work?', () => {
+    expect(functions.minus(1,2)).toBe(-1);
+    expect(functions.minus(101,202)).toBe(-101);
+});
+test('Does that times function work?', () => {
+    expect(functions.times(1,2)).toBe(2);
+    expect(functions.times(101,202)).toBe(20402);
+});
+test('Does that divide function work?', () => {
+    expect(functions.divide(2,1)).toBe(2);
+    expect(functions.divide(303,101)).toBe(3);
 });
 
-test('Test new function.', () => {
-    expect(functions.calcSubmit('bar')).toBe('foobar');
+test('Test calc function.', () => {
+    expect(functions.calcSubmit(null,3,4,'add')).toBe(7);
+    expect(functions.calcSubmit(null,3,4,'minus')).toBe(-1);
+    expect(functions.calcSubmit(null,3,4,'times')).toBe(12);
+    expect(functions.calcSubmit(null,3,4,'divide')).toBe(0.75);
 });
