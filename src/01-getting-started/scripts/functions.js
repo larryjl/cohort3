@@ -47,6 +47,10 @@ const functions = {
     // 26% on the next $52,408 of taxable income (on the portion of taxable income over $95,259 up to $147,667), plus
     // 29% on the next $62,704 of taxable income (on the portion of taxable income over 147,667 up to $210,371), plus
     // 33% of taxable income over $210,371
+    round: (num, decimal) => {  // handle .05 rounding errors
+        return (Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal));
+    },
+
     tax: (income) => { //income must be number
         const taxBrackets=[
             [0, .15],
@@ -54,29 +58,22 @@ const functions = {
             [95259, .26],
             [147667, .29],
             [210371, .33],
-            [999999999999, 1]
+            [Math.pow(10,15), .33]
         ];
-        // let remainder;
         let total=0;
-        // let i=0;
         for (let i=0; i<5; i++) {
             let bracketLower = taxBrackets[i][0]
             if (income>bracketLower) {
                 let taxable = Math.min(income,taxBrackets[i+1][0]) - bracketLower;
-                total = total + (taxable * taxBrackets[i][1]);
+                total = total + functions.round(taxable * taxBrackets[i][1], 2);
             } else break;
         };
+        return functions.round(total, 2);
+    },
 
-        // do {
-        //     let bracketLower = taxBrackets[i][0];
-        //     let rate = taxBrackets[i][1];
-        //     let remainder = income - bracketLower;
-        //     let taxable = max(remainder, income);
-        //     let total = total+(taxable*rate);
-        //     i++;
-        // }
-        // while (remainder>0 && i<5);
-        return +(Math.round(total + "e+2")  + "e-2");;
+    taxNet: (income, tax) => {
+        console.log(income, tax);
+        return functions.round( tax / income * 100, 2);
     }
 
 };

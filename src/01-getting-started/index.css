@@ -106,11 +106,11 @@ select {
 }
 
 /* Tax Calculator */
-#idTaxInput, #idTaxResult {
+#idTaxInput, #idTaxResult, #idTaxNet{
     text-align:right;
 }
 
-#idTaxResult {
+#idTaxResult, #idTaxNet {
     padding:6px;
 }
 

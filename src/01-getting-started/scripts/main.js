@@ -41,8 +41,12 @@ calcNodes.forEach( function(v) {
 // });
 
 // tax
-const taxInput = document.getElementById("idTaxInput");
-const taxResult = document.getElementById("idTaxResult");
-taxInput.addEventListener('change', function() {
-    taxResult.textContent = functions.tax( Number(taxInput.value));
+const taxInputNd = document.getElementById("idTaxInput");
+const taxResultNd = document.getElementById("idTaxResult");
+const taxNetNd = document.getElementById("idTaxNet");
+taxInputNd.addEventListener('change', function() {
+    let taxIncome = Number(taxInputNd.value);
+    let taxTotal = functions.tax(taxIncome);
+    taxResultNd.textContent = taxTotal;
+    taxNetNd.textContent = functions.taxNet( taxIncome, taxTotal);
 });
