@@ -13,11 +13,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- add bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="./index.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" type="text/css" href="./index.css">
     <title>FSD</title>
 </head>
 
@@ -119,6 +118,32 @@
         <hr>
         <div id='idCalcResult'></div>
         </form>
+    </div>
+
+    <!-- ---------- 3rd Parallax Image with Tax------------------ -->
+    <div class="bgimg-2 w3-display-container w3-opacity-min">
+        <div class="w3-display-middle">
+                <h3 class="w3-xxlarge w3-text-white w3-wide">Canadian Taxes</h3>
+        </div>
+    </div>
+
+    <div class="w3-content w3-container w3-padding-64 text-left" id="idTax">
+
+        <h4>Federal tax rates for 2019</h4>
+        <blockquote>
+            <ul>
+            <li>15% on the first $47,630 of taxable income, plus</li>
+            <li>20.5% on the next $47,629 of taxable income (on the portion of taxable income over 47,630 up to $95,259), plus</li>
+            <li>26% on the next $52,408 of taxable income (on the portion of taxable income over $95,259 up to $147,667), plus</li>
+            <li>29% on the next $62,704 of taxable income (on the portion of taxable income over 147,667 up to $210,371), plus</li>
+            <li>33% of taxable income over $210,371</li>
+            </ul>
+        </blockquote>
+
+        <table>
+            <tr><td>Income:</td><td>$</td><td><input id="idTaxInput" type="number" step=".01" placeholder="0.00"></td></tr>
+            <tr><td>Total Tax:</td><td>$</td><td><div id="idTaxResult"></div></td></tr>
+        </table>
     </div>
 
 

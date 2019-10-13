@@ -105,6 +105,14 @@ select {
     text-overflow: '';
 }
 
+/* Tax Calculator */
+#idTaxInput, #idTaxResult {
+    text-align:right;
+}
+
+#idTaxResult {
+    padding:6px;
+}
 
 /* Turn off parallax scrolling for tablets and phones */
 

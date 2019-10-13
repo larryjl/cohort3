@@ -23,8 +23,7 @@ const calcNodes = [
 
 calcNodes.forEach( function(v) {
     v.addEventListener('change', function(){
-        functions.calcSubmit( 
-            calcResultNd,
+        calcResultNd.textContent = functions.calcSubmit( 
             calcInput1Nd.value, 
             calcInput2Nd.value, 
             calcButtonNd.value
@@ -40,3 +39,10 @@ calcNodes.forEach( function(v) {
 //         calcButtonNd.value
 //     );
 // });
+
+// tax
+const taxInput = document.getElementById("idTaxInput");
+const taxResult = document.getElementById("idTaxResult");
+taxInput.addEventListener('change', function() {
+    taxResult.textContent = functions.tax( Number(taxInput.value));
+});

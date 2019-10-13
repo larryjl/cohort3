@@ -10,6 +10,7 @@ test('Check the sizes', () => {
     expect(functions.size(2000000)).toBe("extra large");
 });
 
+// calculator
 test('Does that add function work?', () => {
     expect(functions.add(1,2)).toBe(3);
     expect(functions.add(101,202)).toBe(303);
@@ -27,12 +28,22 @@ test('Does that divide function work?', () => {
     expect(functions.divide(303,101)).toBe(3);
 });
 
-test('Test calc function.', () => {
-    expect(functions.calcSubmit(null,3,4,'add')).toBe(7);
-    expect(functions.calcSubmit(null,-3,4,'add')).toBe(1);
-    expect(functions.calcSubmit(null,3.1,4,'add')).toBe(7.1);
-    expect(functions.calcSubmit(null,3,4,'minus')).toBe(-1);
-    expect(functions.calcSubmit(null,3,4,'times')).toBe(12);
-    expect(functions.calcSubmit(null,3,4,'divide')).toBe(0.75);
-    expect(functions.calcSubmit(null,3,0,'divide')).toBe(Infinity);
+test('calculator', () => {
+    expect(functions.calcSubmit(3,4,'add')).toBe(7);
+    expect(functions.calcSubmit(-3,4,'add')).toBe(1);
+    expect(functions.calcSubmit(3.1,4,'add')).toBe(7.1);
+    expect(functions.calcSubmit(3,4,'minus')).toBe(-1);
+    expect(functions.calcSubmit(3,4,'times')).toBe(12);
+    expect(functions.calcSubmit(3,4,'divide')).toBe(0.75);
+    expect(functions.calcSubmit(3,0,'divide')).toBe(Infinity);
+});
+
+// tax
+test('tax', () => {
+    expect(functions.tax(1)).toBe(.15);
+    expect(functions.tax(2)).toBe(.3);
+    expect(functions.tax(50000)).toBe(7630.35);
+    expect(functions.tax(100000)).toBe(18141.11); // corrected from 18541.11
+    expect(functions.tax(150000)).toBe(31211.10);
+    expect(functions.tax(250000)).toBe(61796.26);
 });
