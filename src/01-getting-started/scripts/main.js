@@ -50,3 +50,25 @@ taxInputNd.addEventListener('change', function() {
     taxResultNd.textContent = taxTotal;
     taxNetNd.textContent = functions.taxNet( taxIncome, taxTotal);
 });
+
+// Array
+const arrayInputNd = document.getElementById("idArrayInput");
+const arrayMsgNd = document.getElementById("idArrayMsg");
+const arrayBtnAddNd = document.getElementById("idArrayBtnAdd");
+const arrayBtnShowNd = document.getElementById("idArrayBtnShow");
+const arrayBtnTotalNd = document.getElementById("idArrayBtnTotal");
+const arrayBtnClearNd = document.getElementById("idArrayBtnClear");
+const arrayBtns = [
+    [arrayBtnAddNd, functions.arrayAdd],
+    [arrayBtnShowNd, functions.arrayShow],
+    [arrayBtnTotalNd, functions.arrayTotal],
+    [arrayBtnClearNd, functions.arrayClear]
+];
+let array = [];
+arrayBtns.forEach( function(a) {
+    a[0].addEventListener('click', function(){
+        let result = a[1](arrayInputNd.value, array);
+        array = result[0];
+        arrayMsgNd.textContent = result[1];
+    })
+});

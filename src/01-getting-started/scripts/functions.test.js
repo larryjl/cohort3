@@ -47,3 +47,28 @@ test('tax', () => {
     expect(functions.tax(150000)).toBe(31211.10);
     expect(functions.tax(250000)).toBe(61796.26);
 });
+
+test('tax net', () => {
+    expect(functions.taxNet(0,0)).toBe(NaN);
+    expect(functions.taxNet(1,.15)).toBe(15);
+    expect(functions.taxNet(250000, 61796.26)).toBe(24.72);
+});
+
+test('array add', () => {
+    let array=[0];
+    expect(functions.arrayAdd('1',array)).toEqual([[0,1],'"1" added to array.']);
+    array=[0];
+    expect(functions.arrayAdd('a',array)).toEqual([[0],'"a" is not a valid number.']);
+});
+test('array show', () => {
+    let array=[0,1];
+    expect(functions.arrayShow(1,array)).toEqual([[0,1],'0,1']);
+});
+test('array total', () => {
+    let array=[3,4];
+    expect(functions.arrayTotal(0,array)).toEqual([[3,4],'The total of [3, 4] is 7.']);
+});
+test('array clear', () => {
+    let array=[0];
+    expect(functions.arrayClear(0,array)).toEqual([[],'Array cleared.']);
+});

@@ -72,9 +72,38 @@ const functions = {
     },
 
     taxNet: (income, tax) => {
-        console.log(income, tax);
         return functions.round( tax / income * 100, 2);
-    }
+    },
+
+    arrayAdd: (input, array) => {
+        let newArray;
+        let msg;
+        if (isNaN(input)) {
+            msg =  '"' + input + '" is not a valid number.';
+        } else {
+            array.push(Number(input));
+            msg = '"' + input + '" added to array.';
+        };
+        return [array, msg];
+    },
+
+    arrayShow: (input, array) => {
+        let msg = array.join(',');
+        return [array, msg];
+    },
+
+    arrayTotal: (input, array) => {
+        let string = array.join(', ');
+        let total = array.reduce(functions.add);
+        let msg = `The total of [${string}] is ${total}.`
+        return [array, msg];
+    },
+
+    arrayClear: (input, array) => {
+        array = [];
+        let msg = 'Array cleared.'
+        return [array, msg];
+    },
 
 };
 
