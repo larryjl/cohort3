@@ -1,5 +1,6 @@
 import functions from './functions'
 
+// size
 test('Check the sizes', () => {
     expect(functions.size(-1)).toBe("negative"); // Consider the edge cases
     expect(functions.size(0)).toBe("small");
@@ -27,7 +28,6 @@ test('Does that divide function work?', () => {
     expect(functions.divide(2,1)).toBe(2);
     expect(functions.divide(303,101)).toBe(3);
 });
-
 test('calculator', () => {
     expect(functions.calcSubmit(3,4,'add')).toBe(7);
     expect(functions.calcSubmit(-3,4,'add')).toBe(1);
@@ -47,18 +47,16 @@ test('tax', () => {
     expect(functions.tax(150000)).toBe(31211.10);
     expect(functions.tax(250000)).toBe(61796.26);
 });
-
 test('tax net', () => {
     expect(functions.taxNet(0,0)).toBe(NaN);
     expect(functions.taxNet(1,.15)).toBe(15);
     expect(functions.taxNet(250000, 61796.26)).toBe(24.72);
 });
 
+// array
 test('array add', () => {
-    let array=[0];
-    expect(functions.arrayAdd('1',array)).toEqual([[0,1],'"1" added to array.']);
-    array=[0];
-    expect(functions.arrayAdd('a',array)).toEqual([[0],'"a" is not a valid number.']);
+    expect(functions.arrayAdd('1',[0])).toEqual([[0,1],'"1" added to array.']);
+    expect(functions.arrayAdd('a',[0])).toEqual([[0],'"a" is not a valid number.']);
 });
 test('array show', () => {
     let array=[0,1];
@@ -71,4 +69,10 @@ test('array total', () => {
 test('array clear', () => {
     let array=[0];
     expect(functions.arrayClear(0,array)).toEqual([[],'Array cleared.']);
+});
+
+// dictionary
+test('dictionary', () => {
+    expect(functions.dicLook({AB: 'Alberta'}, 'AB')).toBe('Alberta');
+    expect(functions.dicLook({AB: 'Alberta'}, 'zz')).toBe('Not a province/ territory.');
 });

@@ -1,6 +1,6 @@
 
 const functions = {
-    
+    // size
     size: (num) => {
         if (num <0) return "negative";
         if (num < 10) return "small";
@@ -13,19 +13,15 @@ const functions = {
     add: (num1, num2) => {
         return num1 + num2;
     },
-
     minus: (num1, num2) => {
         return num1 - num2;
     },
-
     times: (num1, num2) => {
         return num1 * num2;
     },
-
     divide: (num1, num2) => {
         return num1 / num2;
     }, 
-
     calcSubmit: (num1, num2, operation) => {
         num1 = Number(num1);
         num2 = Number(num2);
@@ -50,7 +46,6 @@ const functions = {
     round: (num, decimal) => {  // handle .05 rounding errors
         return (Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal));
     },
-
     tax: (income) => { //income must be number
         const taxBrackets=[
             [0, .15],
@@ -70,11 +65,11 @@ const functions = {
         };
         return functions.round(total, 2);
     },
-
     taxNet: (income, tax) => {
         return functions.round( tax / income * 100, 2);
     },
 
+    // array
     arrayAdd: (input, array) => {
         let newArray;
         let msg;
@@ -86,25 +81,27 @@ const functions = {
         };
         return [array, msg];
     },
-
     arrayShow: (input, array) => {
         let msg = array.join(',');
         return [array, msg];
     },
-
     arrayTotal: (input, array) => {
         let string = array.join(', ');
         let total = array.reduce(functions.add);
         let msg = `The total of [${string}] is ${total}.`
         return [array, msg];
     },
-
     arrayClear: (input, array) => {
         array = [];
         let msg = 'Array cleared.'
         return [array, msg];
     },
 
+    // dictionary
+    dicLook: (obj, key) => {
+        key = key.toUpperCase();
+        return (key in obj)? obj[key] : 'Not a province/ territory.';
+    }
 };
 
 export default functions;

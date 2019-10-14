@@ -72,3 +72,26 @@ arrayBtns.forEach( function(a) {
         arrayMsgNd.textContent = result[1];
     })
 });
+
+// Dictionary
+const provinces = {
+    NL: 'Newfoundland and Labrador',
+    PE: 'Prince Edward Island',
+    NA: 'Nova Scotia',
+    NB: 'New Brunswick',
+    QC: 'Quebec',
+    ON: 'Ontario',
+    MB: 'Manitoba',
+    SK: 'Saskatchewan',
+    AB: 'Alberta',
+    BC: 'British Columbia',
+    YT: 'Yukon',
+    NT: 'Northwest Territories',
+    NU: 'Nunavut'
+};
+const dicInputNd = document.getElementById("idDicInput");
+const dicMsgNd = document.getElementById("idDicMsg");
+const dicButtonNd = document.getElementById("idDicButton");
+dicButtonNd.addEventListener('click', function(){
+    dicMsgNd.textContent = functions.dicLook(provinces, dicInputNd.value);
+});
