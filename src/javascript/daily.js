@@ -55,6 +55,45 @@ const functions = {
         const lastName = obj['lname'].toLowerCase();
         const email = `${firstName}.${lastName}@evolveu.ca`;
         return email;
+    },
+
+    // *** 2019-10-15 ***
+
+    loopFor: (arr) => {
+        for (let i=0;i<arr.length; i++) {
+            arr[i]=arr[i]*2;
+        };
+        return arr;
+    },
+    loopWhile: (arr) => {
+        let i=0;
+        while (i<arr.length) {
+            arr[i]=arr[i]*2;
+            i++;
+        };
+        return arr;
+    },
+    loopDoWhile: (arr) => {
+        let i=0;
+        do {
+            arr[i]=arr[i]*2;
+            i++;
+        } while(i<arr.length)
+        return arr;
+    },
+    loopForIn: (arr) => {
+        for (const i in arr) {
+            arr[i]=arr[i]*2
+        };
+        return arr;
+    },
+    loopForOf: (arr) => {
+        let i=0;
+        for (let v in arr) {
+            arr[i]=v*2
+            i++;
+        };
+        return arr;
     }
 
 };

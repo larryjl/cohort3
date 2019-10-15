@@ -26,9 +26,6 @@ test('email builder from an array', () => {
 
 
 // Daily 2019-10-11
-/*    
-    Write the function to format an email based on an object / map
-*/
 
 test('email builder from an object / map', () => {
     const name = { fname: 'first', lname: 'last' };
@@ -38,4 +35,15 @@ test('email builder from an object / map', () => {
         .toEqual("first.last@evolveu.ca");
     expect(functions.makeEmailObj({ fname: "Bill", lname: "Smith" }))
         .toEqual("bill.smith@evolveu.ca");
+});
+
+
+// Daily 2019-10-15
+
+test('today: array loops', () => {
+    expect(functions.loopFor([0,1,2])).toEqual([0,2,4]);
+    expect(functions.loopWhile([0,1,2])).toEqual([0,2,4]);
+    expect(functions.loopDoWhile([0,1,2])).toEqual([0,2,4]);
+    expect(functions.loopForIn([0,1,2])).toEqual([0,2,4]);
+    expect(functions.loopForOf([0,1,2])).toEqual([0,2,4]);
 });
