@@ -1,0 +1,17 @@
+#idContainer {
+    display: flex;
+    justify-content: center;
+}
+
+#idContainer2 {
+    border:solid;
+    padding: 2rem;
+}
+
+.indentList {
+    padding: 0 0 0 40px;
+}
+
+.classBtnDel {
+    border-radius: 50%;
+}
