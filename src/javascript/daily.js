@@ -94,8 +94,48 @@ const functions = {
             i++;
         };
         return arr;
-    }
+    },
 
+    // *** 2019-10-16 ***
+
+    arraySlice: (arr) => {
+        let newArr = arr.slice(1,3);
+        return newArr;
+    },
+    arraySplice: (arr) => {
+        let removed = arr.splice(1,1,'a','b');
+        return arr;
+    },
+    arrayForEach: (arr) => {
+        arr.forEach( (v,i) => {
+            arr[i]=v*2;
+        });
+        return arr;
+    },
+    arrayMap: (arr) => {
+        let newArr = arr.map( v => 
+            v*2
+        );
+        return newArr;
+    },
+    arrayReduce: (arr) => {
+        let newArr = arr.reduce( (accumulator, v) =>
+            accumulator + v,
+            1 // initial value (optional)
+        );
+        return newArr;
+    },
+    arrayFilter: (arr) => {
+        let newArr = arr.filter( v => 
+            v>0
+        );
+        return newArr;
+    },
+    arraySort: (arr) => {
+        arr.sort( (a,b) => 
+            b-a);
+        return arr;
+    },
 };
 
 export default functions;

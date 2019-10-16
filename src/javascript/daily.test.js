@@ -40,10 +40,22 @@ test('email builder from an object / map', () => {
 
 // Daily 2019-10-15
 
-test('today: array loops', () => {
+test('array loops', () => {
     expect(functions.loopFor([0,1,2])).toEqual([0,2,4]);
     expect(functions.loopWhile([0,1,2])).toEqual([0,2,4]);
     expect(functions.loopDoWhile([0,1,2])).toEqual([0,2,4]);
     expect(functions.loopForIn([0,1,2])).toEqual([0,2,4]);
     expect(functions.loopForOf([0,1,2])).toEqual([0,2,4]);
+});
+
+// Daily 2019-10-16
+
+test('today: advanced js', () => {
+    expect(functions.arraySlice([0,1,2,3])).toEqual([1,2]);
+    expect(functions.arraySplice([0,1,2])).toEqual([0,'a','b',2]);
+    expect(functions.arrayForEach([0,1,2])).toEqual([0,2,4]);
+    expect(functions.arrayMap([0,1,2])).toEqual([0,2,4]);
+    expect(functions.arrayReduce([0,1,2])).toBe(4);
+    expect(functions.arrayFilter([0,1,2])).toEqual([1,2]);
+    expect(functions.arraySort([0,1,2])).toEqual([2,1,0]);
 });
