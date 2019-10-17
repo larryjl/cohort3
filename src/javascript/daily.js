@@ -1,60 +1,44 @@
 const functions = {
 
-    // *** 2019-10-07 ***
+    // *** 2019-10-16 ***
 
-    /*    
-        Write the function that will create this output:
-
-    *** the two values are not the same:
-        p1--> a
-        p2--> b
-    *** the two values are not the same:
-        p1--> 1
-        p2--> 2
-    *** the two values are not the same:
-        p1--> 2
-        p2--> 2
-    */
-
-    // Write the function after this comment ---
-
-
-    assertEquals: (a,b) => {
-        if (!(a===b)) {
-            console.log(
-                ` *** the two values are not the same
-                p1-->${a}
-                p2-->${b}`);
-        }
-        return (a===b) ? true : false;
+    arraySlice: (arr) => {
+        let newArr = arr.slice(1,3);
+        return newArr;
     },
-
-    // and before this comment ---
-
-    // assertEquals("a","b");
-    // assertEquals("a","a");
-    // assertEquals(1,2);
-    // assertEquals(2,2);
-    // assertEquals("2",2);
-    // assertEquals("This value","This value");
-
-
-    // *** 2019-10-09 ***
-
-    makeEmailArr: (arr) => {
-        const firstName = arr[0].toLowerCase();
-        const lastName = arr[1].toLowerCase();
-        const email = `${firstName}.${lastName}@evolveu.ca`;
-        return email;
+    arraySplice: (arr) => {
+        let removed = arr.splice(1,1,'a','b');
+        return arr;
     },
-
-    // *** 2019-10-09 ***
-
-    makeEmailObj: (obj) => {
-        const firstName = obj['fname'].toLowerCase();
-        const lastName = obj['lname'].toLowerCase();
-        const email = `${firstName}.${lastName}@evolveu.ca`;
-        return email;
+    arrayForEach: (arr) => {
+        arr.forEach( (v,i) => {
+            arr[i]=v*2;
+        });
+        return arr;
+    },
+    arrayMap: (arr) => {
+        let newArr = arr.map( v => 
+            v*2
+        );
+        return newArr;
+    },
+    arrayReduce: (arr) => {
+        let newArr = arr.reduce( (accumulator, v) =>
+            accumulator + v,
+            1 // initial value (optional)
+        );
+        return newArr;
+    },
+    arrayFilter: (arr) => {
+        let newArr = arr.filter( v => 
+            v>0
+        );
+        return newArr;
+    },
+    arraySort: (arr) => {
+        arr.sort( (a,b) => 
+            b-a);
+        return arr;
     },
 
     // *** 2019-10-15 ***
@@ -96,46 +80,64 @@ const functions = {
         return arr;
     },
 
-    // *** 2019-10-16 ***
+    // *** 2019-10-11 ***
 
-    arraySlice: (arr) => {
-        let newArr = arr.slice(1,3);
-        return newArr;
+    makeEmailObj: (obj) => {
+        const firstName = obj['fname'].toLowerCase();
+        const lastName = obj['lname'].toLowerCase();
+        const email = `${firstName}.${lastName}@evolveu.ca`;
+        return email;
     },
-    arraySplice: (arr) => {
-        let removed = arr.splice(1,1,'a','b');
-        return arr;
+
+    // *** 2019-10-09 ***
+
+    makeEmailArr: (arr) => {
+        const firstName = arr[0].toLowerCase();
+        const lastName = arr[1].toLowerCase();
+        const email = `${firstName}.${lastName}@evolveu.ca`;
+        return email;
     },
-    arrayForEach: (arr) => {
-        arr.forEach( (v,i) => {
-            arr[i]=v*2;
-        });
-        return arr;
+
+    // *** 2019-10-07 ***
+
+    /*    
+        Write the function that will create this output:
+
+    *** the two values are not the same:
+        p1--> a
+        p2--> b
+    *** the two values are not the same:
+        p1--> 1
+        p2--> 2
+    *** the two values are not the same:
+        p1--> 2
+        p2--> 2
+    */
+
+    // Write the function after this comment ---
+
+
+    assertEquals: (a,b) => {
+        if (!(a===b)) {
+            console.log(
+                ` *** the two values are not the same
+                p1-->${a}
+                p2-->${b}`);
+        }
+        return (a===b) ? true : false;
     },
-    arrayMap: (arr) => {
-        let newArr = arr.map( v => 
-            v*2
-        );
-        return newArr;
-    },
-    arrayReduce: (arr) => {
-        let newArr = arr.reduce( (accumulator, v) =>
-            accumulator + v,
-            1 // initial value (optional)
-        );
-        return newArr;
-    },
-    arrayFilter: (arr) => {
-        let newArr = arr.filter( v => 
-            v>0
-        );
-        return newArr;
-    },
-    arraySort: (arr) => {
-        arr.sort( (a,b) => 
-            b-a);
-        return arr;
-    },
+
+    // and before this comment ---
+
+    // assertEquals("a","b");
+    // assertEquals("a","a");
+    // assertEquals(1,2);
+    // assertEquals(2,2);
+    // assertEquals("2",2);
+    // assertEquals("This value","This value");
+
+
+
 };
 
 export default functions;
