@@ -8,7 +8,7 @@ const ndInput = document.getElementById('idInput');
 const ndBtnAdd = document.getElementById('idBtnAdd');
 
 ndContainer.addEventListener('click', (param) => {
-    // console.log(param); //disabled because it's annoying
+    // console.log(param); // disabled because it's annoying
 });
 ndBtnShow.addEventListener('click', () => {
     console.log( functions.collectionToObj( ndList.children));
