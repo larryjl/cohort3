@@ -119,10 +119,10 @@ const functions = {
 
     assertEquals: (a,b) => {
         if (!(a===b)) {
-            console.log(
-                ` *** the two values are not the same
-                p1-->${a}
-                p2-->${b}`);
+            // console.log(
+            //     ` *** the two values are not the same
+            //     p1-->${a}
+            //     p2-->${b}`);
         }
         return (a===b) ? true : false;
     },
