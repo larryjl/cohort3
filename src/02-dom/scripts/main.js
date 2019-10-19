@@ -1,36 +1,39 @@
 import functions from './functions.js';
 
-const ndContainer = document.getElementById('idContainer');
+const ndContainerA = document.getElementById('idContainerA');
 const ndList = document.getElementById('idList');
 const ndBtnShow = document.getElementById('idBtnShow');
 const ndInputPos = document.getElementById('idInputPos');
 const ndInput = document.getElementById('idInput');
 const ndBtnAdd = document.getElementById('idBtnAdd');
 
-ndContainer.addEventListener('click', (param) => {
+ndContainerA.addEventListener('click', (param) => {
     // console.log(param); // disabled because it's annoying
 });
-ndBtnShow.addEventListener('click', () => {
-    console.log( functions.collectionToObj( ndList.children));
-});
+ndBtnShow.addEventListener('click', () => console.log( functions.collectionToObj( ndList.children) ));
 
 ndBtnAdd.addEventListener('click', () => {
-    let newLi = functions.addTag( 'li', ndInput.value, ['classLi']);
+    const newLi = functions.makeTag( 'li', ndInput.value, ['classLi']);
     ndList.appendChild(newLi);
 
-    let pos= ndInputPos.value-1;
-    let liPosition = ndList.children[pos];
-    ndList.insertBefore(newLi, liPosition);
+    // set list item position
+    const pos = ndInputPos.value-1;
+    const ndPosition = ndList.children[pos];
+    ndList.insertBefore(newLi, ndPosition);
     ndInputPos.max=ndList.children.length+1;
 
-    let newButton = functions.addBtnDel();
-    newLi.appendChild(newButton);
+    // add delete button
+    functions.addDel(newLi);
 });
 
 const listChildren = functions.collectionToObj( ndList.children);
 for (let key in listChildren) { 
-    let newButton = functions.addBtnDel();
-    listChildren[key].appendChild(newButton);
+    functions.addDel(listChildren[key]);
 };
 
+// *** part 2 ***
 
+const ndLeftPanel = document.getElementById('idLeftPanel');
+const ndBtnAddCard = document.getElementById('idBtnAddCard');
+
+ndBtnAddCard.addEventListener('click', () => functions.addCard(ndLeftPanel));

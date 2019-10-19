@@ -1,17 +1,65 @@
-#idContainer {
+body {
+    background-color: #eee;
+}
+#idContainerA {
     display: flex;
     justify-content: center;
 }
-
-#idContainer2 {
+#idContainerA1 {
     border:solid;
+    background-color: white;
     padding: 2rem;
 }
-
 .indentList {
     padding: 0 0 0 40px;
 }
-
 .classBtnDel {
     border-radius: 50%;
+}
+
+/* *** Part 2 *** */
+
+#idContainerB {
+    padding: 10px;
+}
+/* #idContainerB div {
+    border: solid;
+} */
+#idContainerB1 {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+#idLeftPanel {
+    overflow: scroll;
+    height: 80vh;
+    background-color: white;
+    padding: 1em;
+}
+#idLeftPanel .classCard {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width:100%;
+    margin: 10px 0;
+}
+#idRightPanel .classCard {
+    background-color: white;
+    width: 100%;
+    height: 40vh;
+    padding: 2em;
+    margin: 1em 0;
+    text-align: center;
+}
+
+#idContainerB .classButton {
+    margin: 2px;
 }
