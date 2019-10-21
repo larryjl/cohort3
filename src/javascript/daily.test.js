@@ -1,8 +1,38 @@
 import functions from './daily.js'
 
+/*
+    Sample data for the next few exercises.
+*/
+
+const data = {
+    staff: [
+        { fname: "Jane", lname: "Smith", balance: 10 },
+        { fname: "Liam", lname: "Henry", balance: 1000 },
+        { fname: "Emma", lname: "Jones", balance: 1330 },
+        { fname: "Olivia", lname: "Notly", balance: 310 },
+        { fname: "Noah", lname: "Ho", balance: 503 },
+        { fname: "William", lname: "Lee", balance: 520 },
+        { fname: "Benjamin", lname: "Amis", balance: 150 },
+    ],
+    company: "EvolveU",
+    city: "Calgary",
+    prov: "Alberta"
+};
+
+// Daily 2019-10-21 - build email addresses for the company ***
+test('today: email builder for company', () => {
+    const staffEmail = functions.loopStaff(data.staff);
+    expect(staffEmail[0])
+        .toEqual("jane.smith@evolveu.ca");
+    expect(staffEmail[3])
+        .toEqual("olivia.notly@evolveu.ca");
+    expect(staffEmail[6])
+        .toEqual("benjamin.amis@evolveu.ca");
+});
+
 
 // Daily 2019-10-16
-test('today: advanced js', () => {
+test('advanced js arrays', () => {
     expect(functions.arraySlice([0,1,2,3])).toEqual([1,2]);
     expect(functions.arraySplice([0,1,2])).toEqual([0,'a','b',2]);
     expect(functions.arrayForEach([0,1,2])).toEqual([0,2,4]);

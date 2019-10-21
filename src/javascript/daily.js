@@ -1,5 +1,16 @@
 const functions = {
 
+    // *** 2019-10-21 take an array and return an array of emails ***
+    
+    loopStaff: (arrStaff) => {
+        let arrStaffEmail = [];
+        arrStaff.forEach( (v,i) => {
+            let email = `${v.fname}.${v.lname}@evolveu.ca`
+            arrStaffEmail[i] = email.toLowerCase();
+        });
+        return arrStaffEmail;
+    },
+    
     // *** 2019-10-16 ***
 
     arraySlice: (arr) => {
