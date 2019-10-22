@@ -9,8 +9,13 @@ const ndBtnAdd = document.getElementById('idBtnAdd');
 
 ndContainerA.addEventListener('click', (param) => {
     // console.log(param); // disabled because it's annoying
+    return param;
 });
-ndBtnShow.addEventListener('click', () => console.log( functions.collectionToObj( ndList.children) ));
+ndBtnShow.addEventListener('click', () => {
+    const children = functions.collectionToObj( ndList.children)
+    console.log( children);
+    return children;
+});
 
 ndBtnAdd.addEventListener('click', () => {
     const newLi = functions.makeTag( 'li', ndInput.value, ['classLi']);
@@ -24,6 +29,7 @@ ndBtnAdd.addEventListener('click', () => {
 
     // add delete button
     functions.addDel(newLi);
+    return newLi;
 });
 
 const listChildren = functions.collectionToObj( ndList.children);
@@ -37,3 +43,6 @@ const ndLeftPanel = document.getElementById('idLeftPanel');
 const ndBtnAddCard = document.getElementById('idBtnAddCard');
 
 ndBtnAddCard.addEventListener('click', () => functions.addCard(ndLeftPanel));
+
+
+export default {ndContainerA, ndBtnShow, ndBtnAdd, ndBtnAddCard};

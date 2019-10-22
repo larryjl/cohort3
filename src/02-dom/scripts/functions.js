@@ -12,15 +12,18 @@ const functions = {
     makeTag: (tag, text, arrClasses) => {
         const newElement = document.createElement(tag);
         newElement.appendChild( document.createTextNode(text));
-        arrClasses.forEach( (element) => {
-            newElement.classList.add(element);
-        });
+        if (arrClasses !== undefined) {
+            arrClasses.forEach( (element) => 
+                newElement.classList.add(element)
+            );
+        };
         return newElement;
     },
     addDel: (node) => {
         const newButton = functions.makeTag( 'button', 'x', ['classBtnDel']);
         newButton.addEventListener('click', () => newButton.parentElement.remove());
         node.appendChild(newButton);
+        return newButton;
     },
     
     // *** part 2 ***
