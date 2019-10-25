@@ -10,7 +10,8 @@
         "test1cov": "jest src/01-getting-started --coverage",
         "testfile": "jest src/01-getting-started/scripts/play.test.js",
         "daily": "jest -i='src/javascript/daily.test.js' -t='^today'",
-        "ljl": "jest -i='src/02-dom/scripts/functions.test.js' -t='^dom'"
+        "ljl": "jest -i='src/02-dom/scripts/functions.test.js' -t='^dom'",
+        "xyz": "jest"
     },
     "keywords": [],
     "author": "",
