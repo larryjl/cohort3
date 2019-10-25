@@ -19,6 +19,14 @@ const data = {
     prov: "Alberta"
 };
 
+// Daily 2019-10-24 - for in, for of statements
+// test('today: emails with for', () => {
+//     const staffEmail = functions.loopStaffIn(data.staff);
+//     expect(staffEmail).toEqual(1);
+//     const staffEmail = functions.loopStaffOf(data.staff);
+//     expect(staffEmail).toEqual(1);
+// });
+
 // Daily 2019-10-21 - build email addresses for the company ***
 test('today: email builder for company', () => {
     const staffEmail = functions.loopStaff(data.staff);
@@ -29,7 +37,6 @@ test('today: email builder for company', () => {
     expect(staffEmail[6])
         .toEqual("benjamin.amis@evolveu.ca");
 });
-
 
 // Daily 2019-10-16
 test('advanced js arrays', () => {

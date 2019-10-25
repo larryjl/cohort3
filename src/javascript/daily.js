@@ -1,13 +1,16 @@
 const functions = {
 
+    // *** 2019-10-25 build emails using for in, for of
+    loopStaffIn: (arrStaff) => {
+        return;
+    },
+    loopStaffOf: (arrStaff) => {
+        return;
+    },
     // *** 2019-10-21 take an array and return an array of emails ***
     
     loopStaff: (arrStaff) => {
-        let arrStaffEmail = [];
-        arrStaff.forEach( (v,i) => {
-            let email = `${v.fname}.${v.lname}@evolveu.ca`
-            arrStaffEmail[i] = email.toLowerCase();
-        });
+        const arrStaffEmail = arrStaff.map(functions.makeEmailObj);
         return arrStaffEmail;
     },
     
