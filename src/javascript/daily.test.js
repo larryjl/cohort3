@@ -19,14 +19,25 @@ const data = {
     prov: "Alberta"
 };
 
-// Daily 2019-10-24 - for in, for of statements
-// test('today: emails with for', () => {
-//     const staffEmail = functions.loopStaffIn(data.staff);
-//     expect(staffEmail).toEqual(1);
-//     const staffEmail = functions.loopStaffOf(data.staff);
-//     expect(staffEmail).toEqual(1);
-// });
 
+// Daily 2019-10-24 - for in, for of statements
+const emailTests = (staffEmail) => {
+    expect(staffEmail[0])
+        .toEqual("jane.smith@evolveu.ca");
+    expect(staffEmail[3])
+        .toEqual("olivia.notly@evolveu.ca");
+    expect(staffEmail[6])
+        .toEqual("benjamin.amis@evolveu.ca");
+};
+
+test('today: emails with for in', () => {
+    const staffEmail = functions.loopStaffIn(data.staff);
+    emailTests(staffEmail);
+});
+test('today: emails with for of', () => {
+    const staffEmail = functions.loopStaffOf(data.staff);
+    emailTests(staffEmail);
+});
 // Daily 2019-10-21 - build email addresses for the company ***
 test('today: email builder for company', () => {
     const staffEmail = functions.loopStaff(data.staff);

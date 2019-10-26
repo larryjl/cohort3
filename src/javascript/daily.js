@@ -2,10 +2,20 @@ const functions = {
 
     // *** 2019-10-25 build emails using for in, for of
     loopStaffIn: (arrStaff) => {
-        return;
+        let arrStaffEmail = [];
+        for (const p in arrStaff) {
+            arrStaffEmail[p] = functions.makeEmailObj(arrStaff[p]);
+        };
+        return arrStaffEmail;
     },
     loopStaffOf: (arrStaff) => {
-        return;
+        let arrStaffEmail = [];
+        let i = 0;
+        for (const v of arrStaff) {
+            arrStaffEmail[i] = functions.makeEmailObj(v);
+            i++;
+        };
+        return arrStaffEmail;
     },
     // *** 2019-10-21 take an array and return an array of emails ***
     
@@ -97,9 +107,9 @@ const functions = {
     // *** 2019-10-11 ***
 
     makeEmailObj: (obj) => {
-        const firstName = obj['fname'].toLowerCase();
-        const lastName = obj['lname'].toLowerCase();
-        const email = `${firstName}.${lastName}@evolveu.ca`;
+        const firstName = obj['fname'];
+        const lastName = obj['lname'];
+        const email = (`${firstName}.${lastName}@evolveu.ca`).toLowerCase();
         return email;
     },
 
