@@ -19,27 +19,38 @@ const data = {
     prov: "Alberta"
 };
 
+const emailTests = (staffEmail) => {
+    expect(staffEmail).toEqual([
+        "jane.smith@evolveu.ca",
+        "liam.henry@evolveu.ca",
+        "emma.jones@evolveu.ca",
+        "olivia.notly@evolveu.ca",
+        "noah.ho@evolveu.ca",
+        "william.lee@evolveu.ca",
+        "benjamin.amis@evolveu.ca"
+    ]);
+};
+// Daily 2019-10-25 - foreach, map
+test('today: emails with for in', () => {
+    const staffEmail = functions.loopStaffForEach(data.staff);
+    emailTests(staffEmail);
+});
+test('today: emails with for in', () => {
+    const staffEmail = functions.loopStaffMap(data.staff);
+    emailTests(staffEmail);
+});
 
 // Daily 2019-10-24 - for in, for of statements
-const emailTests = (staffEmail) => {
-    expect(staffEmail[0])
-        .toEqual("jane.smith@evolveu.ca");
-    expect(staffEmail[3])
-        .toEqual("olivia.notly@evolveu.ca");
-    expect(staffEmail[6])
-        .toEqual("benjamin.amis@evolveu.ca");
-};
-
-test('today: emails with for in', () => {
+test('emails with for in', () => {
     const staffEmail = functions.loopStaffIn(data.staff);
     emailTests(staffEmail);
 });
-test('today: emails with for of', () => {
+test('emails with for of', () => {
     const staffEmail = functions.loopStaffOf(data.staff);
     emailTests(staffEmail);
 });
 // Daily 2019-10-21 - build email addresses for the company ***
-test('today: email builder for company', () => {
+test('email builder for company', () => {
     const staffEmail = functions.loopStaff(data.staff);
     expect(staffEmail[0])
         .toEqual("jane.smith@evolveu.ca");

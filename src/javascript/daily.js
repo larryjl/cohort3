@@ -1,6 +1,19 @@
 const functions = {
 
-    // *** 2019-10-25 build emails using for in, for of
+    // *** 2019-10-25 build emails using foreach, map
+    loopStaffForEach: (arrStaff) => {
+        const arrStaffEmail=[];
+        arrStaff.forEach((v, i)=>{
+            arrStaffEmail[i]=functions.makeEmailObj(v);
+        });
+        return arrStaffEmail;
+    },
+    loopStaffMap: (arrStaff) => {
+        const arrStaffEmail = arrStaff.map(functions.makeEmailObj);
+        return arrStaffEmail;
+    },
+
+    // *** 2019-10-24 build emails using for in, for of
     loopStaffIn: (arrStaff) => {
         let arrStaffEmail = [];
         for (const p in arrStaff) {
