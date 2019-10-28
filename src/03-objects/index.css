@@ -1,20 +1,53 @@
 body {
     font-family:'Roboto', sans-serif;
-    display: flex;
-    justify-content: center;
+    margin:0;
 }
 #idContBody {
     display: flex;
     flex-direction: column;
-    align-content: center;
+    align-items: center;
+}
+header, footer {
+    display: flex;
+    justify-content: space-between;
+    color: whitesmoke;
+    background-color: cornflowerblue;
+    width:100%;
+}
+header div, footer div {
+    margin: 1em;
+}
+footer {
+    font-size: 0.8em;
+}
+main {
+    padding: 1em;
+    height: 100%;
 }
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    #idContBody {
-        width: 50%;
+    main {
+        width: 60%;
     }
 }
-header {
+.uiRow {
+    margin: 0 0 0.5rem 0;
+}
+.input-group {
+    margin-right: 4px;
+}
+.clFormInput {
     display: flex;
-    justify-content: space-between;
+}
+.clFormInput .btn {
+    flex-shrink: 0;
+}
+output {
+    font-size: 2em;
+}
+#idFormSelect, #idFormCreate, #idFormTransaction {
+    /* display: none; */
+}
+.btn-warning {
+    display: none;
 }

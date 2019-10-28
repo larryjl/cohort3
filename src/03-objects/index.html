@@ -6,30 +6,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="index.css" rel="stylesheet"> 
-  <title>Welcome to LawrenceBank</title>
+  <title>BLa | Bank of Lawrence</title>
 </head>
 
 <body>
   <div id="idContBody">
     <header>
-        <span><strong>L</strong>awrence<strong>B</strong>ank</span><em>Your money is my money.</em>
+        <div><strong>BLa</strong> | <strong>B</strong>ank of <strong>La</strong>wrence</div><div><em>Your money is my money.</em></div>
     </header>
     <main>
-      <h1>My Account</h1>
-      <hr>
-      <div id="idDivTransaction">
-        <input type="number" id="idInput" min=0 placeholder=0.00></input>
-        <div id="idContButtons">
-          <button id="idBtnDeposit">Make a Deposit</button>
-          <button id="idBtnWithdraw">Make a Withdrawal</button>
-          <button id="idBtnBalance">Show my Balance</button>
-        </div>
+      <div id="idWelcome">
+        <h1>Welcome back</h1>
+        <hr>
       </div>
-      <hr>
-      <div id="idDivOutput"></div>
+      <div id="idDivControl" class="uiRow">
+        <h2>Your Accounts</h2>
+        <form id="idFormSelect" class="clFormInput uiRow">
+          <div class="input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text">Account</span>
+            </div>
+            <select id="idSelAccounts" class="btn btn-primary dropdown-toggle form-control">
+              <option value="checking">Checking</option>
+            </select>
+          </div>
+          <button id="idBtnRemove" class="btn btn-danger">
+            Remove This Account
+          </button>
+        </form>
+        <div class="uiRow">
+          <button id="idBtnAdd" class="btn btn-success">
+            Create a New Account
+          </button>
+        </div>
+        <form id="idFormCreate" class="clFormInput uiRow">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Account Name</span>
+            </div>
+            <input id="idInpAccountName" type="text" class="form-control"></input>
+          </div>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Starting Balance</span>
+                <span class="input-group-text">$</span>
+              </div>
+              <input id="idInpAccountBalance" type="number" min=0 placeholder=0.00 class="form-control"></input>
+            </div>
+          <button id="idBtnControlConfirm" class="btn btn-warning">
+            Confirm
+          </button>
+        </form>
+        <div id="idDivAccountsInfo uiRow">
+          <button id="idBtnTotal" class="btn btn-secondary">
+            Show Total of Account Balances
+          </button>
+          <button id="idBtnHighest" class="btn btn-secondary">
+            Show Highest Balance
+          </button>
+          <button id="idBtnLowest" class="btn btn-secondary">
+            Show Lowest Balance
+          </button>
+        </div>
+        <output id="idOutputController"></output>
+        <hr>
+      </div>
+      <div id="idDivAccount">
+        <h2>Your Account</h2>
+        <div id="idContButtons" class="uiRow">
+          <button id="idBtnDeposit" class="btn btn-secondary">
+            Make a Deposit
+          </button>
+          <button id="idBtnWithdraw" class="btn btn-secondary">
+            Make a Withdrawal
+          </button>
+          <button id="idBtnBalance" class="btn btn-secondary">
+            Show Balance
+          </button>
+        </div>
+        <form id="idFormTransaction" class="clFormInput uiRow">
+          <span id="idSpanTransaction"></span>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="number" id="idInpTransaction" class="form-control" min=0 placeholder=0.00 ></input>
+          </div>
+          <button id="idBtnTransactionConfirm" class="btn btn-warning">
+            Confirm
+          </button>
+        </form>
+        <output id="idOutputAccount"></output>
+      </div>
     </main>
     <footer>
+      <div>
+        <p>Thank you for your money.</p>
+      </div>
     </footer>
   </div>
   <script type="module" src="./scripts/index.js"></script>
