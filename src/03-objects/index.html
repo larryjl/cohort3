@@ -18,30 +18,30 @@
     </header>
     <main>
       <div id="idWelcome">
-        <h1>Welcome back</h1>
+        <h1 id="idHControl">Welcome back</h1>
         <hr>
       </div>
-      <div id="idDivControl" class="uiRow">
+      <div id="idDivControl" class="classRow">
         <h2>Your Accounts</h2>
-        <form id="idFormSelect" class="clFormInput uiRow">
+        <div id="idDivSelect" class="classDivInput classRow classDivDynamic">
           <div class="input-group">
             <div class="input-group-prepend">
             <span class="input-group-text">Account</span>
             </div>
             <select id="idSelAccounts" class="btn btn-primary dropdown-toggle form-control">
-              <option value="checking">Checking</option>
+              <!-- <option value="select account">select account</option> -->
             </select>
           </div>
           <button id="idBtnRemove" class="btn btn-danger">
             Remove This Account
           </button>
-        </form>
-        <div class="uiRow">
+        </div>
+        <div class="classRow">
           <button id="idBtnAdd" class="btn btn-success">
             Create a New Account
           </button>
         </div>
-        <form id="idFormCreate" class="clFormInput uiRow">
+        <div id="idDivCreate" class="classDivInput classRow classDivDynamic">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">Account Name</span>
@@ -53,13 +53,13 @@
                 <span class="input-group-text">Starting Balance</span>
                 <span class="input-group-text">$</span>
               </div>
-              <input id="idInpAccountBalance" type="number" min=0 placeholder=0.00 class="form-control"></input>
+              <input id="idInpAccountBalance" class="form-control" type="number" min=0 placeholder=0.00 value=0.00></input>
             </div>
           <button id="idBtnControlConfirm" class="btn btn-warning">
             Confirm
           </button>
-        </form>
-        <div id="idDivAccountsInfo uiRow">
+        </div>
+        <div id="idDivAccountsInfo" class="classRow classDivDynamic">
           <button id="idBtnTotal" class="btn btn-secondary">
             Show Total of Account Balances
           </button>
@@ -73,9 +73,9 @@
         <output id="idOutputController"></output>
         <hr>
       </div>
-      <div id="idDivAccount">
-        <h2>Your Account</h2>
-        <div id="idContButtons" class="uiRow">
+      <div id="idDivAccount" class="classDivDynamic">
+        <h2 id="idHAccount">Your Account</h2>
+        <div id="idContButtons" class="classRow">
           <button id="idBtnDeposit" class="btn btn-secondary">
             Make a Deposit
           </button>
@@ -86,18 +86,18 @@
             Show Balance
           </button>
         </div>
-        <form id="idFormTransaction" class="clFormInput uiRow">
+        <div id="idDivTransaction" class="classDivInput classRow classDivDynamic">
           <span id="idSpanTransaction"></span>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">$</span>
             </div>
-            <input type="number" id="idInpTransaction" class="form-control" min=0 placeholder=0.00 ></input>
+            <input type="number" id="idInpTransaction" class="form-control" min=0 placeholder=0.00 value=0.00></input>
           </div>
           <button id="idBtnTransactionConfirm" class="btn btn-warning">
             Confirm
           </button>
-        </form>
+        </div>
         <output id="idOutputAccount"></output>
       </div>
     </main>

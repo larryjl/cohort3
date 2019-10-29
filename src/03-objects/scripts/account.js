@@ -3,12 +3,12 @@ const Account = class {
     this.name = name;
     this.bal = bal;
   }
-  deposit(input) {
+  deposit(input=0) {
     this.bal += input; // -- inspired by Pitsini
   }
-  withdraw(input) {
+  withdraw(input=0) {
     if (this.bal >= input) {
-      this.bal -= input; // -- inspired by Pitsini
+      this.bal -= input;
     } else return 'error';
   }
   balance() {
@@ -21,23 +21,24 @@ const AccountController = class {
     this.name = person;
     this.accounts = [];
   }
-  add(accountName, bal) {
-    const match = this.accounts.find(
-      (element) => {element.name === accountName}
-    );
-    if (match === undefined) {
+  add(accountName, bal=0) {
+    // const account = 
+    if (
+      this.accounts.find((element) => {
+        return element.name === accountName;
+      }) === undefined
+    ) {
       const account = new Account(accountName, bal);
       this.accounts.push(account);
     } else return 'error';
   }
   remove(accountName) {
     const index = this.accounts.findIndex(
-      account => account.name === accountName
+      account => {return account.name === accountName}
     );
     if ( index > -1) {
       this.accounts.splice(index, 1);
     } else return 'error';
-
   }
   total() {
     if (this.accounts.length > 0) {
@@ -68,6 +69,10 @@ const AccountController = class {
       return account;
     } else return 'error';
   }
+  // names() {
+  //   const names = this.accounts.map((v) => v.name);
+  //   return names;
+  // }
 }
 
 export {Account, AccountController};

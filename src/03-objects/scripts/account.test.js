@@ -31,9 +31,15 @@ test('account click', () => {
     }
   };
   input = 10;
+  expect(account.bal).toBe(25);
   functions.accountClick(event, account, input, output);
   expect(account.bal).toBe(35);
   expect(output.textContent).toBe('Deposited: $10.00');
+
+  // test invalid input val
+  input = 'xyz'
+  functions.accountClick(event, account, input, output);
+  expect(account.bal).toBe(35);
 
   // test withdraw
   event = {
@@ -57,6 +63,23 @@ test('account click', () => {
   };
   msg = functions.accountClick(event, account, input, output);
   expect(output.textContent).toBe('Current balance: $5.00');
+});
+
+// test bad event target
+test('account click bad target', () => {
+  let event = {
+    target: {
+      id: 'not an id'
+    }
+  };
+  const account = new Account('checkingAccount', 25);
+  let input;
+  const output = document.createElement('div');
+  let msg;
+
+  msg = functions.accountClick(event, account, input, output);
+  expect(msg).toBe(undefined);
+  expect(account.bal).toBe(25);
 });
 
 // *** 130c
@@ -93,15 +116,9 @@ test('controller total, highest, lowest', () => {
   // test total
   expect(controller.total()).toBe(6);
   // test highest
-  expect(controller.highest()).toEqual(
-    {name: 'investment',
-      bal: 3}
-  );
+  expect(controller.highest()).toEqual({name: 'investment', bal: 3});
   // test lowest
-  expect(controller.lowest()).toEqual(
-    {name: 'checking',
-      bal: 1}
-  );
+  expect(controller.lowest()).toEqual({name: 'checking', bal: 1});
 });
 
 // test total, highest, lowest errors with no accounts
@@ -124,7 +141,8 @@ test('controller click add, remove', () => {
   let inputName;
   let inputBalance;
   const output = document.createElement('div');
-  let msg;
+  const select = document.createElement('select');
+  const heading = document.createElement('h2');
 
   // test add
   event = {
@@ -134,15 +152,19 @@ test('controller click add, remove', () => {
   };
   inputName = 'checking';
   inputBalance = 25;
-  functions.controlClick(event, controller, inputName, inputBalance, output);
+  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   expect(controller.accounts[0].name).toBe('checking');
   expect(controller.accounts[0].bal).toBe(25);
   expect(output.textContent).toBe('Added account: checking');
 
-  // test add duplicate 
-  // *************** todo: fix this test.
-  // functions.controlClick(event, controller, inputName, inputBalance, output);
-  // expect(output.textContent).toBe('Account already exists: checking');
+  // test add duplicate
+  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
+  expect(output.textContent).toBe('Account already exists: checking');
+
+  // test add empty
+  inputBalance = 'xyz';
+  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
+  expect(output.textContent).toBe('Account already exists: checking');
 
   // test remove
   event = {
@@ -150,13 +172,12 @@ test('controller click add, remove', () => {
       id: 'idBtnRemove'
     }
   };
-  functions.controlClick(event, controller, inputName, inputBalance, output);
+  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   expect(controller.accounts.length).toBe(0);
   expect(output.textContent).toBe('Removed account: checking');
   // test remove non-existing account
-  inputName = 'not an account';
-  functions.controlClick(event, controller, inputName, inputBalance, output);
-  expect(output.textContent).toBe('Account does not exist: not an account');
+  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
+  expect(output.textContent).toBe('Account does not exist: checking');
 });
 
 // test click total, highest, lowest
@@ -236,4 +257,40 @@ test('controller click total, highest, lowest errors', () => {
   };
   functions.controlClick(event, controller, inputName, inputBalance, output);
   expect(output.textContent).toBe('No accounts.');
+});
+
+// test bad event target
+test('control click no target', () => {
+  let event = {
+    target: {
+      id: 'not an id'
+    }
+  };
+  const controller = new AccountController('Lawrence');
+  let inputName;
+  let inputBalance;
+  const output = document.createElement('div');
+  let msg;
+
+  msg = functions.controlClick(event, controller, inputName, inputBalance, output);
+  expect(msg).toBe(undefined);
+  expect(controller.accounts.length).toBe(0);
+});
+
+test('select update', () => {
+  const targetId = 'idBtnAdd';
+  const inputName = 'savings';
+  const select = document.createElement('select');
+  functions.accountSelectUpdate(targetId, inputName, select)
+  expect(select.children.length).toEqual(1);
+  functions.accountSelectUpdate(targetId, inputName, select)
+  expect(select.children.length).toEqual(2);
+});
+
+//test bad event target
+test('select update no target', () => {
+  const targetId = 'not a target';
+  const accountName = '';
+  const select = {};
+  functions.accountSelectUpdate(targetId, accountName, select)
 });

@@ -1,20 +1,63 @@
 const functions = {
+  // update the accounts dropdown
+  accountSelectUpdate: (targetId, accountName, select) => {
+    let options = {};
+    let option = {};
+    switch (targetId) {
+      case 'idBtnRemove':
+        option = select.querySelector(`option[value="${accountName}"]`);
+        option.remove();
+        break;
+      case 'idBtnAdd':
+        option = document.createElement('option');
+        option.value = accountName;
+        option.textContent = accountName;
+        option.classList.add('classOption');
+        select.appendChild(option);
+        break;
+      default:
+    };
+  },
+
+  // update the account heading
+  accountHeadingUpdate: (heading, select) => {
+    heading.textContent = `Your ${select.value} account`
+  },
 
   // 130c add, remove, total, highest, lowest
-  controlClick: (event, controller, inputName, inputBalance, output) => {
+  controlClick: (
+    event, 
+    controller, 
+    inputName, 
+    inputBalance=0, 
+    output, 
+    select,
+    heading
+  ) => {
+    inputBalance = (isNaN(inputBalance))
+      ? 0
+      : Math.floor(inputBalance * 100) / 100; // validate and round
+    let accountName;
     let msg;
     switch(event.target.id) {
       case 'idBtnRemove':
-        msg = controller.remove(inputName);
+        accountName = select.value;
+        // accountName = select.options[select.selectedIndex].text; // -- alternate for select value
+        msg = controller.remove(accountName);
         output.textContent = (msg === 'error')
-        ? `Account does not exist: ${inputName}`
-        : `Removed account: ${inputName}`;
+          ? `Account does not exist: ${accountName}`
+          : `Removed account: ${accountName}`;
+        functions.accountSelectUpdate(event.target.id, accountName, select);
+        functions.accountHeadingUpdate(heading, select);
         break;
       case 'idBtnAdd':
-        msg = controller.add(inputName, inputBalance);
+        accountName = inputName;
+        msg = controller.add(accountName, inputBalance);
         output.textContent = (msg === 'error')
-          ? `Account already exists: ${inputName}`
-          : `Added account: ${inputName}`;
+          ? `Account already exists: ${accountName}`
+          : `Added account: ${accountName}`;
+        functions.accountSelectUpdate(event.target.id, accountName, select);
+        functions.accountHeadingUpdate(heading, select);
         break;
       case 'idBtnTotal':
         msg = controller.total();
@@ -39,26 +82,25 @@ const functions = {
   },
 
   // -- 130b deposit, withdraw, balance
-  accountClick: (event, account, input, output) => {
+  accountClick: (event, account, inputNum=0, output) => {
+    inputNum = (isNaN(inputNum))
+      ? 0
+      : Math.floor(inputNum * 100) / 100; // validate and round
     let msg;
     switch(event.target.id) {
       case 'idBtnDeposit':
-        msg = account.deposit(input);
-        output.textContent = (msg === 'error') 
-          ? 'Error.' 
-          : `Deposited: $${input.toFixed(2)}`;
+        msg = account.deposit(inputNum);
+        output.textContent = `Deposited: $${inputNum.toFixed(2)}`;
         break;
       case 'idBtnWithdraw':
-        msg = account.withdraw(input);
+        msg = account.withdraw(inputNum);
         output.textContent = (msg === 'error') 
           ? 'Insufficient balance.' 
-          : `Withdrew: $${input.toFixed(2)}`;
+          : `Withdrew: $${inputNum.toFixed(2)}`;
         break;
       case 'idBtnBalance':
         msg = account.balance();
         output.textContent = `Current balance: $${msg.toFixed(2)}`;
-        break;
-      case 'idBtnConfirm':
         break;
       default:
     };

@@ -30,24 +30,28 @@ main {
         width: 60%;
     }
 }
-.uiRow {
+.classRow {
     margin: 0 0 0.5rem 0;
 }
 .input-group {
     margin-right: 4px;
 }
-.clFormInput {
+.classDivInput {
     display: flex;
 }
-.clFormInput .btn {
+.classDivInput .btn {
     flex-shrink: 0;
 }
 output {
     font-size: 2em;
 }
-#idFormSelect, #idFormCreate, #idFormTransaction {
+.classDivDynamic {
     /* display: none; */
 }
-.btn-warning {
-    display: none;
+#idDivSelect, #idDivCreate, #idDivTransaction, #idDivAccountsInfo, #idDivAccount {
+    /* display: none; */
+    background-color: red;
+}
+.classDivInput {
+    background-color: blue;
 }
