@@ -1,5 +1,23 @@
 const functions = {
 
+    // *** 2019-10-29
+    // 1. write a function to receive the same array (staff) and return the total of balances
+    // 2. write a function to receive the same array (staff) and return the average the balances
+    totalBalance: (arrStaff) => {
+        const arrBalance = arrStaff.map((person)=>{
+            return person.balance;
+        });
+        const total = arrBalance.reduce((a, b) => a + b);
+        return total;
+    },
+
+    averageBalance: (arrStaff) => {
+        const total = functions.totalBalance(arrStaff);
+        const average = total / arrStaff.length;
+        return average;
+    },
+
+
     // *** 2019-10-25 build emails using foreach, map
     loopStaffForEach: (arrStaff) => {
         const arrStaffEmail=[];

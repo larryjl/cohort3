@@ -30,12 +30,23 @@ const emailTests = (staffEmail) => {
         "benjamin.amis@evolveu.ca"
     ]);
 };
+
+// Daily 2019-10-29 balance
+test('today total balance', () => {
+    const total = functions.totalBalance(data.staff);
+    expect(total).toBe(3823);
+});
+test('today average balance', () => {
+    const average = functions.averageBalance(data.staff);
+    expect(average).toBeCloseTo(546.14, 2);
+});
+
 // Daily 2019-10-25 - foreach, map
-test('today: emails with for in', () => {
+test('emails with for in', () => {
     const staffEmail = functions.loopStaffForEach(data.staff);
     emailTests(staffEmail);
 });
-test('today: emails with for in', () => {
+test('emails with for in', () => {
     const staffEmail = functions.loopStaffMap(data.staff);
     emailTests(staffEmail);
 });
