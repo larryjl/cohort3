@@ -16,13 +16,18 @@
     <header>
         <div><strong>BLa</strong> | <strong>B</strong>ank of <strong>La</strong>wrence</div><div><em>Your money is my money.</em></div>
     </header>
-    <main>
+    <main id="idMain">
       <div id="idWelcome">
         <h1 id="idHControl">Welcome back</h1>
         <hr>
       </div>
       <div id="idDivControl" class="classRow">
         <h2>Your Accounts</h2>
+        <div class="classRow">
+          <button id="idBtnAdd" class="btn btn-success">
+            Create a New Account
+          </button>
+        </div>
         <div id="idDivSelect" class="classDivInput classRow classDivDynamic">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -34,11 +39,6 @@
           </div>
           <button id="idBtnRemove" class="btn btn-danger">
             Remove This Account
-          </button>
-        </div>
-        <div class="classRow">
-          <button id="idBtnAdd" class="btn btn-success">
-            Create a New Account
           </button>
         </div>
         <div id="idDivCreate" class="classDivInput classRow classDivDynamic">
@@ -55,11 +55,11 @@
               </div>
               <input id="idInpAccountBalance" class="form-control" type="number" min=0 placeholder=0.00 value=0.00></input>
             </div>
-          <button id="idBtnControlConfirm" class="btn btn-warning">
+          <button id="idBtnCreateConfirm" class="btn btn-warning">
             Confirm
           </button>
         </div>
-        <div id="idDivAccountsInfo" class="classRow classDivDynamic">
+        <div id="idDivReport" class="classRow classDivDynamic">
           <button id="idBtnTotal" class="btn btn-secondary">
             Show Total of Account Balances
           </button>
@@ -87,8 +87,10 @@
           </button>
         </div>
         <div id="idDivTransaction" class="classDivInput classRow classDivDynamic">
-          <span id="idSpanTransaction"></span>
           <div class="input-group">
+            <div class="input-group-prepend">
+              <span id="idSpanTransaction" class="input-group-text"></span>
+            </div>
             <div class="input-group-prepend">
               <span class="input-group-text">$</span>
             </div>

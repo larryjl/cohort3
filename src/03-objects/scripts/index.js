@@ -1,6 +1,7 @@
 import functions from './functions.js';
 import {Account, AccountController} from './account.js';
 
+const idMain = document.getElementById('idMain');
 const idDivControl = document.getElementById('idDivControl');
 const idSelAccounts = document.getElementById('idSelAccounts');
 const idInpAccountName = document.getElementById('idInpAccountName');
@@ -12,19 +13,18 @@ const idOutputAccount = document.getElementById('idOutputAccount');
 const idHControl = document.getElementById('idHControl');
 const idHAccount = document.getElementById('idHAccount');
 const dynamicDivs = document.getElementsByClassName('classDivDynamic');
+const idSpanTransaction = document.getElementById('idSpanTransaction');
 
 // initial controller
-const controller = new AccountController('Lawrence');
-idHControl.textContent = `Welcome back, ${controller.name}`;
-
-// Hide dynamic divs
-for(const element of dynamicDivs) {
-  element.style.display="none";
-};
+let user;
+// user = prompt('Please enter your username.', 'Anonymous')
+user = (user === undefined) ? 'User' : user;
+const controller = new AccountController();
+idHControl.textContent = `Welcome back, ${user}`;
 
 // *** Listeners ***
 
-// ui updater
+// heading updater
 idSelAccounts.addEventListener('change', () => {
   functions.accountHeadingUpdate(idHAccount, idSelAccounts);
 });
@@ -50,7 +50,7 @@ idDivControl.addEventListener('click', (event) => {
 
 // 130b deposit, withdraw, show balance
 idDivAccount.addEventListener('click', (event) => {
-
+  const transaction = idSpanTransaction;
   const accountName = idSelAccounts.value;  
   // const accountName = idSelAccounts.options[idSelAccounts.selectedIndex].text; // -- alternate for getting select value
   const account = controller.accounts.find(
@@ -60,5 +60,19 @@ idDivAccount.addEventListener('click', (event) => {
   // -- 2 decimal rounding
   idInpTransaction.value = input;
   const output = idOutputAccount;
-  functions.accountClick(event, account, input, output);
+  functions.accountClick(event, transaction, account, input, output);
+});
+
+// hide/show divs
+idMain.addEventListener('click', (event) => {
+  functions.dynamicDivs(
+    event,
+    idSpanTransaction,
+    idSelAccounts,
+    idDivSelect, 
+    idDivCreate, 
+    idDivReport, 
+    idDivAccount, 
+    idDivTransaction
+  )
 });

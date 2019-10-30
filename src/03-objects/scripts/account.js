@@ -17,8 +17,7 @@ const Account = class {
 };
 
 const AccountController = class {
-  constructor(person) {
-    this.name = person;
+  constructor() {
     this.accounts = [];
   }
   add(accountName, bal=0) {

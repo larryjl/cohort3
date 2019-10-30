@@ -46,12 +46,8 @@ output {
     font-size: 2em;
 }
 .classDivDynamic {
-    /* display: none; */
+    display: none;
 }
-#idDivSelect, #idDivCreate, #idDivTransaction, #idDivAccountsInfo, #idDivAccount {
-    /* display: none; */
-    background-color: red;
-}
-.classDivInput {
-    background-color: blue;
+#idDivReport {
+    justify-content: space-between;
 }

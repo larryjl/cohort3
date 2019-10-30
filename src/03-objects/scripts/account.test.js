@@ -22,37 +22,39 @@ test('account click', () => {
   const account = new Account('checkingAccount', 25);
   let input;
   const output = document.createElement('div');
-  let msg;
+  const transaction = document.createElement('span');
 
   // test deposit
   event = {
     target: {
-      id: 'idBtnDeposit'
+      id: 'idBtnTransactionConfirm'
     }
   };
+  transaction.textContent = 'Deposit ';
   input = 10;
   expect(account.bal).toBe(25);
-  functions.accountClick(event, account, input, output);
+  functions.accountClick(event, transaction, account, input, output);
   expect(account.bal).toBe(35);
   expect(output.textContent).toBe('Deposited: $10.00');
 
   // test invalid input val
-  input = 'xyz'
-  functions.accountClick(event, account, input, output);
+  input = 'xyz';
+  functions.accountClick(event, transaction, account, input, output);
   expect(account.bal).toBe(35);
 
   // test withdraw
   event = {
     target: {
-      id: 'idBtnWithdraw'
+      id: 'idBtnTransactionConfirm'
     }
   };
+  transaction.textContent = 'Withdrawal ';
   input = 30;
-  functions.accountClick(event, account, input, output);
+  functions.accountClick(event, transaction, account, input, output);
   expect(account.bal).toBe(5);
   expect(output.textContent).toBe('Withdrew: $30.00');
   // test withdrawal with insufficient balance
-  functions.accountClick(event, account, input, output);
+  functions.accountClick(event, transaction, account, input, output);
   expect(output.textContent).toBe('Insufficient balance.');
 
   // test balance
@@ -61,7 +63,7 @@ test('account click', () => {
       id: 'idBtnBalance'
     }
   };
-  msg = functions.accountClick(event, account, input, output);
+  functions.accountClick(event, transaction, account, input, output);
   expect(output.textContent).toBe('Current balance: $5.00');
 });
 
@@ -72,12 +74,14 @@ test('account click bad target', () => {
       id: 'not an id'
     }
   };
+  const transaction = document.createElement('span');
+  transaction.textContent = 'Deposit ';
   const account = new Account('checkingAccount', 25);
   let input;
   const output = document.createElement('div');
   let msg;
 
-  msg = functions.accountClick(event, account, input, output);
+  msg = functions.accountClick(event, transaction, account, input, output);
   expect(msg).toBe(undefined);
   expect(account.bal).toBe(25);
 });
@@ -142,17 +146,27 @@ test('controller click add, remove', () => {
   let inputBalance;
   const output = document.createElement('div');
   const select = document.createElement('select');
+  select.id = 'idSelect';
   const heading = document.createElement('h2');
 
   // test add
   event = {
     target: {
-      id: 'idBtnAdd'
+      id: 'idBtnCreateConfirm'
     }
   };
   inputName = 'checking';
   inputBalance = 25;
-  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
+  functions.controlClick(
+    event, 
+    controller, 
+    inputName, 
+    inputBalance, 
+    output, 
+    select, 
+    heading
+  );
+  expect(controller.accounts.length).toBe(1);
   expect(controller.accounts[0].name).toBe('checking');
   expect(controller.accounts[0].bal).toBe(25);
   expect(output.textContent).toBe('Added account: checking');
@@ -160,11 +174,13 @@ test('controller click add, remove', () => {
   // test add duplicate
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   expect(output.textContent).toBe('Account already exists: checking');
+  expect(controller.accounts.length).toBe(1);
 
-  // test add empty
+  // // test add empty
   inputBalance = 'xyz';
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   expect(output.textContent).toBe('Account already exists: checking');
+  expect(controller.accounts.length).toBe(1);
 
   // test remove
   event = {
@@ -172,12 +188,13 @@ test('controller click add, remove', () => {
       id: 'idBtnRemove'
     }
   };
+  
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   expect(controller.accounts.length).toBe(0);
   expect(output.textContent).toBe('Removed account: checking');
   // test remove non-existing account
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
-  expect(output.textContent).toBe('Account does not exist: checking');
+  expect(output.textContent).toBe('Account does not exist: ');
 });
 
 // test click total, highest, lowest
@@ -187,7 +204,6 @@ test('controller click total, highest, lowest', () => {
   let inputName;
   let inputBalance;
   const output = document.createElement('div');
-  let msg;
 
   controller.accounts = [
     {name: 'checking',
@@ -277,20 +293,79 @@ test('control click no target', () => {
   expect(controller.accounts.length).toBe(0);
 });
 
+// *** fancy ui
+
 test('select update', () => {
-  const targetId = 'idBtnAdd';
+  const targetId = 'idBtnCreateConfirm';
   const inputName = 'savings';
   const select = document.createElement('select');
   functions.accountSelectUpdate(targetId, inputName, select)
-  expect(select.children.length).toEqual(1);
+  expect(select.childElementCount).toEqual(1);
   functions.accountSelectUpdate(targetId, inputName, select)
-  expect(select.children.length).toEqual(2);
+  expect(select.childElementCount).toEqual(2);
 });
 
-//test bad event target
+//test bad event target (do not modify select)
 test('select update no target', () => {
   const targetId = 'not a target';
   const accountName = '';
   const select = {};
   functions.accountSelectUpdate(targetId, accountName, select)
+  expect(select).toEqual({});
+});
+
+//test dynamic div displayer
+test('div displayer', () => {
+  const event = {
+    target: {
+      id: ''
+    }
+  };
+  const transaction = document.createElement('span');
+  const select = document.createElement('select');
+  const divSelect = document.createElement('div'); 
+  const divCreate = document.createElement('div'); 
+  const divReport = document.createElement('div'); 
+  const divAccount = document.createElement('div'); 
+  const divTransaction = document.createElement('div');
+  divSelect.style.display = 'initial';
+
+  const testButtons = [
+    ['idBtnAdd', divCreate, 'flex'],
+    ['idBtnRemove', divSelect, 'none'],
+    ['idBtnCreateConfirm', divCreate, 'none'],
+    ['idBtnDeposit', divTransaction, 'flex'],
+    ['idBtnWithdraw', divTransaction, 'flex'],
+    ['idBtnTransactionConfirm', divTransaction, 'none'],
+    ['bad id', divSelect, 'flex']
+  ];
+  testButtons.forEach( (v) => {
+    event.target.id = v[0];
+    functions.dynamicDivs(
+      event,
+      transaction,
+      select,
+      divSelect, 
+      divCreate, 
+      divReport, 
+      divAccount, 
+      divTransaction
+    );
+    expect(v[1].style.display).toBe(v[2]);
+  });
+});
+
+test('transaction update', () => {
+  const event = {
+    target: {
+      id: ''
+    }
+  };
+  const transaction = document.createElement('span');
+  event.target.id = 'idBtnDeposit';
+  functions.accountClick(event, transaction);
+  expect(transaction.textContent).toBe('Deposit ');
+  event.target.id = 'idBtnWithdraw';
+  functions.accountClick(event, transaction);
+  expect(transaction.textContent).toBe('Withdrawal ');
 });
