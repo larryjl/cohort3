@@ -1,20 +1,16 @@
+import functions from './functions.js'
+
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum) {
+    if (popNum === undefined) {throw {error: 'missing city info'}};    
+    this.id = functions.idCounter();
     this.name = nameStr;
     this.lat = latNum;
     this.lon = lonNum;
-    this.pop = popNum;
+    this.pop = popNum; 
   }
   show() {
-    // const string = `${this.name},${this.lat},${this.lon},${this.pop}`;
-    // -- to adapt to any number of properties:
-    let string = '';
-    const properties = Object.getOwnPropertyNames(this);
-    properties.forEach((prop,i) => {
-      string = string + this[prop] + ',';
-    });
-    string = string.slice(0,-1); // remove last ','
-    return string;
+    return `${this.name},${this.lat},${this.lon},${this.pop}`;
   }
   movedIn(num) {
     this.pop += num;
@@ -41,35 +37,63 @@ const City = class {
 };
 
 const Controller = class {
-  constructor(startingCityArray) {
+  constructor() {
     this.cities = [];
-    if (startingCityArray) {
-      this.cities = startingCityArray;
+    }
+  whichSphere(idNum) {
+    for(let i=0; i<this.cities.length; i++) {
+      if (this.cities[i].id === idNum) {
+        const sphere = (this.cities[i].lat > 0)
+          ? "Northern Hemisphere"
+          : (this.cities[i].lat < 0)
+            ? "Southern Hemisphere"
+            : 'Equator';
+        return sphere;
+      };
     };
   }
-  whichSphere() {
-    const sphere = '';
-    return sphere;
-  }
   getMostNorthern() {
-    const mostNorth = '';
-    return mostNorth;
+    const mostNorth = this.cities.reduce((a, b) => {
+      return (a.lat > b.lat) ? a : b; // -- inspired by Michael
+    });
+    // -- check for equal cities
+    const northernCities = [];
+    this.cities.forEach((v) => {
+      if (mostNorth.lat === v.lat) {
+        northernCities.push(v);
+      };
+    });
+    return northernCities;
   }
   getMostSouthern() {
-    const mostSouth = '';
-    return mostSouth;
+    const mostSouth = this.cities.reduce((a, b) => {
+      return (a.lat < b.lat) ? a : b; // -- inspired by Michael
+    });
+    // -- check for equal cities
+    const southernCities = [];
+    this.cities.forEach((v) => {
+      if (mostSouth.lat === v.lat) {
+        southernCities.push(v);
+      };
+    });
+    return southernCities;
   }
   getPopulation() {
-    const total = 0;
+    const total = this.cities.reduce((a, b) => a.pop + b.pop);
     return total;
   }
-  createCity() {
-    const city = '';
+  createCity(nameStr, latNum, lonNum, popNum) {
+    const city = new City(nameStr, latNum, lonNum, popNum);
+    this.cities.push(city);
     return city;
   }
-  deleteCity() {
-    const cities = [];
-    return cities;
+  deleteCity(idNum) {
+    for(let i=0; i<this.cities.length; i++) {
+      if (this.cities[i].id === idNum) {
+        this.cities.splice(i,1);
+        return this.cities;
+      };
+    };
   }
 };
 

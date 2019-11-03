@@ -49,7 +49,7 @@ const AccountController = class {
   highest() {
     if (this.accounts.length > 0) {
       const balances = this.accounts.map((v) => v.bal);
-      const maxBalance = Math.max.apply(null, balances)
+      const maxBalance = Math.max.apply(null, balances);
       // -- alternate array max:
       // const maxBalance = balances.reduce((a, b) => Math.max(a, b));
       const account = this.accounts.find(
