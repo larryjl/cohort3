@@ -41,7 +41,7 @@ const Controller = class {
     this.cities = [];
     }
   whichSphere(idNum) {
-    for(let i=0; i<this.cities.length; i++) {
+    for (let i in this.cities) {
       if (this.cities[i].id === idNum) {
         const sphere = (this.cities[i].lat > 0)
           ? "Northern Hemisphere"
@@ -88,7 +88,7 @@ const Controller = class {
     return city;
   }
   deleteCity(idNum) {
-    for(let i=0; i<this.cities.length; i++) {
+    for(let i in this.cities) {
       if (this.cities[i].id === idNum) {
         this.cities.splice(i,1);
         return this.cities;
