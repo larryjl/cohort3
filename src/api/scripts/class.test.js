@@ -88,6 +88,9 @@ describe('controller class', () => {
 
     result = controller.whichSphere(controller.cities[1].id)
     expect(result).toEqual('Southern Hemisphere');
+
+    result = controller.whichSphere(controller.cities[2].id)
+    expect(result).toEqual('Equator');
   });  
   test('controller northern southern', () => {
     const controller = new Controller();
