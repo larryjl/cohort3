@@ -19,7 +19,11 @@ html {
 /* Create a Parallax Effect */
 
 .bgimg-1,
-.bgimg-2 {
+.bgimg-2,
+.bgimg-3,
+.bgimg-4,
+.bgimg-5,
+.bgimg-6 {
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -45,11 +49,30 @@ html {
 
 /* Second image (Size) */
 
-.bgimg-2 {
+.bgimg-2, .bgimg-3, .bgimg-4, .bgimg-5, .bgimg-6  {
     /* background-image: url("https://www.w3schools.com/w3images/parallax2.jpg"); */
-    background-image: url("https://cdn.pixabay.com/photo/2016/11/19/15/32/code-1839877_960_720.jpg");
     min-height: 400px;
     opacity: 0.5;
+}
+
+.bgimg-2 {
+    background-image: url("https://cdn.pixabay.com/photo/2016/11/19/15/32/code-1839877_960_720.jpg");
+}
+
+.bgimg-3 {
+    background-image: url("https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_960_720.jpg");
+}
+
+.bgimg-4 {
+    background-image: url("https://cdn.pixabay.com/photo/2015/09/20/18/31/coins-948603_960_720.jpg");
+}
+
+.bgimg-5 {
+    background-image: url("https://cdn.pixabay.com/photo/2015/12/07/10/55/electric-1080584_960_720.jpg");
+}
+
+.bgimg-6 {
+    background-image: url("https://cdn.pixabay.com/photo/2017/05/09/03/47/buildings-2297210_960_720.jpg");
 }
 
 .w3-wide {
