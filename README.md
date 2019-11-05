@@ -1,4 +1,4 @@
-__Competency Links:__
+## Competency Links
 
 1. [01-getting-started](src/01-getting-started/)
 1. [02-dom](src/01-getting-started/)
@@ -7,7 +7,8 @@ __Competency Links:__
 1. [javascript](src/javascript/)
 
 ---
-__Getting Started__
+
+## Getting Started
 
 This project is the "Getting Started" project for EvolveU Full Stack Development program. It is a baseline to demonstrate:
 
@@ -81,3 +82,14 @@ reference/
 ```
 2. At your leisure, look through the HTML and CSS and figure out how it works. For now, let's look at the simple logic component.
 3. In file src/01-getting-started/index.html search for "idSize". Let's drill into how that works. Look at src/01-getting-started/scripts. We will spend some time here.
+
+---
+
+## Authors
+
+* **Larry Shumlich** - *Instructor* - [Reference repository](https://github.com/larryevolveu/reference/)
+* **Lawrence Lee** - *Full Stack Dev Trainee* [repository](https://github.com/larryjl/cohort3/)
+
+## Acknowledgments
+
+* Thanks to the rest of the evolveU team for continued inspiration.
