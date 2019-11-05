@@ -1,4 +1,11 @@
+__Competenciy Links:__
+1. [01-getting-started](src/01-getting-started/)
+1. [02-dom](src/01-getting-started/)
+1. [03-objects](src/01-getting-started/)
+1. [api](src/01-getting-started/)
+1. [javascript](src/javascript/)
 
+---
 This project is the "Getting Started" project for EvovleU Full Stack Development program. It is a baseline to demonstrate:
 
 - development environment
