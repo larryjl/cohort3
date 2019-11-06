@@ -30,13 +30,21 @@ const emailTests = (staffEmail) => {
         "benjamin.amis@evolveu.ca"
     ]);
 };
+// Daily 2019-11-06 big balance
+test('today balance >=1000', () => {
+    const bigStaff = functions.bigBalance(data.staff);
+    expect(bigStaff).toEqual([
+        { fname: "Liam", lname: "Henry", balance: 1000 },
+        { fname: "Emma", lname: "Jones", balance: 1330 }
+    ]);
+});
 
 // Daily 2019-10-29 balance
-test('today total balance', () => {
+test('total balance', () => {
     const total = functions.totalBalance(data.staff);
     expect(total).toBe(3823);
 });
-test('today average balance', () => {
+test('average balance', () => {
     const average = functions.averageBalance(data.staff);
     expect(average).toBeCloseTo(546.14, 2);
 });

@@ -1,4 +1,10 @@
 const functions = {
+    // *** 2019-11-06
+    // create a new array for balances >= 1000 from the staff data
+    bigBalance: (arrStaff) => {
+        const bigStaff = arrStaff.filter(staff => staff.balance >= 1000);
+        return bigStaff;
+    },
 
     // *** 2019-10-29
     // 1. write a function to receive the same array (staff) and return the total of balances
