@@ -1,4 +1,5 @@
 const functions = {
+    
     // *** 2019-11-06
     // create a new array for balances >= 1000 from the staff data
     bigBalance: (arrStaff) => {
