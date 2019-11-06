@@ -31,7 +31,7 @@ const emailTests = (staffEmail) => {
     ]);
 };
 // Daily 2019-11-06 big balance
-test('today balance >=1000', () => {
+test('balance >=1000', () => {
     const bigStaff = functions.bigBalance(data.staff);
     expect(bigStaff).toEqual([
         { fname: "Liam", lname: "Henry", balance: 1000 },
