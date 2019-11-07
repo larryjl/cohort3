@@ -1,11 +1,12 @@
 const functions = {
-  idCounter: (() => { // -- nextId in closure
-    let nextId = 0;
-    return () => {
-      nextId += 1; 
+  idCounter: (() => {
+    let nextId = 0; // -- initialized only once
+    return () => { // -- closure function
+      nextId += 1; // -- nextId accessed through closure
       return nextId;
     };
-  })()
+  })() // -- closure call
+
 };
 
 export default functions;
