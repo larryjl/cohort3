@@ -3,7 +3,7 @@ import functions from './functions.js'
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum) {
     if (popNum === undefined) {throw {error: 'missing city info'}};    
-    this.id = functions.idCounter();
+    this.key = functions.idCounter();
     this.name = nameStr;
     this.lat = latNum;
     this.lon = lonNum;
@@ -14,10 +14,12 @@ const City = class {
   }
   movedIn(num) {
     this.pop += num;
+    // update db
     return this.pop;
   }
   movedOut(num) {
     this.pop -= num;
+    // update db
     return this.pop;
   }
   howBig() {
@@ -40,9 +42,9 @@ const Controller = class {
   constructor() {
     this.cities = [];
     }
-  whichSphere(idNum) {
+  whichSphere(keyNum) {
     for (let i in this.cities) {
-      if (this.cities[i].id === idNum) {
+      if (this.cities[i].key === keyNum) {
         const sphere = (this.cities[i].lat > 0)
           ? "Northern Hemisphere"
           : (this.cities[i].lat < 0)
@@ -85,12 +87,14 @@ const Controller = class {
   createCity(nameStr, latNum, lonNum, popNum) {
     const city = new City(nameStr, latNum, lonNum, popNum);
     this.cities.push(city);
+    // add db
     return city;
   }
-  deleteCity(idNum) {
+  deleteCity(keyNum) {
     for(let i in this.cities) {
-      if (this.cities[i].id === idNum) {
+      if (this.cities[i].key === keyNum) {
         this.cities.splice(i,1);
+        // add db
         return this.cities;
       };
     };
