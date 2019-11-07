@@ -13,7 +13,7 @@
         "02": "jest -i 'src/02-dom/scripts/functions.test.js'",
         "03": "jest -i 'src/03-objects/scripts/account.test.js'",
         "fetch": "jest -i 'src/03-objects/scripts/fetch.test.js'",
-        "ljl": "jest -i 'src/api/scripts/class.test.js'"
+        "ljl": "jest -i 'src/03-objects/cities/scripts/functions.test.js'"
     },
     "keywords": [],
     "author": "",
