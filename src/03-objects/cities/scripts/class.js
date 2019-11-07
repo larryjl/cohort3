@@ -14,12 +14,10 @@ const City = class {
   }
   movedIn(num) {
     this.pop += num;
-    // update db
     return this.pop;
   }
   movedOut(num) {
     this.pop -= num;
-    // update db
     return this.pop;
   }
   howBig() {
@@ -87,14 +85,12 @@ const Controller = class {
   createCity(nameStr, latNum, lonNum, popNum) {
     const city = new City(nameStr, latNum, lonNum, popNum);
     this.cities.push(city);
-    // add db
     return city;
   }
   deleteCity(keyNum) {
     for(let i in this.cities) {
       if (this.cities[i].key === keyNum) {
         this.cities.splice(i,1);
-        // add db
         return this.cities;
       };
     };

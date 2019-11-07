@@ -43,6 +43,7 @@ const AccountController = class {
     if (this.accounts.length > 0) {
       const balances = this.accounts.map((v) => v.bal);
       const total = balances.reduce((a, b) => a + b);
+      // const total = this.accounts.reduce((a, b) => {a + b.bal}, 0);
       return total;
     } else return 'error';
   }

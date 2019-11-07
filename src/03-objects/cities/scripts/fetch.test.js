@@ -58,3 +58,11 @@ test('test that the fetch works?', async () => {
   data = await postData(url + 'read', {key:1});
   expect(data.status).toEqual(400);
 });
+
+test('test blank url', async () => {
+  try {
+    const data = await postData();
+  } catch(error) {
+    expect(error).toBeTruthy();
+  };
+})

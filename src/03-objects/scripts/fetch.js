@@ -15,13 +15,13 @@ const functions = {
 
   showDelayProblem() {
       let arr = [];
-      console.log('One');
+    //   console.log('One');
       arr.push('One');
       setTimeout(() => {          // Simulates a fetch
-          console.log("Two");
+        //   console.log("Two");
           arr.push('Two');
       }, 0.1 * 1000);
-      console.log('Three');       // We have a problem Huston
+    //   console.log('Three');       // We have a problem Huston
       arr.push('Three');
       const result = arr.join();
       return result;
@@ -30,7 +30,7 @@ const functions = {
   async showDelaySolution(error) {
       try {
           let arr=[];
-          console.log('One');
+        //   console.log('One');
           arr.push('One');
           const value = await                 // Simulate fetch
               new Promise(
@@ -39,27 +39,28 @@ const functions = {
                           0.1 * 1000));
                       if (error) {throw 'error'};
           // Now that we have the value we can use it.
-          console.log(value);
+        //   console.log(value);
           arr.push(value);
-          console.log('Three');
+        //   console.log('Three');
           arr.push('Three');
           const result = arr.join();
           return result;
       } catch (error) {
-          console.log(error);
+        //   console.log(error);
           throw 'promise error';
       }
   },
 
   async getUsers(error) {
       try {
+          if (error) {throw 'fetch error'};
+          console.log(functions.url);
           const response = await fetch(functions.url);
           const data = await response.json();
-          console.log(data);
-          if (error) {throw 'fetch error'};
+        //   console.log(data);
           return data;
       } catch (error) {
-          console.error('Error:', error);
+        //   console.error('Error:', error);
           throw (error);
       }
   },
@@ -68,12 +69,12 @@ const functions = {
       const result = [];
       const data = await functions.getUsers();
       const oneName = functions.getFirstName(data);
-      console.log(oneName);
+    //   console.log(oneName);
       result.push(oneName);
       const allNames = functions.getAllFirstNames(data);
-      console.log(allNames);
+    //   console.log(allNames);
       result.push(allNames);
-      console.log(result);
+    //   console.log(result);
       return result;
   },
 }
