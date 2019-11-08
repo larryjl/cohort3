@@ -10,8 +10,12 @@ test('account new', () => {
 
   account.deposit(10);
   expect(account.bal).toBe(35);
+  account.deposit();
+  expect(account.bal).toBe(35);
 
   account.withdraw(30);
+  expect(account.bal).toBe(5);
+  account.withdraw();
   expect(account.bal).toBe(5);
 
   expect(account.balance()).toBe(5);
@@ -56,6 +60,10 @@ test('account click', () => {
   // test withdrawal with insufficient balance
   functions.accountClick(event, transaction, account, input, output);
   expect(output.textContent).toBe('Insufficient balance.');
+  // test invalid input val
+  input = 'xyz';
+  functions.accountClick(event, transaction, account, input, output);
+  expect(account.bal).toBe(5);
 
   // test balance
   event = {
@@ -96,10 +104,14 @@ test('controller add, remove', () => {
   controller.add('checking', 25);
   expect(controller.accounts[0].name).toBe('checking');
   expect(controller.accounts[0].bal).toBe(25);
+  // test add no value
+  controller.add('savings');
+  expect(controller.accounts[1].name).toBe('savings');
+  expect(controller.accounts[1].bal).toBe(0);
 
   // test remove
   msg = controller.remove('checking');
-  expect(controller.accounts.length).toBe(0);
+  expect(controller.accounts.length).toBe(1);
   // test remove non-existing account
   msg = controller.remove('not an account');
   expect(msg).toBe('error');
@@ -176,11 +188,12 @@ test('controller click add, remove', () => {
   expect(output.textContent).toBe('Account already exists: checking');
   expect(controller.accounts.length).toBe(1);
 
-  // // test add empty
+  // test add bad value
+  inputName = 'savings';
   inputBalance = 'xyz';
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
-  expect(output.textContent).toBe('Account already exists: checking');
-  expect(controller.accounts.length).toBe(1);
+  expect(controller.accounts[1].bal).toBe(0);
+  expect(output.textContent).toBe('Added account: savings');
 
   // test remove
   event = {
@@ -188,11 +201,12 @@ test('controller click add, remove', () => {
       id: 'idBtnRemove'
     }
   };
-  
+  inputName = 'checking';
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
-  expect(controller.accounts.length).toBe(0);
+  expect(controller.accounts.length).toBe(1);
   expect(output.textContent).toBe('Removed account: checking');
   // test remove non-existing account
+  functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   functions.controlClick(event, controller, inputName, inputBalance, output, select, heading);
   expect(output.textContent).toBe('Account does not exist: ');
 });

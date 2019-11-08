@@ -1,12 +1,13 @@
 const Account = class {
   constructor(name, bal) {
     this.name = name;
-    this.bal = bal;
+    this.bal = Number(bal);
   }
   deposit(input=0) {
-    this.bal += input; // -- inspired by Pitsini
+    this.bal += Number(input); // -- inspired by Pitsini
   }
   withdraw(input=0) {
+    input = Number(input);
     if (this.bal >= input) {
       this.bal -= input;
     } else return 'error';
@@ -27,7 +28,7 @@ const AccountController = class {
         return element.name === accountName;
       }) === undefined
     ) {
-      const account = new Account(accountName, bal);
+      const account = new Account(accountName, Number(bal));
       this.accounts.push(account);
     } else return 'error';
   }
