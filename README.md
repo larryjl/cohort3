@@ -1,7 +1,7 @@
 ## Links
 
-View the GitHub page for this repo:  
-*  https://larryjl.github.io/cohort3/
+View the GitHub page for this repo:    
+https://larryjl.github.io/cohort3/
 
 1. [01-getting-started](src/01-getting-started/)
 1. [02-dom](src/01-getting-started/)
