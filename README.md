@@ -5,8 +5,8 @@ View the GitHub page for this repo:
 
 1. [01-getting-started](src/01-getting-started/)
 1. [02-dom](src/01-getting-started/)
-1. [03-objects](src/01-getting-started/)
-1. [api](src/01-getting-started/)
+1. [03-objects](src/03-objects/)
+1. [cities](src/03-objects/cities/)
 1. [javascript](src/javascript/)
 
 ---
