@@ -56,7 +56,7 @@ describe('controller class', () => {
     controller.createCity('shelbyville', -90, -180, 20*1000);
     expect(controller.cities[0].show()).toBe(
       'springfield,90,180,100000');
-    expect(controller.cities[1].id).toBe(controller.cities[0].id+1);
+    expect(controller.cities[1].key).toBe(controller.cities[0].key+1);
   });
   test('controller create blank, catch error', () => {
     const controller = new Controller();
@@ -70,11 +70,11 @@ describe('controller class', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, 180, 100*1000);
     controller.createCity('shelbyville', -90, -180, 20*1000);
-    const id = controller.cities[0].id;
-    controller.deleteCity(id);
+    const key = controller.cities[1].key;
+    controller.deleteCity(key);
     expect(controller.cities.length).toBe(1);
     expect(controller.cities[0].show()).toBe(
-      'shelbyville,-90,-180,20000');
+      'springfield,90,180,100000');
   });
   test('controller sphere', () => {
     const controller = new Controller();
@@ -83,13 +83,13 @@ describe('controller class', () => {
     controller.createCity('equatorville', 0, 10, 100);
     let result;
 
-    result = controller.whichSphere(controller.cities[0].id)
+    result = controller.whichSphere(controller.cities[0].key)
     expect(result).toEqual('Northern Hemisphere');
 
-    result = controller.whichSphere(controller.cities[1].id)
+    result = controller.whichSphere(controller.cities[1].key)
     expect(result).toEqual('Southern Hemisphere');
 
-    result = controller.whichSphere(controller.cities[2].id)
+    result = controller.whichSphere(controller.cities[2].key)
     expect(result).toEqual('Equator');
   });  
   test('controller northern southern', () => {
