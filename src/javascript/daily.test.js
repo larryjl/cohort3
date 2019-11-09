@@ -1,8 +1,90 @@
 import functions from './daily.js'
 
-/*
-    Sample data for the next few exercises.
-*/
+// -- Sample data for daily 2019-11-09
+
+const people = [
+    {fname:"Alex", lname:"Smith", province:"BC", age:33},
+    {fname:"Angela", lname:"Jones", province:"AB", age:61},
+    {fname:"Anne", lname:"Bird", province:"SK", age:35},
+    {fname:"Brent", lname:"Riddle", province:"MN", age:79},
+    {fname:"Byron", lname:"Cardenas", province:"BC", age:38},
+    {fname:"Carrie", lname:"Ramirez", province:"AB", age:89},
+    {fname:"Cheryl", lname:"Glenn", province:"SK", age:70},
+    {fname:"Dima", lname:"Curry", province:"MN", age:67},
+    {fname:"Dustin", lname:"Bullock", province:"BC", age:59},
+    {fname:"Eva", lname:"Keiths", province:"AB", age:24},
+    {fname:"Faith", lname:"Liu", province:"SK", age:46},
+    {fname:"Fawad", lname:"Bowman", province:"MN", age:69},
+    {fname:"Forest", lname:"Vaughn", province:"BC", age:52},
+    {fname:"Giovanni", lname:"Browning", province:"AB", age:32},
+    {fname:"Greg", lname:"Hogan", province:"SK", age:55},
+    {fname:"Harpreet", lname:"Ramsey", province:"MN", age:18},
+    {fname:"Ian", lname:"Fitzgerald", province:"BC", age:16},
+    {fname:"James", lname:"Kramer", province:"AB", age:57},
+    {fname:"Jarvis", lname:"Ortega", province:"SK", age:69},
+    {fname:"Jawad", lname:"Huerta", province:"MN", age:35},
+    {fname:"Jinbong", lname:"Robinson", province:"BC", age:26},
+    {fname:"Jingnan", lname:"Hatfield", province:"AB", age:71},
+    {fname:"Joe", lname:"Banks", province:"SK", age:37},
+    {fname:"Kristina", lname:"Dalton", province:"MN", age:73},
+    {fname:"Latora", lname:"Matthews", province:"BC", age:25},
+    {fname:"Lauren", lname:"McClure", province:"AB", age:42},
+    {fname:"Licedt", lname:"Rasmussen", province:"SK", age:30},
+    {fname:"Linden", lname:"Pierce", province:"MN", age:68},
+    {fname:"Luis", lname:"Price", province:"BC", age:23},
+    {fname:"Marcela", lname:"Perez", province:"AB", age:20},
+    {fname:"Marilou", lname:"Graham", province:"SK", age:32},
+    {fname:"Matt", lname:"Novak", province:"MN", age:29},
+    {fname:"Monica", lname:"Giles", province:"BC", age:34},
+    {fname:"Niloufar", lname:"Carson", province:"AB", age:29},
+    {fname:"Omar", lname:"Olson", province:"SK", age:69},
+    {fname:"Roger", lname:"Woodard", province:"MN", age:84},
+    {fname:"Roman", lname:"Swanson", province:"BC", age:21},
+    {fname:"Seun", lname:"Kelly", province:"AB", age:60},
+    {fname:"Shane", lname:"Frost", province:"SK", age:87},
+    {fname:"Steven", lname:"Haynes", province:"MN", age:47},
+    {fname:"Thomas", lname:"Hart", province:"BC", age:14},
+    {fname:"Trent", lname:"Kerr", province:"AB", age:12},
+    {fname:"Darrell", lname:"Koch", province:"SK", age:10},
+    {fname:"Tylor", lname:"Torres", province:"MN", age:98}
+];
+const arrProv = ["AB","BC"]
+
+// Daily 2019-11-09 province callbacks
+test('today flat', () => {
+    const array = [1,[2],3];
+    const result = array.flat(); // jest requires core-js to use flat, flatmap
+    expect(result).toEqual([1,2,3]);
+});
+test('today select people', () => {
+    const result = functions.selectPeople(people, arrProv);
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach(v => {
+        expect(v.province == "AB" || v.province == "BC")
+            .toBe(true);
+    });
+});
+test('today people names', () => {
+    const arrPeople = people;
+    const result = functions.peopleNames(arrPeople);
+    expect(result.length).toEqual(arrPeople.length);
+    arrPeople.forEach((v,i) => {
+        expect(result[i]).toEqual(`${v.fname} ${v.lname}`);
+    });
+});
+test('today select names (call both functions wrapped together)', () => {
+    const result = functions.selectNames(people, arrProv);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result.length).toBeLessThan(people.length);
+    result.forEach(v=>{
+        expect(typeof v).toBe("string");
+    });
+});
+
+// ********************************************************
+
+// Sample data for the next few exercises.
+
 
 const data = {
     staff: [
@@ -19,17 +101,6 @@ const data = {
     prov: "Alberta"
 };
 
-const emailTests = (staffEmail) => {
-    expect(staffEmail).toEqual([
-        "jane.smith@evolveu.ca",
-        "liam.henry@evolveu.ca",
-        "emma.jones@evolveu.ca",
-        "olivia.notly@evolveu.ca",
-        "noah.ho@evolveu.ca",
-        "william.lee@evolveu.ca",
-        "benjamin.amis@evolveu.ca"
-    ]);
-};
 // Daily 2019-11-06 big balance
 test('balance >=1000', () => {
     const bigStaff = functions.bigBalance(data.staff);
@@ -60,6 +131,18 @@ test('emails with for in', () => {
 });
 
 // Daily 2019-10-24 - for in, for of statements
+
+const emailTests = (staffEmail) => {
+    expect(staffEmail).toEqual([
+        "jane.smith@evolveu.ca",
+        "liam.henry@evolveu.ca",
+        "emma.jones@evolveu.ca",
+        "olivia.notly@evolveu.ca",
+        "noah.ho@evolveu.ca",
+        "william.lee@evolveu.ca",
+        "benjamin.amis@evolveu.ca"
+    ]);
+};
 test('emails with for in', () => {
     const staffEmail = functions.loopStaffIn(data.staff);
     emailTests(staffEmail);
