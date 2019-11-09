@@ -1,10 +1,28 @@
 const functions = {
-    
+
+    // *** 2019-11-09
+    selectPeople: (arrPeople, arrProv) => {
+        return arrProv.flatMap(prov => 
+            arrPeople.filter(
+                person => 
+                    person.province.toUpperCase() === prov.toUpperCase()
+            )
+        );
+    },
+    peopleNames: (arrPeople) => {
+        return arrPeople.map(v => `${v.fname} ${v.lname}`);
+    },
+    selectNames: (arrPeople, arrProv) => {
+        return (functions.peopleNames(
+            functions.selectPeople(arrPeople, arrProv)
+        ));
+    },
+
+
     // *** 2019-11-06
     // create a new array for balances >= 1000 from the staff data
     bigBalance: (arrStaff) => {
-        const bigStaff = arrStaff.filter(staff => staff.balance >= 1000);
-        return bigStaff;
+        return arrStaff.filter(staff => staff.balance >= 1000);
     },
 
     // *** 2019-10-29
@@ -14,14 +32,12 @@ const functions = {
         const arrBalance = arrStaff.map((person)=>{
             return person.balance;
         });
-        const total = arrBalance.reduce((a, b) => a + b);
-        return total;
+        return arrBalance.reduce((a, b) => a + b);
     },
 
     averageBalance: (arrStaff) => {
         const total = functions.totalBalance(arrStaff);
-        const average = total / arrStaff.length;
-        return average;
+        return total / arrStaff.length;
     },
 
 
@@ -34,8 +50,7 @@ const functions = {
         return arrStaffEmail;
     },
     loopStaffMap: (arrStaff) => {
-        const arrStaffEmail = arrStaff.map(functions.makeEmailObj);
-        return arrStaffEmail;
+        return arrStaff.map(functions.makeEmailObj);
     },
 
     // *** 2019-10-24 build emails using for in, for of
@@ -58,18 +73,16 @@ const functions = {
     // *** 2019-10-21 take an array and return an array of emails ***
     
     loopStaff: (arrStaff) => {
-        const arrStaffEmail = arrStaff.map(functions.makeEmailObj);
-        return arrStaffEmail;
+        return arrStaff.map(functions.makeEmailObj);
     },
     
     // *** 2019-10-16 ***
 
     arraySlice: (arr) => {
-        let newArr = arr.slice(1,3);
-        return newArr;
+        return arr.slice(1,3);
     },
     arraySplice: (arr) => {
-        let removed = arr.splice(1,1,'a','b');
+        arr.splice(1,1,'a','b');
         return arr;
     },
     arrayForEach: (arr) => {
