@@ -28,7 +28,7 @@ describe('city event callbacks', () => {
     cityInputArr[3].value = v.pop; // pop
     return cityInputArr;
   });
-  
+
   const errorNode = document.createElement('div');
 
   beforeEach(async () => {
@@ -59,7 +59,7 @@ describe('city event callbacks', () => {
 
   test('create city error', async() => {
     const controllerInst = new Controller();
-    functions.error(false, errorNode);
+    functions.error(undefined, errorNode);
     expect(errorNode.textContent).toBeTruthy();
     expect(errorNode.classList.contains('hidden')).toBe(false);
     await functions.createCity(controllerInst, manyInputArr[0], ''); //no url

@@ -307,7 +307,7 @@ test('control click no target', () => {
   expect(controller.accounts.length).toBe(0);
 });
 
-// *** fancy ui
+// *** dynamic ui
 
 test('select update', () => {
   const targetId = 'idBtnCreateConfirm';
@@ -367,6 +367,24 @@ test('div displayer', () => {
     );
     expect(v[1].style.display).toBe(v[2]);
   });
+
+  //do not hide if options remain after remove
+  const option = document.createElement('option');
+  select.appendChild(option);
+  divSelect.style.display = 'flex';
+  event.target.id = 'idBtnRemove';
+  functions.dynamicDivs(
+    event,
+    transaction,
+    select,
+    divSelect, 
+    divCreate, 
+    divReport, 
+    divAccount, 
+    divTransaction
+  );
+  expect(divSelect.style.display).toBe('flex');
+
 });
 
 test('transaction update', () => {
