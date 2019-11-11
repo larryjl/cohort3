@@ -8,6 +8,24 @@ const functions = {
         if (num < 101) return "large";
         return "extra large";
     },
+    scramble: (string) => {
+        let array = string.split('');
+        let newArray = [];
+        array.map( (letter,index) => {
+            let rand = 0;
+            let timeout = 0;
+            do {
+                rand = Math.round(Math.random()*(array.length));
+                timeout++;
+            } while (newArray[rand]!=undefined && timeout<100);
+            newArray[rand]=letter;
+            });
+        const newString = newArray.join('');
+        return newString;
+    },
+    hoverScramble: (node) => {
+        node.innerText = functions.scramble(node.innerText)
+    },
 
     // calculator
     add: (num1, num2) => {
