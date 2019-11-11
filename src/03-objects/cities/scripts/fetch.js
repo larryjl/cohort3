@@ -1,4 +1,7 @@
-global.fetch = require('node-fetch');
+try {
+  global.fetch = require('node-fetch'); // req for testing only
+} catch {
+};
 
 // Larry's function
 async function postData(url = '', data = {}) {

@@ -56,7 +56,7 @@ const Controller = class {
   }
   getMostNorthern() {
     const mostNorth = this.cities.reduce((a, b) => {
-      return (a.lat > b.lat) ? a : b; // -- inspired by Michael
+      return (a.lat > b.lat) ? a : b; // inspired by Michael
     });
     // -- check for equal cities
     const northernCities = [];
@@ -69,7 +69,7 @@ const Controller = class {
   }
   getMostSouthern() {
     const mostSouth = this.cities.reduce((a, b) => {
-      return (a.lat < b.lat) ? a : b; // -- inspired by Michael
+      return (a.lat < b.lat) ? a : b; // inspired by Michael
     });
     // -- check for equal cities
     const southernCities = [];

@@ -30,6 +30,9 @@ describe('city event callbacks', () => {
   });
 
   const errorNode = document.createElement('div');
+  functions.error(undefined, errorNode);
+  const cardsNode = document.createElement('div');
+  functions.cards(cardsNode);
 
   beforeEach(async () => {
     // Check that the server is running and clear any data
@@ -39,8 +42,23 @@ describe('city event callbacks', () => {
     expect(data.length).toBe(0);
   });
 
+  test('create card', () => {
+    const controllerInst = new Controller();
+    sampleCities.forEach((city,i) => {
+      const cityObj = controllerInst.createCity(
+        city.name, 
+        city.lat, 
+        city.lon, 
+        city.pop)
+      functions.createCard(controllerInst, cityObj);
+      expect(cardsNode.childElementCount).toBe(i+1);
+      expect(cardsNode.children[i].childElementCount).toBe(4);
+    });
+  });
+
   test('create city', async () => {
     const controllerInst = new Controller();
+    functions.cards(cardsNode);
     let i = 0;
     for (let city of sampleCities) {
       await functions.createCity(controllerInst, manyInputArr[i], url);
@@ -59,7 +77,6 @@ describe('city event callbacks', () => {
 
   test('create city error', async() => {
     const controllerInst = new Controller();
-    functions.error(undefined, errorNode);
     expect(errorNode.textContent).toBeTruthy();
     expect(errorNode.classList.contains('hidden')).toBe(false);
     await functions.createCity(controllerInst, manyInputArr[0], ''); //no url
