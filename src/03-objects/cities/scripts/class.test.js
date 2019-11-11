@@ -76,6 +76,13 @@ describe('controller class', () => {
     expect(controller.cities[0].show()).toBe(
       'springfield,90,180,100000');
   });
+  test('controller delete non-existing', () => {
+    const controller = new Controller();
+    try { controller.deleteCity(0);
+    } catch (error) {
+      expect(error.error).toBe('city not found');
+    };
+  });
   test('controller sphere', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, -180, 100*1000);

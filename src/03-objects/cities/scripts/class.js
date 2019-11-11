@@ -1,8 +1,10 @@
 import functions from './functions.js'
 
 const City = class {
-  constructor(nameStr, latNum, lonNum, popNum) {
-    if (popNum === undefined) {throw {error: 'missing city info'}};    
+  constructor(nameStr, latNum, lonNum, popNum=0) {
+    if (lonNum === undefined) {
+      throw {error: 'missing city info'};
+    };
     this.key = functions.idCounter();
     this.name = nameStr;
     this.lat = latNum;
@@ -22,7 +24,7 @@ const City = class {
   }
   howBig() {
     const sizes = [ // -- modified values to not overlap
-      {size: 'city', min: 100.001*1000, max:8*Math.pow(10,9)}, // -- 8Bil limit
+      {size: 'city', min: 100.001*1000, max:Infinity},
       {size: 'large town', min: 20.001*1000, max:100*1000},
       {size: 'town', min: 1001, max: 20*1000},
       {size: 'village', min: 101, max: 1000},
@@ -79,8 +81,7 @@ const Controller = class {
     return southernCities;
   }
   getPopulation() {
-    const total = this.cities.reduce((a, b) => a.pop + b.pop);
-    return total;
+    return this.cities.reduce((a, b) => a.pop + b.pop);
   }
   createCity(nameStr, latNum, lonNum, popNum) {
     const city = new City(nameStr, latNum, lonNum, popNum);
@@ -94,6 +95,7 @@ const Controller = class {
         return this.cities;
       };
     };
+    throw({error: 'city not found'});
   }
 };
 

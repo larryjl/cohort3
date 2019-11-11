@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cities</title>
-    <link href="index.css" rel="stylesheet"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Guestbook</title>
+  <link href="index.css" rel="stylesheet">
 </head>
+
 <body>
-    Hello World
-    <script type="module" src="./scripts/index.js"></script>
+  <div id="idContBody">
+    <header>
+      <h1>Guestbook</h1>
+    </header>
+    <nav>
+    </nav>
+    <div id="idDivError">
+    </div>
+    <main>
+      <section>
+        <div>
+          <h2>Stats</h2>
+        </div>
+        <div>
+          <span id="idSpanTotal"></span> members, 
+          from <span id="idSpanNorth"></span> to <span id="idSpanSouth"></span>.
+        </div>
+      </section>
+      <section>
+      </section>
+      <section>
+        <div>
+          <h2>Add your city</h2>
+        </div>
+        <div>
+          <span>City Name</span>
+          <input id="idInpName" type="text"></input>
+        </div>
+        <div>
+          <span>Population</span>
+          <input id="idInpPop" type="number" min=0 placeholder=0></input>
+        </div>
+        <div>
+          <div>
+            <span>Latitude</span>
+            <input id="idInpLat" type="number" min=-90.00 max=90.00 increment=0.01 placeholder=0.00></input>
+          </div>
+          <div>
+            <span>Longitude</span>
+            <input id="idInpLon" type="number" min=-180.00 max=180.00 increment=0.01 placeholder=0.00></input>
+          </div>
+        </div>
+        <div>
+          <button id="idBtnCreate">Add City</button>
+        </div>
+      </section>
+    </main>
+    <footer>
+    </footer>
+  </div>
+  <script type="module" src="./scripts/index.js"></script>
 </body>
+
 </html>
