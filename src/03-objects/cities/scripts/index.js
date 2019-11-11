@@ -10,16 +10,17 @@ const cityInputArr = [
   document.getElementById('idInpLon'),
   document.getElementById('idInpPop')
 ];
-const idBtnCreate = document.getElementById('IdBtnCreate');
+const idBtnCreate = document.getElementById('idBtnCreate');
 const errorNode = document.getElementById('idDivError');
+const cardsNode = document.getElementById('idDivCards');
 
 const controllerInst = new Controller();
 
 const url = 'http://localhost:5000/';
 
-functions.error(false, errorNode);
-
-functions.pull(controllerInst, url);
+functions.error(true, errorNode); // store error div in functions
+functions.cards(cardsNode); // store cards div in functions
+functions.pull(controllerInst, url); // download from server
 
 idBtnCreate.addEventListener('click', (event) => {
   functions.createCity(controllerInst, cityInputArr, url)
