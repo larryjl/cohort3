@@ -82,10 +82,17 @@ html {
 .w3-hover-opacity {
     cursor: pointer;
 }
-
+/* Size */
 #idNumber {
     border: 0;
     width: 50px;
+}
+#idNumberSizeTitle {
+    transition: filter 1s;
+}
+#idNumberSizeTitle:hover {
+    transition: filter 0.5s;
+    filter:blur(1em);
 }
 
 /* Calculator */

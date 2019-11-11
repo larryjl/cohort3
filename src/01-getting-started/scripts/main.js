@@ -8,7 +8,9 @@ import functions from './functions.js';
 idNumber.addEventListener('change', () => {
     idNumberSize.textContent = functions.size(idNumber.value);
 });
-
+idNumberSizeTitle.addEventListener('mouseenter', () => {
+    setTimeout(() => {functions.hoverScramble(idNumberSizeTitle)},200)
+});
 // Calculator
 const calcInput1Nd = document.getElementById('idCalcInput1');
 const calcInput2Nd = document.getElementById('idCalcInput2');
