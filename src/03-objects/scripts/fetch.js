@@ -1,4 +1,3 @@
-require("babel-polyfill");
 const fetch = require('node-fetch');
 
 const functions = {
@@ -54,7 +53,7 @@ const functions = {
   async getUsers(error) {
       try {
           if (error) {throw 'fetch error'};
-          console.log(functions.url);
+          // console.log(functions.url);
           const response = await fetch(functions.url);
           const data = await response.json();
         //   console.log(data);
