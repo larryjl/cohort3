@@ -1,11 +1,11 @@
 ## Links
-View the published page for this repo at https://larryjl.github.io/cohort3/
+View the published page for this repo at [https://larryjl.github.io/cohort3/](https://larryjl.github.io/cohort3/)
 
 1. [01-getting-started](src/01-getting-started/)
-1. [02-dom](src/01-getting-started/)
-1. [03-objects](src/03-objects/)
-1. [cities](src/03-objects/cities/)
-1. [javascript](src/javascript/)
+1. [02-dom](src/02-dom/)
+1. 03-objects
+  1. [accounts](src/03-objects/)
+  1. [cities](src/03-objects/cities/)
 
 ---
 
