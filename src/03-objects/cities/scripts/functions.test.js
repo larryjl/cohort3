@@ -51,7 +51,7 @@ describe('city event callbacks', () => {
     // // clear data again
     let data = await postData(url + 'clear');
     expect(data.status).toEqual(200);
-    errorNode.classList.remove('hidden');
+    errorNode.classList.add('hidden');
   });
 
   test('create card', () => {
