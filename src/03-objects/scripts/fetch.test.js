@@ -42,14 +42,20 @@ test('fetch solution error', async () => {
   }
 });
 
-test('fetch get users', () => {
-  return functions.getUsers()
-    .then(
-      result => {
-        expect(result.length).toBe(10);
-        expect(typeof result[0]).toBe('object');
-      }
-    );
+// test('fetch get users', () => {
+//   return functions.getUsers()
+//     .then(
+//       result => {
+//         expect(result.length).toBe(10);
+//         expect(typeof result[0]).toBe('object');
+//       }
+//     );
+// });
+
+test('fetch get users', async () => {
+  const result = await functions.getUsers();
+  expect(result.length).toBe(10);
+  expect(typeof result[0]).toBe('object');
 });
 
 test('fetch work with data', () => {

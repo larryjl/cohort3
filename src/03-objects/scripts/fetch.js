@@ -31,7 +31,7 @@ const functions = {
           let arr=[];
         //   console.log('One');
           arr.push('One');
-          const value = await                 // Simulate fetch
+          const value = await                // Simulate fetch
               new Promise(
                   (resolve, reject) =>
                       setTimeout(() => resolve("Two"),
@@ -55,7 +55,7 @@ const functions = {
           if (error) {throw 'fetch error'};
           // console.log(functions.url);
           const response = await fetch(functions.url);
-          const data = await response.json();
+          const data = response.json(); //removed await
         //   console.log(data);
           return data;
       } catch (error) {
