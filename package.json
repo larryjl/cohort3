@@ -5,16 +5,15 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "testcov": "jest --coverage --runInBand; xdg-open coverage/lcov-report/index.html",
+        "testcov": "jest --coverage; xdg-open coverage/lcov-report/index.html",
         "test1": "jest src/01-getting-started",
         "test1cov": "jest src/01-getting-started --coverage",
         "testfile": "jest src/01-getting-started/scripts/play.test.js",
-        "daily": "jest 'src/javascript/daily.test.js' -t '^today'",
-        "02": "jest 'src/02-dom/scripts/functions.test.js'",
-        "03": "jest 'src/03-objects/scripts/account.test.js'",
-        "03cities": "jest 'src/03-objects/cities/scripts/functions.test.js'",
-        "fetch": "jest 'src/03-objects/scripts/fetch.test.js'",
-        "ljl": "jest 'src/03-objects/cities/scripts/functions.test.js'"
+        "daily": "jest -i 'src/javascript/daily.test.js' -t '^today'",
+        "02": "jest -i 'src/02-dom/scripts/functions.test.js'",
+        "03": "jest -i 'src/03-objects/scripts/account.test.js'",
+        "fetch": "jest -i 'src/03-objects/scripts/fetch.test.js'",
+        "ljl": "jest -i 'src/03-objects/cities/scripts/functions.test.js'"
     },
     "keywords": [],
     "author": "",
