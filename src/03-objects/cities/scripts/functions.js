@@ -2,7 +2,7 @@ import {postData} from './fetch.js'
 
 const functions = {
 
-  // closure
+  // // closure below
   idCounter: (() => {
     let nextId = 0; // initialized only once
     return () => {
@@ -19,7 +19,7 @@ const functions = {
     functions.errorNode.textContent = 'Error communicating with server.';
     functions.errorNode.classList.toggle('hidden', hideBoo);
   },
-  // -- old version
+  // // old version
   // error: (errorNode) => {
   //   errorNode.textContent = 'Error communicating with server.';
   //   errorNode.classList.toggle('hidden', true);
@@ -37,12 +37,16 @@ const functions = {
 
   createCard: (controllerInst, cityObj) => {
     const key = cityObj.key;
+
     const card = document.createElement('div');
-    functions.cardsNode.appendChild(card);
     card.setAttribute('data-key', key);
+    functions.cardsNode.appendChild(card);
+
     const title = document.createElement('h3');
-    title.textContent = cityObj.name;
+    const size = cityObj.howBig();
+    title.textContent = `${cityObj.name} (${size})`;
     card.appendChild(title);
+
     const coords = document.createElement('p');
     const sphere = controllerInst.whichSphere(key);
     coords.textContent = `
@@ -50,20 +54,26 @@ const functions = {
       ${cityObj.lon.toFixed(2)} (${sphere})
     `;
     card.appendChild(coords);
+
     const pop = document.createElement('p');
-    const size = cityObj.howBig();
-    pop.textContent = `${cityObj.name} (${size})`;
     card.appendChild(pop);
-    const btnPlus = document.createElement('button');
-    btnPlus.textContent = '+';
-    btnPlus.classList.add('popBtn', 'plusBtn')
-    btnPlus.setAttribute('data-key', key);
-    pop.appendChild(btnPlus);
+
     const btnMinus = document.createElement('button');
     btnMinus.textContent = '-';
     btnMinus.classList.add('popBtn', 'minusBtn')
     btnMinus.setAttribute('data-key', key);
     pop.appendChild(btnMinus);
+
+    const popValue = document.createElement('span');
+    popValue.textContent = cityObj.pop;
+    pop.appendChild(popValue);
+
+    const btnPlus = document.createElement('button');
+    btnPlus.textContent = '+';
+    btnPlus.classList.add('popBtn', 'plusBtn')
+    btnPlus.setAttribute('data-key', key);
+    pop.appendChild(btnPlus);
+
     const btnDelete = document.createElement('button');
     btnDelete.textContent = 'Delete this city';
     btnDelete.classList.add('deleteBtn');
@@ -72,23 +82,67 @@ const functions = {
   },
 
   createCity: async (controllerInst, cityInputArr, url) => {
-    //values
+    // // values
     const cityValuesArr = cityInputArr.map(
       (v,i) => (i===0)
         ? v.value
         : Number(v.value)
     );
-    //local array
+    // // local array
     const cityObj = controllerInst.createCity(...cityValuesArr);
-    //server data
+    // // server data
     try {
       await postData(url + 'add', cityObj);
     } catch (error) {
       functions.error(true);
     };
-    //ux
+    // // ux
     functions.createCard(controllerInst, cityObj);
   },
+
+  update: async (cityObj, url) => {
+    try {
+      await postData(url + 'update', cityObj);
+    } catch (error) {
+      functions.error(true);
+    };
+  },
+
+  delete: async (key, url) => {
+    try {
+      await postData(url + 'delete', {key: key});
+    } catch (error) {
+      functions.error(true);
+    };
+  },
+
+  // // labeled break below
+  cardClick: (target, controllerInst, url) => {
+    const key = Number(target.dataset.key);
+    forloop: // label to break out once class is found
+    for (let targetClass of target.classList) {
+      let i;
+      switchloop: // this label is just for show
+      switch (targetClass) {
+        case 'minusBtn':
+          i = controllerInst.cities.findIndex(e => e.key === key);
+          controllerInst.cities[i].movedOut(1);
+          functions.update(controllerInst.cities[i], url);
+          break forloop;
+        case 'plusBtn':
+          i = controllerInst.cities.findIndex(e => e.key === key);
+          controllerInst.cities[i].movedIn(1);
+          functions.update(controllerInst.cities[i], url);
+          break forloop;
+        case 'deleteBtn':
+          i = controllerInst.cities.findIndex(e => e.key === key);
+          controllerInst.cities.splice(i,1);
+          functions.delete(key, url);
+          break forloop;
+        default:
+    };
+    };
+  }
 
 };
 
