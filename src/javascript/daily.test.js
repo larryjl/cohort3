@@ -74,7 +74,7 @@ test('today people names', () => {
     });
 });
 test('today select names (call both functions wrapped together)', () => {
-    const result = functions.selectNames(people, arrProv);
+    const result = functions.selectNames(people, arrProv, functions.peopleNames);
     expect(result.length).toBeGreaterThan(0);
     expect(result.length).toBeLessThan(people.length);
     result.forEach(v=>{
