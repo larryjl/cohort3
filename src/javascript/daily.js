@@ -15,7 +15,7 @@ const functions = {
     },
     selectNames: (arrPeople, arrProv, dataFx) => {
         const selectedPeople = functions.selectPeople(arrPeople, arrProv);
-        const selectedNames = dataFx.call({...arrPeople});
+        const selectedNames = dataFx.call({...selectedPeople});
         return selectedNames;
     },
 
