@@ -12,12 +12,12 @@ const functions = {
   })(), // call to initialize nextId when function is first read
 
   errorNode:undefined, // store so it does not need to be passed all the time
-  error: (hideBoo = false, node) => {
+  error: (hide = true, node) => {
     if (node) {
       functions.errorNode = node;
     };
     functions.errorNode.textContent = 'Error communicating with server.';
-    functions.errorNode.classList.toggle('hidden', hideBoo);
+    functions.errorNode.classList.toggle('hidden', hide);
   },
   // // old version
   // error: (errorNode) => {
@@ -94,7 +94,7 @@ const functions = {
     try {
       await postData(url + 'add', cityObj);
     } catch (error) {
-      functions.error(true);
+      functions.error(false);
     };
     // // ux
     functions.createCard(controllerInst, cityObj);
@@ -104,7 +104,7 @@ const functions = {
     try {
       await postData(url + 'update', cityObj);
     } catch (error) {
-      functions.error(true);
+      functions.error(false);
     };
   },
 
@@ -112,7 +112,7 @@ const functions = {
     try {
       await postData(url + 'delete', {key: key});
     } catch (error) {
-      functions.error(true);
+      functions.error(false);
     };
   },
 
