@@ -23,5 +23,9 @@ functions.cards(cardsNode); // store cards div in functions
 functions.pull(controllerInst, url); // download from server
 
 idBtnCreate.addEventListener('click', (event) => {
-  functions.createCity(controllerInst, cityInputArr, url)
+  functions.createCity(controllerInst, cityInputArr, url);
+});
+
+cardsNode.addEventListener('click', (event) => {
+  functions.cardClick(event.target, ControllerInst, url);
 });

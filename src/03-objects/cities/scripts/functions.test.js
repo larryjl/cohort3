@@ -35,11 +35,17 @@ describe('city event callbacks', () => {
   functions.cards(cardsNode);
 
   beforeEach(async () => {
-    // Check that the server is running and clear any data
+    // // Check that the server is running and clear any data
     let data = await postData(url + 'clear');
     expect(data.status).toEqual(200);
     data = await postData(url + 'all');
     expect(data.length).toBe(0);
+
+    // // clear cards
+    while (cardsNode.firstChild) { // inspired by stackoverflow 3955229
+      cardsNode.firstChild.remove();
+    };
+    expect(cardsNode.childElementCount).toBe(0);
   });
 
   test('create card', () => {
@@ -86,7 +92,6 @@ describe('city event callbacks', () => {
   test('pull from server', async () => {
     // add cities to server
     const controllerInst = new Controller();
-    controllerInst.cities=[];
     for (let cityInputArr of manyInputArr) {
       await functions.createCity(controllerInst, cityInputArr, url);
     };
@@ -100,5 +105,66 @@ describe('city event callbacks', () => {
         };
       };
     });
+  });
+
+  test('update db', async () => {
+    const controllerInst = new Controller();
+    for (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url);
+    };
+    // // copy first key to second city, then overwrite first city in db
+    controllerInst.cities[1].key = controllerInst.cities[0].key;
+    const cityObj = controllerInst.cities[1];
+    await functions.update(cityObj, url);
+    let data = await postData(url + 'all');
+    expect(data.status).toEqual(200);
+    for (let k in cityObj) {
+      if (k != 'key') {
+        expect(data[0][k]).toBe(cityObj[k]);
+      };
+    };
+  });
+
+  test('update error', async () => {
+    await functions.update()
+  });
+
+  test('delete', async () => {
+  
+  });
+
+  test('delete error', async () => {
+
+  });
+
+  test('card click', async () => {
+    const controllerInst = new Controller();
+    for (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url);
+    };
+    const key = controllerInst.cities[1].key;
+    const target = document.createElement('button');
+    target.dataset.key = key;
+    let pop;
+    let len;
+
+    pop = controllerInst.cities[1].pop;
+    target.classList.add('minusBtn');
+    functions.cardClick(target, controllerInst, url);
+    target.classList.remove('minusBtn');
+    expect(controllerInst.cities[1].pop).toBe(pop-1);
+
+    pop = controllerInst.cities[1].pop;
+    target.classList.add('plusBtn');
+    functions.cardClick(target, controllerInst, url);
+    target.classList.remove('plusBtn');
+    expect(controllerInst.cities[1].pop).toBe(pop+1);
+    
+    len = controllerInst.cities.length;
+    target.classList.add('deleteBtn');
+    functions.cardClick(target, controllerInst, url);
+    target.classList.remove('deleteBtn');
+    expect(controllerInst.cities.length).toBe(len-1);
+    expect(controllerInst.cities.find(e => e.key === key)).toBe(undefined);
   });
 });
