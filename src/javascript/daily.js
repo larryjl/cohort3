@@ -3,21 +3,21 @@ const functions = {
     // *** 2019-11-09
     selectPeople: (arrPeople, arrProv) => {
         return arrProv.flatMap(prov => 
+            // flat requires core-js in package.json for jest
             arrPeople.filter(
                 person => 
                     person.province.toUpperCase() === prov.toUpperCase()
             )
         );
     },
-    peopleNames: (arrPeople) => {
-        return arrPeople.map(v => `${v.fname} ${v.lname}`);
+    peopleNames: function() { // arrow function can't change 'this' with call()
+        return Object.values(this).map(v => `${v.fname} ${v.lname}`);
     },
-    selectNames: (arrPeople, arrProv) => {
-        return (functions.peopleNames(
-            functions.selectPeople(arrPeople, arrProv)
-        ));
+    selectNames: (arrPeople, arrProv, dataFx) => {
+        const selectedPeople = functions.selectPeople(arrPeople, arrProv);
+        const selectedNames = dataFx.call({...arrPeople});
+        return selectedNames;
     },
-
 
     // *** 2019-11-06
     // create a new array for balances >= 1000 from the staff data

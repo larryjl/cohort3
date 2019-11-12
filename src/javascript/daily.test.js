@@ -66,7 +66,8 @@ test('today select people', () => {
 });
 test('today people names', () => {
     const arrPeople = people;
-    const result = functions.peopleNames(arrPeople);
+    const objPeople = {...arrPeople};
+    const result = functions.peopleNames.call(objPeople);
     expect(result.length).toEqual(arrPeople.length);
     arrPeople.forEach((v,i) => {
         expect(result[i]).toEqual(`${v.fname} ${v.lname}`);
