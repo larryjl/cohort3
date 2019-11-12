@@ -30,7 +30,7 @@ describe('city event callbacks', () => {
   });
 
   const errorNode = document.createElement('div');
-  functions.error(undefined, errorNode);
+  functions.error(true, errorNode);
   const cardsNode = document.createElement('div');
   functions.cards(cardsNode);
 
@@ -46,6 +46,12 @@ describe('city event callbacks', () => {
       cardsNode.firstChild.remove();
     };
     expect(cardsNode.childElementCount).toBe(0);
+  });
+  afterEach(async () => {
+    // // clear data again
+    let data = await postData(url + 'clear');
+    expect(data.status).toEqual(200);
+    errorNode.classList.remove('hidden');
   });
 
   test('create card', () => {
@@ -84,9 +90,9 @@ describe('city event callbacks', () => {
   test('create city error', async() => {
     const controllerInst = new Controller();
     expect(errorNode.textContent).toBeTruthy();
-    expect(errorNode.classList.contains('hidden')).toBe(false);
-    await functions.createCity(controllerInst, manyInputArr[0], ''); //no url
     expect(errorNode.classList.contains('hidden')).toBe(true);
+    await functions.createCity(controllerInst, manyInputArr[0], ''); //no url
+    expect(errorNode.classList.contains('hidden')).toBe(false);
   });
   
   test('pull from server', async () => {
@@ -126,7 +132,8 @@ describe('city event callbacks', () => {
   });
 
   test('update error', async () => {
-    await functions.update()
+    await functions.update();
+    expect(errorNode.classList.contains('hidden')).toBe(false);
   });
 
   test('delete', async () => {
