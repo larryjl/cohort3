@@ -54,6 +54,11 @@ describe('city event callbacks', () => {
     errorNode.classList.add('hidden');
   });
 
+  test('error div', () => {
+    functions.error(undefined, errorNode);
+    expect(errorNode.classList.contains('hidden')).toBe(true);
+  });
+
   test('create card', () => {
     const controllerInst = new Controller();
     sampleCities.forEach((city,i) => {
