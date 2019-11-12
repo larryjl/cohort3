@@ -11,6 +11,16 @@ test('Check the sizes', () => {
     expect(functions.size(2000000)).toBe("extra large");
 });
 
+test('scramble', () => {
+    expect(functions.scramble('hello').length).toBe('hello'.length);
+});
+
+test('hover scramble', () => {
+    const node = document.createElement('div');
+    node.innerText = 'hello';
+    functions.hoverScramble(node);
+    expect(node.innerText.length).toBe('hello'.length);
+});
 // calculator
 test('Does that add function work?', () => {
     expect(functions.add(1,2)).toBe(3);
