@@ -11,6 +11,10 @@ const functions = {
     };
   })(), // call to initialize nextId when function is first read
 
+  objKeyByValue: (object, value) => { // stackoverflow 9907419
+    return +Object.keys(object).find(key => object[key] === value);
+  },
+
   errorNode:undefined, // store so it does not need to be passed all the time
   error: (hide = true, node) => {
     if (node) {
@@ -35,8 +39,7 @@ const functions = {
       functions.cardsNode = node;
   },
 
-  createCard: (controllerInst, cityObj) => {
-    const key = cityObj.key;
+  createCard: (controllerInst, cityObj, key) => {
 
     const card = document.createElement('div');
     card.setAttribute('data-key', key);
@@ -83,21 +86,27 @@ const functions = {
 
   createCity: async (controllerInst, cityInputArr, url) => {
     // // values
-    const cityValuesArr = cityInputArr.map(
+    const cityValuesArr = cityInputArr.map( // loop through input nodes
       (v,i) => (i===0)
-        ? v.value
-        : Number(v.value)
+        ? v.value // name
+        : Number(v.value) // lat, lon, pop
     );
-    // // local array
+    // // local object, cloned into a new object with the key
     const cityObj = controllerInst.createCity(...cityValuesArr);
+    const key = functions.objKeyByValue(controllerInst.cities, cityObj);
+    const cityClone = Object.assign({}, cityObj);
+    const keyedCity = {
+      key: key,
+      info: cityClone
+    };
     // // server data
     try {
-      await postData(url + 'add', cityObj);
+      let data = await postData(url + 'add', keyedCity);
     } catch (error) {
       functions.error(false);
-    };
+    }; 
     // // ux
-    functions.createCard(controllerInst, cityObj);
+    functions.createCard(controllerInst, cityObj, key);
   },
 
   update: async (cityObj, url) => {
@@ -116,31 +125,34 @@ const functions = {
     };
   },
 
-  // // labeled break below
   cardClick: (target, controllerInst, url) => {
     const key = Number(target.dataset.key);
     forloop: // label to break out once class is found
     for (let targetClass of target.classList) {
-      let i;
+      let updatedKeyedCity;
       switchloop: // this label is just for show
       switch (targetClass) {
         case 'minusBtn':
-          i = controllerInst.cities.findIndex(e => e.key === key);
-          controllerInst.cities[i].movedOut(1);
-          functions.update(controllerInst.cities[i], url);
+          controllerInst.cities[key].movedOut(1);
+          updatedKeyedCity = {
+            key: key,
+            info: Object.assign(controllerInst.cities[key])
+          }
+          functions.update(updatedKeyedCity, url);
           break forloop;
         case 'plusBtn':
-          i = controllerInst.cities.findIndex(e => e.key === key);
-          controllerInst.cities[i].movedIn(1);
-          functions.update(controllerInst.cities[i], url);
+          controllerInst.cities[key].movedIn(1);
+          updatedKeyedCity = {
+            key: key,
+            info: Object.assign(controllerInst.cities[key])
+          }
+          functions.update(updatedKeyedCity, url);
           break forloop;
         case 'deleteBtn':
-          i = controllerInst.cities.findIndex(e => e.key === key);
-          controllerInst.cities.splice(i,1);
+          delete controllerInst.cities[key];
           functions.delete(key, url);
           break forloop;
-        default:
-    };
+      };
     };
   }
 

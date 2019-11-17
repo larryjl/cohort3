@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "testcov": "jest --coverage -i; xdg-open coverage/lcov-report/index.html",
+        "testcov": "jest --coverage --runInBand; xdg-open coverage/lcov-report/index.html",
         "test1": "jest src/01-getting-started",
         "test1cov": "jest src/01-getting-started --coverage",
         "testfile": "jest src/01-getting-started/scripts/play.test.js",

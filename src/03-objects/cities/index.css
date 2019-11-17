@@ -2,3 +2,6 @@
     /* display: none; */
     background-color: grey;
 }
+div {
+    border:1px solid grey;
+}

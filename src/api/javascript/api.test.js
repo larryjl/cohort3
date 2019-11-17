@@ -65,6 +65,8 @@ test('test that the fetch works?', async () => {
 
     data = await postData(url + 'read', {key:1});
     expect(data.status).toEqual(400);
+
+    data = await postData(url + 'clear'); // clear again
 });
 
 

@@ -111,7 +111,7 @@ describe('controller class', () => {
       key => controller.cities[key].name === 'springfield'))
       .toBeTruthy();
   });
-
+  
   test('controller delete non-existing', () => {
     const controller = new Controller();
     try { controller.deleteCity(0);
