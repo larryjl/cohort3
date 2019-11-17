@@ -48,15 +48,19 @@ describe('city class', () => {
 describe('controller class', () => {
   test('controller constructor', () => {
     const controller = new Controller();
-    expect(controller.cities).toEqual([]);
+    expect(controller.cities).toEqual({});
   });
   test('controller create', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, 180, 100*1000);
     controller.createCity('shelbyville', -90, -180, 20*1000);
-    expect(controller.cities[0].show()).toBe(
-      'springfield,90,180,100000');
-    expect(controller.cities[1].key).toBe(controller.cities[0].key+1);
+    const key1 = Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'springfield'
+    );
+    const key2 = Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'shelbyville'
+    );
+    expect(+key2).toBe(+key1+1);
   });
   test('controller create blank, catch error', () => {
     const controller = new Controller();
@@ -70,11 +74,14 @@ describe('controller class', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, 180, 100*1000);
     controller.createCity('shelbyville', -90, -180, 20*1000);
-    const key = controller.cities[1].key;
+    const key = Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'shelbyville'
+    );
     controller.deleteCity(key);
-    expect(controller.cities.length).toBe(1);
-    expect(controller.cities[0].show()).toBe(
-      'springfield,90,180,100000');
+    expect(Object.keys(controller.cities).length).toBe(1);
+    expect(Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'springfield'))
+      .toBeTruthy();
   });
   test('controller delete non-existing', () => {
     const controller = new Controller();
@@ -88,17 +95,26 @@ describe('controller class', () => {
     controller.createCity('springfield', 90, -180, 100*1000);
     controller.createCity('shelbyville', -90, 180, 20*1000);
     controller.createCity('equatorville', 0, 10, 100);
+    const key1 = Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'springfield'
+    );
+    const key2 = Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'shelbyville'
+    );
+    const key3 = Object.keys(controller.cities).find(
+      key => controller.cities[key].name === 'equatorville'
+    );
     let result;
 
-    result = controller.whichSphere(controller.cities[0].key)
+    result = controller.whichSphere(key1)
     expect(result).toEqual('Northern Hemisphere');
 
-    result = controller.whichSphere(controller.cities[1].key)
+    result = controller.whichSphere(key2)
     expect(result).toEqual('Southern Hemisphere');
 
-    result = controller.whichSphere(controller.cities[2].key)
+    result = controller.whichSphere(key3)
     expect(result).toEqual('Equator');
-  });  
+  });
   test('controller northern southern', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, -180, 100*1000);
@@ -133,7 +149,7 @@ test('object reference test', () => {
   const controller = new Controller();
   const myCity = controller.createCity('aname', 1, 2, 3);
   const myFav = myCity;
-  const cloneCity = Object.assign(myCity);
+  const cloneCity = Object.assign({}, myCity);
   const deepClone = JSON.parse(JSON.stringify(myCity))
   expect(myCity.pop).toBe(3);
   expect(myFav.pop).toBe(3);
@@ -142,11 +158,40 @@ test('object reference test', () => {
   myCity.movedIn(2);
   expect(myCity.pop).toBe(5);
   expect(myFav.pop).toBe(5);
-  expect(cloneCity.pop).toBe(5);
+  expect(cloneCity.pop).toBe(3);
   expect(deepClone.pop).toBe(3);
   myFav.movedOut(1);
   expect(myCity.pop).toBe(4);
   expect(myFav.pop).toBe(4);
-  expect(cloneCity.pop).toBe(4);
+  expect(cloneCity.pop).toBe(3);
   expect(deepClone.pop).toBe(3);
+});
+
+
+test.only('object reference deep cloning test', () => {
+  const controller = new Controller();
+  const myCity = {
+    name: 'calgary',
+    coords: {
+      lat: 1,
+      lon: 2
+    }
+  };
+  const myFav = myCity;
+  const cloneCity = Object.assign({}, myCity); // shallow first level clone
+  const deepClone = JSON.parse(JSON.stringify(myCity))
+  expect(myCity.coords.lat).toBe(1);
+  expect(myFav.coords.lat).toBe(1);
+  expect(cloneCity.coords.lat).toBe(1);
+  expect(deepClone.coords.lat).toBe(1);
+  myCity.coords.lat=2;
+  expect(myCity.coords.lat).toBe(2);
+  expect(myFav.coords.lat).toBe(2);
+  expect(cloneCity.coords.lat).toBe(2);
+  expect(deepClone.coords.lat).toBe(1);
+  cloneCity.coords.lat=3;
+  expect(myCity.coords.lat).toBe(3);
+  expect(myFav.coords.lat).toBe(3);
+  expect(cloneCity.coords.lat).toBe(3);
+  expect(deepClone.coords.lat).toBe(1);
 });
