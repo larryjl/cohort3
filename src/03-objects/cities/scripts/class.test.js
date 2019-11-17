@@ -21,6 +21,20 @@ describe('city class', () => {
     expect(city.lon).toBe(0);
     expect(city.pop).toBe(1);
   });
+  test('city constructor no pop', () => {
+    const city = new City('aname', -1, 1);
+    expect(city.name).toBe('aname');
+    expect(city.lat).toBe(-1);
+    expect(city.lon).toBe(1);
+    expect(city.pop).toBe(0);
+  });
+  test('city constructor mising info', () => {
+    try {
+      new City('aname');
+    } catch (error) {
+      expect(error).toBeTruthy();
+    };
+  });
   test('city show', () => {
     const city = new City('aname', -1, 0, 1);
     const result = city.show();
@@ -31,10 +45,20 @@ describe('city class', () => {
     const result = city.movedIn(2);
     expect(result).toBe(3);
   });
+  test('city movedIn no num', () => {
+    const city = new City('aname', -1, 0, 1);
+    const result = city.movedIn();
+    expect(result).toBe(1);
+  });
   test('city movedOut', () => {
     const city = new City('aname', -1, 0, 2);
     const result = city.movedOut(2);
     expect(result).toBe(0);
+  });
+  test('city movedOut no num', () => {
+    const city = new City('aname', -1, 0, 2);
+    const result = city.movedOut();
+    expect(result).toBe(2);
   });
   test('city howBig', () => {
     testCities.forEach((v,i) => {
@@ -46,10 +70,12 @@ describe('city class', () => {
 });
 
 describe('controller class', () => {
+
   test('controller constructor', () => {
     const controller = new Controller();
     expect(controller.cities).toEqual({});
   });
+
   test('controller create', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, 180, 100*1000);
@@ -62,14 +88,16 @@ describe('controller class', () => {
     );
     expect(+key2).toBe(+key1+1);
   });
+
   test('controller create blank, catch error', () => {
     const controller = new Controller();
     try {
       controller.createCity();
     } catch(error) {
-      expect(error.error).toBe('missing city info');
+      expect(error).toBeTruthy();
     }
   });
+
   test('controller delete', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, 180, 100*1000);
@@ -83,13 +111,15 @@ describe('controller class', () => {
       key => controller.cities[key].name === 'springfield'))
       .toBeTruthy();
   });
+
   test('controller delete non-existing', () => {
     const controller = new Controller();
     try { controller.deleteCity(0);
     } catch (error) {
-      expect(error.error).toBe('city not found');
+      expect(error).toBeTruthy();
     };
   });
+
   test('controller sphere', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, -180, 100*1000);
@@ -106,15 +136,22 @@ describe('controller class', () => {
     );
     let result;
 
-    result = controller.whichSphere(key1)
+    result = controller.whichSphere(key1);
     expect(result).toEqual('Northern Hemisphere');
 
-    result = controller.whichSphere(key2)
+    result = controller.whichSphere(key2);
     expect(result).toEqual('Southern Hemisphere');
 
-    result = controller.whichSphere(key3)
+    result = controller.whichSphere(key3);
     expect(result).toEqual('Equator');
+
+    try { 
+      controller.whichSphere(99);
+    } catch (error) {
+      expect(error).toBeTruthy();
+    };
   });
+
   test('controller northern southern', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, -180, 100*1000);
@@ -135,7 +172,22 @@ describe('controller class', () => {
       ? resultArr.reduce((a, b) => (a.name + ',' + b.name))
       : resultArr[0].name;
     expect(result).toBe('shelbyville,shelbyville2');
+
+    try { controller.getMost()
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
   });
+
+  test('controller getMost no cities', () => {
+    const controller = new Controller();
+    try {
+      controller.getMost('north');
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
+  });
+
   test('controller total population', () => {
     const controller = new Controller();
     controller.createCity('springfield', 90, -180, 100*1000);
@@ -143,7 +195,15 @@ describe('controller class', () => {
     let result = controller.getPopulation();
     expect(result).toBe(120000);
   });
+
+  test('controller no population', () => {
+    const controller = new Controller();
+    let result = controller.getPopulation();
+    expect(result).toBe(0);
+  });
 });
+
+// *** 130e object references ***
 
 test('object reference test', () => {
   const controller = new Controller();
@@ -167,8 +227,7 @@ test('object reference test', () => {
   expect(deepClone.pop).toBe(3);
 });
 
-
-test.only('object reference deep cloning test', () => {
+test('object reference deep cloning test', () => {
   const controller = new Controller();
   const myCity = {
     name: 'calgary',

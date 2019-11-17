@@ -3,9 +3,8 @@ import functions from './functions.js'
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum=0) {
     if (lonNum === undefined) {
-      throw {error: 'missing city info'};
+      throw {message: 'missing city info'};
     };
-    this.key = functions.idCounter();
     this.name = nameStr;
     this.lat = latNum;
     this.lon = lonNum;
@@ -14,17 +13,17 @@ const City = class {
   show() {
     return `${this.name},${this.lat},${this.lon},${this.pop}`;
   }
-  movedIn(num) {
+  movedIn(num=0) {
     this.pop += num;
     return this.pop;
   }
-  movedOut(num) {
+  movedOut(num=0) {
     this.pop -= num;
     return this.pop;
   }
   howBig() {
     const sizes = [ // -- modified values to not overlap
-      {size: 'city', min: 100.001*1000, max:Infinity},
+      {size: 'city', min: 100.001*1000, max:Infinity}, // inspired by Sally
       {size: 'large town', min: 20.001*1000, max:100*1000},
       {size: 'town', min: 1001, max: 20*1000},
       {size: 'village', min: 101, max: 1000},
@@ -40,62 +39,73 @@ const City = class {
 
 const Controller = class {
   constructor() {
-    this.cities = [];
-    }
+    this.cities = {};
+  }
   whichSphere(keyNum) {
-    for (let i in this.cities) {
-      if (this.cities[i].key === keyNum) {
-        const sphere = (this.cities[i].lat > 0)
-          ? "Northern Hemisphere"
-          : (this.cities[i].lat < 0)
-            ? "Southern Hemisphere"
-            : 'Equator';
-        return sphere;
+    if (this.cities[keyNum]) {
+      return (this.cities[keyNum].lat > 0)
+        ? "Northern Hemisphere"
+        : (this.cities[keyNum].lat < 0)
+          ? "Southern Hemisphere"
+          : 'Equator';
+    } else {
+      throw {message: 'city not found'};
+    };
+  }
+  getMost(pole) {
+    if (Object.keys(this.cities).length===0) {
+      throw {message: 'no cities'};
+    } else {
+      const furthest = Object.values(this.cities).reduce(
+        (a, b) => {
+          switch (pole) {
+            case 'north':
+              return (a.lat > b.lat) ? a : b; // inspired by Mike
+            case 'south':
+              return (a.lat < b.lat) ? a : b;
+            default:
+              throw {message: 'desired hemisphere unknown'};
+          }
+        }
+      );
+      // // check for equal cities
+      const equalCities = [];
+      for(let i in this.cities) {
+        if (this.cities[i].lat === furthest.lat) {
+          equalCities.push(this.cities[i]);
+        };
       };
+      return equalCities;
     };
   }
   getMostNorthern() {
-    const mostNorth = this.cities.reduce((a, b) => {
-      return (a.lat > b.lat) ? a : b; // inspired by Michael
-    });
-    // -- check for equal cities
-    const northernCities = [];
-    this.cities.forEach((v) => {
-      if (mostNorth.lat === v.lat) {
-        northernCities.push(v);
-      };
-    });
-    return northernCities;
+    return this.getMost('north');
   }
   getMostSouthern() {
-    const mostSouth = this.cities.reduce((a, b) => {
-      return (a.lat < b.lat) ? a : b; // inspired by Michael
-    });
-    // -- check for equal cities
-    const southernCities = [];
-    this.cities.forEach((v) => {
-      if (mostSouth.lat === v.lat) {
-        southernCities.push(v);
-      };
-    });
-    return southernCities;
+    return this.getMost('south');
   }
   getPopulation() {
-    return this.cities.reduce((a, b) => a.pop + b.pop);
+    if (Object.keys(this.cities).length===0) {
+      return 0;
+    } else {
+      return Object.values(this.cities).reduce((a, b) => a.pop + b.pop);
+    };
   }
-  createCity(nameStr, latNum, lonNum, popNum) {
+  createCity(nameStr, latNum, lonNum, popNum=0) {
+    if (lonNum === undefined) {
+      throw {message: 'missing city info'};
+    };
     const city = new City(nameStr, latNum, lonNum, popNum);
-    this.cities.push(city);
+    const key = functions.idCounter(); // protected in closure
+    this.cities[key]=city;
     return city;
   }
   deleteCity(keyNum) {
-    for(let i in this.cities) {
-      if (this.cities[i].key === keyNum) {
-        this.cities.splice(i,1);
-        return this.cities;
-      };
+    if (this.cities[keyNum]) {
+      delete this.cities[keyNum];
+    } else {
+      throw {message: 'city not found'};
     };
-    throw({error: 'city not found'});
   }
 };
 
