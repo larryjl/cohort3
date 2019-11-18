@@ -31,7 +31,7 @@ describe('city event callbacks', () => {
   const errorNode = document.createElement('div');
   functions.error(true, errorNode);
   const cardsNode = document.createElement('div');
-  functions.cards(cardsNode);
+  // functions.cards(cardsNode);
 
   beforeEach(async () => {
     // // Check that the server is running and clear any data
@@ -75,7 +75,7 @@ describe('city event callbacks', () => {
       let key = Object.keys(controllerInst.cities).find(
         key => controllerInst.cities[key][name] === sampleCity[name]
       );
-      functions.createCard(controllerInst, cityObj, key);
+      functions.createCard(cardsNode, controllerInst, cityObj, key);
       expect(cardsNode.childElementCount).toBe(i+1);
       expect(cardsNode.children[i].childElementCount).toBe(4);
     });
@@ -83,10 +83,9 @@ describe('city event callbacks', () => {
 
   test('create city', async () => {
     const controllerInst = new Controller();
-    functions.cards(cardsNode);
     let i=0;
     for (let sampleCity of sampleCities) {
-      await functions.createCity(controllerInst, manyInputArr[i], url);
+      await functions.createCity(controllerInst, manyInputArr[i], url, cardsNode);
       let data = await postData(url + 'all');
       expect(data.status).toEqual(200);
       expect(data.length).toBe(i+1);
@@ -106,7 +105,7 @@ describe('city event callbacks', () => {
     const controllerInst = new Controller();
     expect(errorNode.textContent).toBeTruthy();
     expect(errorNode.classList.contains('hidden')).toBe(true);
-    await functions.createCity(controllerInst, manyInputArr[0], ''); //no url
+    await functions.createCity(controllerInst, manyInputArr[0], '', cardsNode); //no url
     expect(errorNode.classList.contains('hidden')).toBe(false);
   });
   
@@ -114,7 +113,7 @@ describe('city event callbacks', () => {
     // add cities to server
     const controllerInst = new Controller();
     for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url);
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
     };
     // pull to new controller
     const controllerInst2 = new Controller();
@@ -132,7 +131,7 @@ describe('city event callbacks', () => {
   test('update db', async () => {
     const controllerInst = new Controller();
     for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url);
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
     };
 
     let key = +Object.keys(controllerInst.cities).find(
@@ -154,8 +153,7 @@ describe('city event callbacks', () => {
     expect(data.status).toEqual(200);
     expect(data.length).toEqual(manyInputArr.length);
 
-    data = await functions.update(updatedKeyedCity, url);
-    expect(data.status).toEqual(200);
+    await functions.update(updatedKeyedCity, url);
 
     data = await postData(url + 'all');
     expect(data.status).toEqual(200);
@@ -172,7 +170,7 @@ describe('city event callbacks', () => {
   test('delete', async () => {
     const controllerInst = new Controller();
     for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url);
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
     };
 
     let key = +Object.keys(controllerInst.cities).find(
@@ -184,9 +182,8 @@ describe('city event callbacks', () => {
     expect(data.status).toEqual(200);
     expect(data.length).toEqual(manyInputArr.length);
 
-    data = await functions.delete(key, url);
-    expect(data.status).toEqual(200);
-
+    await functions.delete(key, url);
+    data = await postData(url + 'all');
     expect(data.find(e => e.key === key)).toBe(undefined);
   });
 
@@ -198,7 +195,7 @@ describe('city event callbacks', () => {
   test('card click', async () => {
     const controllerInst = new Controller();
     for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url);
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
     };
     let key = Object.keys(controllerInst.cities).find(
       key => controllerInst.cities[key].name === sampleCities[0].name

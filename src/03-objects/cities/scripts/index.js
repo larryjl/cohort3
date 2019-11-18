@@ -19,11 +19,12 @@ const controllerInst = new Controller();
 const url = 'http://localhost:5000/';
 
 functions.error(true, errorNode); // store error div in functions
-functions.cards(cardsNode); // store cards div in functions
+// // passed into createCity from listener instead
+// functions.cards(cardsNode); // store cards div in functions
 functions.pull(controllerInst, url); // download from server
 
 idBtnCreate.addEventListener('click', (event) => {
-  functions.createCity(controllerInst, cityInputArr, url);
+  functions.createCity(controllerInst, cityInputArr,url, cardsNode);
 });
 
 cardsNode.addEventListener('click', (event) => {

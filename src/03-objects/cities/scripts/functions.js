@@ -31,19 +31,23 @@ const functions = {
 
   pull: async (controllerInst, url) => {
     const data = await postData(url + 'all');
-    controllerInst.cities = [...data]; // spread clone
+    controllerInst.cities = {};
+    for (let city of data) {
+      controllerInst.cities[city.key] = city.info;
+    };
   },
 
-  cardsNode: undefined,
-  cards: (node) => {
-      functions.cardsNode = node;
-  },
+  // // passed into createCity from listener
+  // cardsNode: undefined,
+  // cards: (node) => {
+  //     functions.cardsNode = node;
+  // },
 
-  createCard: (controllerInst, cityObj, key) => {
+  createCard: (cardsNode, controllerInst, cityObj, key) => {
 
     const card = document.createElement('div');
     card.setAttribute('data-key', key);
-    functions.cardsNode.appendChild(card);
+    cardsNode.appendChild(card);
 
     const title = document.createElement('h3');
     const size = cityObj.howBig();
@@ -84,7 +88,7 @@ const functions = {
     card.appendChild(btnDelete);
   },
 
-  createCity: async (controllerInst, cityInputArr, url) => {
+  createCity: async (controllerInst, cityInputArr, url, cardsNode) => {
     // // values
     const cityValuesArr = cityInputArr.map( // loop through input nodes
       (v,i) => (i===0)
@@ -106,7 +110,7 @@ const functions = {
       functions.error(false);
     }; 
     // // ux
-    functions.createCard(controllerInst, cityObj, key);
+    functions.createCard(cardsNode, controllerInst, cityObj, key);
   },
 
   update: async (cityObj, url) => {
