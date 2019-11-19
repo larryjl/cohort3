@@ -1,7 +1,6 @@
 .hidden {
-    /* display: none; */
-    background-color: grey;
+    display: none;
 }
-div {
+/* div {
     border:1px solid grey;
-}
+} */

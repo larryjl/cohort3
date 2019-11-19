@@ -16,11 +16,15 @@ const functions = {
   },
 
   errorNode:undefined, // store so it does not need to be passed all the time
-  error: (hide = true, node) => {
+  error: (
+    hide = true, 
+    message = 'Error communicating with server.', 
+    node
+  ) => {
     if (node) {
       functions.errorNode = node;
     };
-    functions.errorNode.textContent = 'Error communicating with server.';
+    functions.errorNode.textContent = message;
     functions.errorNode.classList.toggle('hidden', hide);
   },
   // // old version
@@ -29,71 +33,96 @@ const functions = {
   //   errorNode.classList.toggle('hidden', true);
   // },
 
-  pull: async (controllerInst, url) => {
-    const data = await postData(url + 'all');
-    controllerInst.cities = {};
-    for (let city of data) {
-      controllerInst.cities[city.key] = city.info;
+  pull: async (controllerInst, url, cardsNode) => {
+    try {
+      let data = await postData(url + 'all');
+      if (data.status===200) {
+        functions.error(true);
+      };
+      if (data.length > 0) {
+        const keys = [];
+        for (let city of data) {
+          keys.push(city.key);
+        };
+        // const keys = data.map(city => city.key);
+        const maxKey = keys.reduce((a,b) => (a > b) ? a : b);
+        controllerInst.cities = {};
+        for (let k=1; k<=maxKey; k++) { 
+          const city = data.find(city => city.key === k);
+          if (city) {
+            controllerInst.cities[k] = controllerInst.createCity(
+              city.info.name,
+              city.info.lat,
+              city.info.lon,
+              city.info.pop
+            );
+          } else {
+            functions.idCounter();
+          };
+        };
+      };
+    } catch (error) {
+      functions.error(false, 'Failed to download server data.');
+      return;
     };
   },
 
-  // // passed into createCity from listener
-  // cardsNode: undefined,
-  // cards: (node) => {
-  //     functions.cardsNode = node;
-  // },
+  stats: (controllerInst, totalNode, northNode, southNode) => {
+    
+  },
+
+  addNode: (parentNode, elementStr, textStr) => {
+    const node = document.createElement(elementStr);
+    node.textContent = textStr;
+    parentNode.appendChild(node);
+    return node;
+  },
 
   createCard: (cardsNode, controllerInst, cityObj, key) => {
 
-    const card = document.createElement('div');
+    const card = functions.addNode(cardsNode, 'div');
     card.setAttribute('data-key', key);
-    cardsNode.appendChild(card);
 
-    const title = document.createElement('h3');
     const size = cityObj.howBig();
-    title.textContent = `${cityObj.name} (${size})`;
-    card.appendChild(title);
+    const title = functions.addNode(card, 'h3', `${cityObj.name} (${size})`);
 
-    const coords = document.createElement('p');
     const sphere = controllerInst.whichSphere(key);
-    coords.textContent = `
-      ${cityObj.lat.toFixed(2)},
-      ${cityObj.lon.toFixed(2)} (${sphere})
-    `;
-    card.appendChild(coords);
+    const coords = functions.addNode(
+      card, 
+      'p', 
+      `${cityObj.lat.toFixed(2)}, ${cityObj.lon.toFixed(2)} (${sphere})`
+    );
 
-    const pop = document.createElement('p');
-    card.appendChild(pop);
+    const pop = functions.addNode(card, 'p');
 
-    const btnMinus = document.createElement('button');
-    btnMinus.textContent = '-';
-    btnMinus.classList.add('popBtn', 'minusBtn')
+    const btnMinus = functions.addNode(pop, 'button', '-');
+    btnMinus.classList.add('popBtn', 'minusBtn');
     btnMinus.setAttribute('data-key', key);
-    pop.appendChild(btnMinus);
 
-    const popValue = document.createElement('span');
-    popValue.textContent = cityObj.pop;
-    pop.appendChild(popValue);
+    const popValue = functions.addNode(pop, 'span', cityObj.pop);
+    popValue.classList.add('pop');
 
-    const btnPlus = document.createElement('button');
-    btnPlus.textContent = '+';
-    btnPlus.classList.add('popBtn', 'plusBtn')
+    const btnPlus = functions.addNode(pop, 'button', '+');
+    btnPlus.classList.add('popBtn', 'plusBtn');
     btnPlus.setAttribute('data-key', key);
-    pop.appendChild(btnPlus);
 
-    const btnDelete = document.createElement('button');
-    btnDelete.textContent = 'Delete this city';
+    const btnDelete = functions.addNode(card, 'button', 'Delete this city');
     btnDelete.classList.add('deleteBtn');
     btnDelete.setAttribute('data-key', key);
-    card.appendChild(btnDelete);
   },
 
   createCity: async (controllerInst, cityInputArr, url, cardsNode) => {
     // // values
     const cityValuesArr = cityInputArr.map( // loop through input nodes
-      (v,i) => (i===0)
-        ? v.value // name
-        : Number(v.value) // lat, lon, pop
+      (v,i) => {
+        if (i != 3 && v.value === '') { // blank name, lat or lon
+          functions.error(false, 'Missing city info.');
+          throw Error('missing city info');
+        } else {
+          return (i===0) ? v.value // name
+            : Number(v.value); // lat, lon, pop
+        };
+      }
     );
     // // local object, cloned into a new object with the key
     const cityObj = controllerInst.createCity(...cityValuesArr);
@@ -103,58 +132,90 @@ const functions = {
       key: key,
       info: cityClone
     };
-    // // server data
     try {
-      let data = await postData(url + 'add', keyedCity);
+      let data = await postData(url + 'add', keyedCity); // server data
+      if (data.status===200) {
+        functions.error(true);
+      };
+      functions.createCard(cardsNode, controllerInst, cityObj, key); // ux
     } catch (error) {
-      functions.error(false);
+      delete controllerInst.cities[key];
+      functions.error(false, 'Failed to add city: server did not respond.');
     }; 
-    // // ux
-    functions.createCard(cardsNode, controllerInst, cityObj, key);
   },
 
-  update: async (cityObj, url) => {
+  update: async (cityObj, url, target) => {
     try {
-      await postData(url + 'update', cityObj);
+      let data = await postData(url + 'update', cityObj);
+      if (data.status===200) {
+        functions.error(true);
+      };
+      target.parentElement.getElementsByClassName('pop')[0].textContent =
+        cityObj.info.pop;
     } catch (error) {
       functions.error(false);
+      throw Error('failed to update');
     };
   },
 
-  delete: async (key, url) => {
+  delete: async (key, url, cardsNode) => {
     try {
-      await postData(url + 'delete', {key: key});
+      let data = await postData(url + 'delete', {key: key});
+      if (data.status===200) {
+        functions.error(true);
+      };
+      for (let card of cardsNode.children) {
+        if (+card.dataset.key === key) {
+          card.remove();
+          break;
+        };
+      };
     } catch (error) {
       functions.error(false);
+      throw Error('failed to delete');
     };
   },
 
-  cardClick: (target, controllerInst, url) => {
+  cardClick: async (target, controllerInst, url, cardsNode, moveNum=1) => {
     const key = Number(target.dataset.key);
     forloop: // label to break out once class is found
     for (let targetClass of target.classList) {
-      let updatedKeyedCity;
+      let keyedCity;
       switchloop: // this label is just for show
       switch (targetClass) {
         case 'minusBtn':
-          controllerInst.cities[key].movedOut(1);
-          updatedKeyedCity = {
-            key: key,
-            info: Object.assign(controllerInst.cities[key])
-          }
-          functions.update(updatedKeyedCity, url);
+          try {
+            keyedCity = {
+              key: key,
+              info: JSON.parse(JSON.stringify(controllerInst.cities[key]))
+            };
+            keyedCity.info.pop -= moveNum;
+            await functions.update(keyedCity, url, target);
+            controllerInst.cities[key].movedOut(moveNum);
+          } catch (error) {
+            functions.error(false, 'Failed to update population: server did not respond');
+          };
           break forloop;
         case 'plusBtn':
-          controllerInst.cities[key].movedIn(1);
-          updatedKeyedCity = {
-            key: key,
-            info: Object.assign(controllerInst.cities[key])
-          }
-          functions.update(updatedKeyedCity, url);
+          try {
+            keyedCity = {
+              key: key,
+              info: JSON.parse(JSON.stringify(controllerInst.cities[key]))
+            };
+            keyedCity.info.pop += moveNum;
+            await functions.update(keyedCity, url, target);
+            controllerInst.cities[key].movedIn(moveNum);
+          } catch (error) {
+            functions.error(false, 'Failed to update population: server did not respond.');
+          };
           break forloop;
         case 'deleteBtn':
-          delete controllerInst.cities[key];
-          functions.delete(key, url);
+          try {
+            await functions.delete(key, url, cardsNode);
+            delete controllerInst.cities[key];
+          } catch (error) {
+            functions.error(false, 'Failed to delete city: server did not respond.');
+          };
           break forloop;
       };
     };

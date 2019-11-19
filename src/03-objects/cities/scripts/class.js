@@ -3,7 +3,7 @@ import functions from './functions.js'
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum=0) {
     if (lonNum === undefined) {
-      throw {message: 'missing city info'};
+      throw Error('missing city info');
     };
     this.name = nameStr;
     this.lat = latNum;
@@ -49,12 +49,12 @@ const Controller = class {
           ? "Southern Hemisphere"
           : 'Equator';
     } else {
-      throw {message: 'city not found'};
+      throw Error('city not found');
     };
   }
   getMost(pole) {
     if (Object.keys(this.cities).length===0) {
-      throw {message: 'no cities'};
+      throw Error('no cities');
     } else {
       const furthest = Object.values(this.cities).reduce(
         (a, b) => {
@@ -64,7 +64,7 @@ const Controller = class {
             case 'south':
               return (a.lat < b.lat) ? a : b;
             default:
-              throw {message: 'desired hemisphere unknown'};
+              throw Error('desired hemisphere unknown');
           }
         }
       );
@@ -92,8 +92,12 @@ const Controller = class {
     };
   }
   createCity(nameStr, latNum, lonNum, popNum=0) {
-    if (lonNum === undefined) {
-      throw {message: 'missing city info'};
+    if (
+        nameStr === undefined || 
+        latNum === undefined || 
+        lonNum === undefined
+      ) {
+      throw Error('missing city info');
     };
     const city = new City(nameStr, latNum, lonNum, popNum);
     const key = functions.idCounter(); // protected in closure
@@ -104,7 +108,7 @@ const Controller = class {
     if (this.cities[keyNum]) {
       delete this.cities[keyNum];
     } else {
-      throw {message: 'city not found'};
+      throw Error('city not found');
     };
   }
 };
