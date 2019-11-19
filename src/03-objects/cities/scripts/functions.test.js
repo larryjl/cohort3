@@ -29,8 +29,9 @@ describe('city event callbacks', () => {
     return cityInputArr;
   });
   const errorNode = document.createElement('div');
-  functions.error(true, errorNode);
+  functions.error(true, '', errorNode);
   const cardsNode = document.createElement('div');
+  const statsNode = document.createElement('div');
   // functions.cards(cardsNode);
 
   beforeEach(async () => {
@@ -39,7 +40,9 @@ describe('city event callbacks', () => {
     expect(data.status).toEqual(200);
     data = await postData(url + 'all');
     expect(data.length).toBe(0);
+
     errorNode.classList.add('hidden');
+    statsNode.textContent = '';
 
     // // clear cards
     while (cardsNode.firstChild) { // inspired by stackoverflow 3955229
@@ -53,7 +56,9 @@ describe('city event callbacks', () => {
     expect(data.status).toEqual(200);
     data = await postData(url + 'all');
     expect(data.length).toBe(0);
+
     errorNode.classList.add('hidden');
+    statsNode.textContent = '';
 
     // // clear cards
     while (cardsNode.firstChild) { // inspired by stackoverflow 3955229
@@ -103,8 +108,8 @@ describe('city event callbacks', () => {
   test('create city', async () => {
     const controllerInst = new Controller();
     let i=0;
-    for (let sampleCity of sampleCities) {
-      await functions.createCity(controllerInst, manyInputArr[i], url, cardsNode);
+    for await (let sampleCity of sampleCities) {
+      await functions.createCity(controllerInst, manyInputArr[i], url, cardsNode, statsNode);
       let data = await postData(url + 'all');
       expect(data.status).toEqual(200);
       expect(data.length).toBe(i+1);
@@ -127,7 +132,7 @@ describe('city event callbacks', () => {
       inputArr.push(document.createElement('input'));
     };
     try {
-      await functions.createCity(controllerInst, inputArr, url, cardsNode);
+      await functions.createCity(controllerInst, inputArr, url, cardsNode, statsNode);
     } catch (error) {
       expect(error).toBeTruthy;
     };
@@ -137,7 +142,7 @@ describe('city event callbacks', () => {
     const controllerInst = new Controller();
     expect(errorNode.textContent).toBeTruthy();
     expect(errorNode.classList.contains('hidden')).toBe(true);
-    await functions.createCity(controllerInst, manyInputArr[0], '', cardsNode); //no url
+    await functions.createCity(controllerInst, manyInputArr[0], '', cardsNode, statsNode); //no url
     expect(errorNode.classList.contains('hidden')).toBe(false);
   });
   
@@ -145,8 +150,8 @@ describe('city event callbacks', () => {
     // add cities to server
     const controllerInst = new Controller();
     await functions.pull(controllerInst, url, cardsNode); // pull without data
-    for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
+    for await (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode, statsNode);
     };
     // pull to new controller
     const controllerInst2 = new Controller();
@@ -170,14 +175,22 @@ describe('city event callbacks', () => {
     };
   });
 
+  test('show stats', async () => {
+    const controllerInst = new Controller();
+    for await (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode, statsNode);
+    };
+    expect(statsNode.textContent).toEqual(expect.stringContaining('visitors, from'));
+  });
+
   test('update db', async () => {
     const parent = document.createElement('div');
     const target = functions.addNode(parent, 'p');
     const popNode = functions.addNode(target, 'span');
     popNode.classList.add('pop');
     const controllerInst = new Controller();
-    for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
+    for await (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode, statsNode);
     };
 
     let key = +Object.keys(controllerInst.cities).find(
@@ -199,7 +212,7 @@ describe('city event callbacks', () => {
     expect(data.status).toEqual(200);
     expect(data.length).toEqual(manyInputArr.length);
 
-    await functions.update(keyedCity, url, target);
+    await functions.update(keyedCity, url, target, controllerInst, statsNode);
 
     data = await postData(url + 'all');
     expect(data.status).toEqual(200);
@@ -223,8 +236,8 @@ describe('city event callbacks', () => {
 
   test('delete', async () => {
     const controllerInst = new Controller();
-    for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
+    for await (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode, statsNode);
     };
     expect(cardsNode.children.length).toBe(manyInputArr.length);
 
@@ -237,7 +250,7 @@ describe('city event callbacks', () => {
     expect(data.status).toEqual(200);
     expect(data.length).toEqual(manyInputArr.length);
 
-    await functions.delete(key, url, cardsNode);
+    await functions.delete(key, url, cardsNode, controllerInst, statsNode);
     data = await postData(url + 'all');
     expect(data.find(e => e.key === key)).toBe(undefined);
     expect(data.length).toEqual(manyInputArr.length-1);
@@ -259,8 +272,8 @@ describe('city event callbacks', () => {
     const popNode = functions.addNode(target, 'span');
     popNode.classList.add('pop');
     const controllerInst = new Controller();
-    for (let cityInputArr of manyInputArr) {
-      await functions.createCity(controllerInst, cityInputArr, url, cardsNode);
+    for await (let cityInputArr of manyInputArr) {
+      await functions.createCity(controllerInst, cityInputArr, url, cardsNode, statsNode);
     };
     let key = Object.keys(controllerInst.cities).find(
       key => controllerInst.cities[key].name === sampleCities[0].name
@@ -270,19 +283,19 @@ describe('city event callbacks', () => {
 
     pop = controllerInst.cities[key].pop;
     target.classList.add('minusBtn');
-    await functions.cardClick(target, controllerInst, url, cardsNode);
+    await functions.cardClick(target, controllerInst, url, cardsNode, statsNode);
     expect(controllerInst.cities[key].pop).toBe(pop-1);
     target.classList.remove('minusBtn');
 
     pop = controllerInst.cities[key].pop;
     target.classList.add('plusBtn');
-    await functions.cardClick(target, controllerInst, url, cardsNode);
+    await functions.cardClick(target, controllerInst, url, cardsNode, statsNode);
     expect(controllerInst.cities[key].pop).toBe(pop+1);
     target.classList.remove('plusBtn');
     
     let len = Object.keys(controllerInst.cities).length;
     target.classList.add('deleteBtn');
-    await functions.cardClick(target, controllerInst, url, cardsNode);
+    await functions.cardClick(target, controllerInst, url, cardsNode, statsNode);
     expect(Object.keys(controllerInst.cities).length).toBe(len-1);
     expect(controllerInst.cities[key]).toBe(undefined);
   });

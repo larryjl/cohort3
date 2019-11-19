@@ -67,8 +67,21 @@ const functions = {
     };
   },
 
-  stats: (controllerInst, totalNode, northNode, southNode) => {
-    
+  showStats: (controllerInst, statsNode) => {
+    const pop = controllerInst.getPopulation();
+    if (pop > 0) {
+      if (Object.keys(controllerInst.cities).length > 1) {
+        const northern = controllerInst.getMostNorthern();
+        const southern = controllerInst.getMostSouthern();
+        statsNode.textContent = 
+          `${pop} visitor${(pop>1)?'s':''}, from ${northern} to ${southern}.`;
+      } else if (Object.keys(controllerInst.cities).length > 0) {
+        statsNode.textContent = 
+          `${pop} visitor${(pop>1)?'s':''} from ${Object.values(controllerInst.cities)[0].name}.`;
+      };
+    } else {
+      statsNode.textContent = 'No visitors... yet.';
+    };
   },
 
   addNode: (parentNode, elementStr, textStr) => {
@@ -111,7 +124,7 @@ const functions = {
     btnDelete.setAttribute('data-key', key);
   },
 
-  createCity: async (controllerInst, cityInputArr, url, cardsNode) => {
+  createCity: async (controllerInst, cityInputArr, url, cardsNode, statsNode) => {
     // // values
     const cityValuesArr = cityInputArr.map( // loop through input nodes
       (v,i) => {
@@ -127,7 +140,7 @@ const functions = {
     // // local object, cloned into a new object with the key
     const cityObj = controllerInst.createCity(...cityValuesArr);
     const key = functions.objKeyByValue(controllerInst.cities, cityObj);
-    const cityClone = Object.assign({}, cityObj);
+    const cityClone = JSON.parse(JSON.stringify(cityObj));
     const keyedCity = {
       key: key,
       info: cityClone
@@ -138,13 +151,14 @@ const functions = {
         functions.error(true);
       };
       functions.createCard(cardsNode, controllerInst, cityObj, key); // ux
+      functions.showStats(controllerInst, statsNode);
     } catch (error) {
       delete controllerInst.cities[key];
       functions.error(false, 'Failed to add city: server did not respond.');
     }; 
   },
 
-  update: async (cityObj, url, target) => {
+  update: async (cityObj, url, target, controllerInst, statsNode) => {
     try {
       let data = await postData(url + 'update', cityObj);
       if (data.status===200) {
@@ -152,13 +166,14 @@ const functions = {
       };
       target.parentElement.getElementsByClassName('pop')[0].textContent =
         cityObj.info.pop;
+      functions.showStats(controllerInst, statsNode);
     } catch (error) {
       functions.error(false);
       throw Error('failed to update');
     };
   },
 
-  delete: async (key, url, cardsNode) => {
+  delete: async (key, url, cardsNode, controllerInst, statsNode) => {
     try {
       let data = await postData(url + 'delete', {key: key});
       if (data.status===200) {
@@ -170,13 +185,14 @@ const functions = {
           break;
         };
       };
+      functions.showStats(controllerInst, statsNode);
     } catch (error) {
       functions.error(false);
       throw Error('failed to delete');
     };
   },
 
-  cardClick: async (target, controllerInst, url, cardsNode, moveNum=1) => {
+  cardClick: async (target, controllerInst, url, cardsNode, statsNode, moveNum=1) => {
     const key = Number(target.dataset.key);
     forloop: // label to break out once class is found
     for (let targetClass of target.classList) {
@@ -190,7 +206,7 @@ const functions = {
               info: JSON.parse(JSON.stringify(controllerInst.cities[key]))
             };
             keyedCity.info.pop -= moveNum;
-            await functions.update(keyedCity, url, target);
+            await functions.update(keyedCity, url, target, controllerInst,statsNode);
             controllerInst.cities[key].movedOut(moveNum);
           } catch (error) {
             functions.error(false, 'Failed to update population: server did not respond');
@@ -203,7 +219,7 @@ const functions = {
               info: JSON.parse(JSON.stringify(controllerInst.cities[key]))
             };
             keyedCity.info.pop += moveNum;
-            await functions.update(keyedCity, url, target);
+            await functions.update(keyedCity, url, target, controllerInst, statsNode);
             controllerInst.cities[key].movedIn(moveNum);
           } catch (error) {
             functions.error(false, 'Failed to update population: server did not respond.');
@@ -211,7 +227,7 @@ const functions = {
           break forloop;
         case 'deleteBtn':
           try {
-            await functions.delete(key, url, cardsNode);
+            await functions.delete(key, url, cardsNode, controllerInst, statsNode);
             delete controllerInst.cities[key];
           } catch (error) {
             functions.error(false, 'Failed to delete city: server did not respond.');

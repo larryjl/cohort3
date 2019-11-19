@@ -158,20 +158,14 @@ describe('controller class', () => {
     controller.createCity('shelbyville', -90, 180, 20*1000);
     controller.createCity('springfield2', 90, -180, 100*1000);
     controller.createCity('shelbyville2', -90, 180, 20*1000);
-    let resultArr; 
+    controller.createCity('shelbyville3', -90, 180, 20*1000);
     let result;
 
-    resultArr = controller.getMostNorthern();
-    result = (resultArr.length > 1)
-      ? resultArr.reduce((a, b) => (a.name + ',' + b.name))
-      : resultArr[0].name;
-    expect(result).toBe('springfield,springfield2');
+    result = controller.getMostNorthern();
+    expect(result).toBe('springfield and springfield2');
 
-    resultArr = controller.getMostSouthern()
-    result = (resultArr.length > 1)
-      ? resultArr.reduce((a, b) => (a.name + ',' + b.name))
-      : resultArr[0].name;
-    expect(result).toBe('shelbyville,shelbyville2');
+    result = controller.getMostSouthern();
+    expect(result).toBe('shelbyville, shelbyville2, and shelbyville3');
 
     try { controller.getMost()
     } catch (error) {
@@ -183,6 +177,15 @@ describe('controller class', () => {
     const controller = new Controller();
     try {
       controller.getMost('north');
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
+  });
+
+  test('controller getMost no direction', () => {
+    const controller = new Controller();
+    try {
+      controller.getMost();
     } catch (error) {
       expect(error).toBeTruthy();
     }

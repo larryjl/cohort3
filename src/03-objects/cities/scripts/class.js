@@ -23,7 +23,7 @@ const City = class {
   }
   howBig() {
     const sizes = [ // -- modified values to not overlap
-      {size: 'city', min: 100.001*1000, max:Infinity}, // inspired by Sally
+      {size: 'city', min: 100.001*1000, max:Infinity},
       {size: 'large town', min: 20.001*1000, max:100*1000},
       {size: 'town', min: 1001, max: 20*1000},
       {size: 'village', min: 101, max: 1000},
@@ -60,7 +60,7 @@ const Controller = class {
         (a, b) => {
           switch (pole) {
             case 'north':
-              return (a.lat > b.lat) ? a : b; // inspired by Mike
+              return (a.lat > b.lat) ? a : b;
             case 'south':
               return (a.lat < b.lat) ? a : b;
             default:
@@ -69,13 +69,27 @@ const Controller = class {
         }
       );
       // // check for equal cities
-      const equalCities = [];
-      for(let i in this.cities) {
-        if (this.cities[i].lat === furthest.lat) {
-          equalCities.push(this.cities[i]);
+      const equalCitiesArr = [];
+      for(let k in this.cities) {
+        if (this.cities[k].lat === furthest.lat) {
+          equalCitiesArr.push(this.cities[k].name);
         };
       };
-      return equalCities;
+      // // make sentence from array: 'a, b and c'
+      let citiesStr;
+      switch (equalCitiesArr.length) {
+        case 1:
+          citiesStr = equalCitiesArr[0];
+          break;
+        case 2:
+          citiesStr = equalCitiesArr.join(' and ');
+          break;
+        default:
+          citiesStr = equalCitiesArr.slice(0, equalCitiesArr.length - 1)
+            .join(', ') + 
+            ', and ' + equalCitiesArr.slice(-1);
+      };
+      return citiesStr;
     };
   }
   getMostNorthern() {
@@ -85,10 +99,11 @@ const Controller = class {
     return this.getMost('south');
   }
   getPopulation() {
-    if (Object.keys(this.cities).length===0) {
+    if (Object.keys(this.cities).length === 0) {
       return 0;
     } else {
-      return Object.values(this.cities).reduce((a, b) => a.pop + b.pop);
+      const popArr= Object.values(this.cities).map(e => e.pop);
+      return popArr.reduce((a, v) => a + v);
     };
   }
   createCity(nameStr, latNum, lonNum, popNum=0) {
