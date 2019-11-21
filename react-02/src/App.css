@@ -21,12 +21,13 @@
   color: #09d3ac;
 }
 
-#imageBanner {
+#idImageBanner {
   display: flex;
   justify-content: space-evenly;
 }
 
-.svgStyle {
+.icon:focus {
+  opacity:0.5;
   fill:red;
 }
 
