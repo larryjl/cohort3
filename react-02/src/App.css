@@ -8,7 +8,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,22 +21,31 @@
   color: #09d3ac;
 }
 
-#idImageBanner {
+#idIconNav {
   display: flex;
   justify-content: space-evenly;
+  background-color:#282c34;
 }
 
+.icon {
+  width: 100px;
+  height: 100px;
+}
 .icon:focus {
-  opacity:0.5;
-  fill:red;
+  outline:none;
+  filter:drop-shadow(0px 0px 10px #09d3ac)
+}
+.path:focus {
+  outline:none;
+  fill:#09d3ac;
 }
 
 .rotating {
-  -webkit-animation: rotating 2s linear infinite;
-  -moz-animation: rotating 2s linear infinite;
-  -ms-animation: rotating 2s linear infinite;
-  -o-animation: rotating 2s linear infinite;
-  animation: rotating 2s linear infinite;
+  -webkit-animation: rotating 10s linear infinite;
+  -moz-animation: rotating 10s linear infinite;
+  -ms-animation: rotating 10s linear infinite;
+  -o-animation: rotating 10s linear infinite;
+  animation: rotating 10s linear infinite;
 }
 @keyframes rotating {
   from {
