@@ -1,5 +1,34 @@
 import functions from './daily.js'
 
+// -- Daily 2019-11-22
+
+const myArray = [
+    {num: 5,str: "apples", origin:"BC"},
+    {num: 7,str: "oranges", origin:"Florida"},
+    {num: 2,str: "lemons", origin:"Mexico"},
+    // {num: 8,str: "bananas", origin:"Ecuador"},
+    // {num: 6,str: "avocados", origin:"Mexico"},
+    // {num: 4,str: "pineapple", origin:"Brazil"},
+    // {num: 3,str: "blueberries", origin:"Chile"},
+    // {num: 9,str: "pears", origin:"Oregon"},
+    // {num: 1,str: "cantaloupe", origin:"California"}
+];
+
+test('today numSort', () => {
+    const result = functions.numSort(myArray, 'num').map(e => e.num);
+    expect(result).toEqual([2,5,7]);
+});
+
+test('today alphaSort', () => {
+    const result = functions.alphaSort(myArray, 'str').map(e => e.str);
+    expect(result).toEqual(['apples','lemons','oranges']);
+});
+
+test('today alphaRevSort', () => {
+    const result = functions.alphaRevSort(myArray, 'origin').map(e => e.origin);
+    expect(result).toEqual(['Mexico','Florida','BC']);
+});
+
 // -- Sample data for daily 2019-11-09
 
 const people = [
@@ -51,12 +80,12 @@ const people = [
 const arrProv = ["AB","BC"]
 
 // Daily 2019-11-09 province callbacks
-test('today flat', () => {
+test('flat', () => {
     const array = [1,[2],3];
     const result = array.flat(); // jest requires core-js to use flat, flatmap
     expect(result).toEqual([1,2,3]);
 });
-test('today select people', () => {
+test('select people', () => {
     const result = functions.selectPeople(people, arrProv);
     expect(result.length).toBeGreaterThan(0);
     result.forEach(v => {
@@ -64,7 +93,7 @@ test('today select people', () => {
             .toBe(true);
     });
 });
-test('today people names', () => {
+test('people names', () => {
     const arrPeople = people;
     const objPeople = {...arrPeople};
     const result = functions.peopleNames.call(objPeople);
@@ -73,7 +102,7 @@ test('today people names', () => {
         expect(result[i]).toEqual(`${v.fname} ${v.lname}`);
     });
 });
-test('today select names (call both functions wrapped together)', () => {
+test('select names (call both functions wrapped together)', () => {
     const result = functions.selectNames(people, arrProv, functions.peopleNames);
     expect(result.length).toBeGreaterThan(0);
     expect(result.length).toBeLessThan(people.length);

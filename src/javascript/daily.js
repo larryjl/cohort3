@@ -1,5 +1,48 @@
 const functions = {
 
+    // *** 2019-11-22
+    numSort: (myArray, key) => {
+        myArray.sort((a, b) => {
+            if ( +a[key] < +b[key] ){
+                return -1;
+            }
+            else if ( +a[key] > +b[key] ){
+                return 1;
+            }
+            return 0;
+        });
+        console.log(myArray);
+        return myArray;
+    },
+    alphaSort: (myArray, key) => {
+        function alphaCompare(a, b) {
+            if ( a[key] < b[key] ){
+                return -1;
+            }
+            else if ( a[key] > b[key] ){
+                return 1;
+            }
+            return 0;
+        };
+        myArray.sort(alphaCompare);
+        console.log(myArray);
+        return myArray;
+    },
+    alphaRevSort: (myArray, key) => {
+        const alphaRevCompare = (a, b) => {
+            if ( a[key] > b[key] ){
+                return -1;
+            }
+            else if ( a[key] < b[key] ){
+                return 1;
+            }
+            return 0;
+        };
+        myArray.sort(alphaRevCompare);
+        console.log(myArray);
+        return myArray;
+    },
+
     // *** 2019-11-09
     selectPeople: (arrPeople, arrProv) => {
         return arrProv.flatMap(prov => 
