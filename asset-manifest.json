@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/cohort-3/react-01/static/css/main.b100e6da.chunk.css",
+    "main.js": "/cohort-3/react-01/static/js/main.79b1f541.chunk.js",
+    "main.js.map": "/cohort-3/react-01/static/js/main.79b1f541.chunk.js.map",
+    "runtime-main.js": "/cohort-3/react-01/static/js/runtime-main.349dc6aa.js",
+    "runtime-main.js.map": "/cohort-3/react-01/static/js/runtime-main.349dc6aa.js.map",
+    "static/js/2.cc7b3e38.chunk.js": "/cohort-3/react-01/static/js/2.cc7b3e38.chunk.js",
+    "static/js/2.cc7b3e38.chunk.js.map": "/cohort-3/react-01/static/js/2.cc7b3e38.chunk.js.map",
+    "index.html": "/cohort-3/react-01/index.html",
+    "precache-manifest.34b2a518397123bb0e68080fc4319f3a.js": "/cohort-3/react-01/precache-manifest.34b2a518397123bb0e68080fc4319f3a.js",
+    "service-worker.js": "/cohort-3/react-01/service-worker.js",
+    "static/css/main.b100e6da.chunk.css.map": "/cohort-3/react-01/static/css/main.b100e6da.chunk.css.map",
+    "static/media/logo.svg": "/cohort-3/react-01/static/media/logo.25bf045c.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.349dc6aa.js",
+    "static/js/2.cc7b3e38.chunk.js",
+    "static/css/main.b100e6da.chunk.css",
+    "static/js/main.79b1f541.chunk.js"
+  ]
+}
