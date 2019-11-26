@@ -1,5 +1,32 @@
 const functions = {
 
+    // *** 2019-11-26
+    // function taken from tic tac toe
+    calculateWinner: (squares) => {
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i]; // destructured 
+            // // equivalent to
+            // const a = lines[0];
+            // const b = lines[1];
+            // const c = lines[2];
+            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+            }
+        }
+        return null;
+    },
+
+
     // *** 2019-11-22
     numSort: (myArray, key) => {
         myArray.sort((a, b) => {

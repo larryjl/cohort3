@@ -1,5 +1,13 @@
 import functions from './daily.js'
 
+// -- Daily 2019-11-26
+
+test('today destructuring', () => {
+    const squares = ['X','X','X','O','O',,,,]
+    expect(functions.calculateWinner(squares)).toBe('X');
+});
+
+
 // -- Daily 2019-11-22
 
 const myArray = [
@@ -14,17 +22,17 @@ const myArray = [
     // {num: 1,str: "cantaloupe", origin:"California"}
 ];
 
-test('today numSort', () => {
+test('numSort', () => {
     const result = functions.numSort(myArray, 'num').map(e => e.num);
     expect(result).toEqual([2,5,7]);
 });
 
-test('today alphaSort', () => {
+test('alphaSort', () => {
     const result = functions.alphaSort(myArray, 'str').map(e => e.str);
     expect(result).toEqual(['apples','lemons','oranges']);
 });
 
-test('today alphaRevSort', () => {
+test('alphaRevSort', () => {
     const result = functions.alphaRevSort(myArray, 'origin').map(e => e.origin);
     expect(result).toEqual(['Mexico','Florida','BC']);
 });
