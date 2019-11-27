@@ -8,8 +8,8 @@
     width: 80px;
     height: 80px;
   }
-  .icon:focus {
-    transition: filter .1s;
+  .icon:focus, .icon:hover {
+    transition: .1s;
     outline:none;
     filter:drop-shadow(0px 0px 6px #09d3ac);
   }
@@ -18,7 +18,7 @@
   }
 
   a:hover {
-    transition: scale .1s;
+    transition: .1s;
     transform: scale(1.1);
     transform-origin: center center;
   }
