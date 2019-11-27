@@ -1,30 +1,72 @@
 import React from 'react';
-// import './nav.css';
-import Icon_settings from '../svg/Icon_settings.svg';
+import './NavComp.css';
+import icon_settings from '../svg/Icon_settings.svg';
+import { ReactComponent as Icon_card } from '../svg/Icon_card.svg';
+import { ReactComponent as Icon_user_circle } from '../svg/Icon_user_circle.svg';
+
 
 class Nav extends React.Component {  
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      activeLink: 0
     };
+  };
+  setActive = (link) => {
+    this.setState({activeLink: link});
+  };
+  linkClick = () => {
+    this.setActive()
   }
   render() {
     return (
       <nav id="idIconNav">
-        <a href="#top">
-          <img src={Icon_settings} className="rotating icon" tabindex="0" alt="gear" />
+        {/* img */}
+        <a href="#top" onClick={(e) => {
+          e.preventDefault();
+          this.setActive(0);
+          }}>
+          <img src={icon_settings} tabindex="0" alt="home" className={
+            "rotating icon"+
+            ((this.state.activeLink===0)? " icon--active" : "")
+          } />
         </a>
-        {/* Icon_close_circle inline svg */}
-        <a href="#game">
-          <svg className="rotating icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path className="path" tabindex="0" fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM15.5355 8.46447C15.9261 8.85499 15.9261 9.48816 15.5355 9.87868L13.4142 12L15.5355 14.1213C15.9261 14.5118 15.9261 15.145 15.5355 15.5355C15.145 15.9261 14.5118 15.9261 14.1213 15.5355L12 13.4142L9.87868 15.5355C9.48816 15.9261 8.85499 15.9261 8.46447 15.5355C8.07394 15.145 8.07394 14.5118 8.46447 14.1213L10.5858 12L8.46447 9.87868C8.07394 9.48816 8.07394 8.85499 8.46447 8.46447C8.85499 8.07394 9.48816 8.07394 9.87868 8.46447L12 10.5858L14.1213 8.46447C14.5118 8.07394 15.145 8.07394 15.5355 8.46447Z" fill="black"/>
+        {/* inline with focus */}
+        <a href="#game" onClick={() => {this.setActive(1)}}>
+          <svg 
+            className={
+            "rotating icon"+
+            ((this.state.activeLink===1)? " icon--active" : "")
+            } 
+            tabindex="0" alt ="tic-tac-toe" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M4 5C4 4.44772 4.44772 4 5 4H7C7.55228 4 8 4.44772 8 5V7C8 7.55228 7.55228 8 7 8H5C4.44772 8 4 7.55228 4 7V5Z" fill="black"/>
+            <path d="M10 5C10 4.44772 10.4477 4 11 4H13C13.5523 4 14 4.44772 14 5V7C14 7.55228 13.5523 8 13 8H11C10.4477 8 10 7.55228 10 7V5Z" fill="black"/>
+            <path d="M17 4C16.4477 4 16 4.44772 16 5V7C16 7.55228 16.4477 8 17 8H19C19.5523 8 20 7.55228 20 7V5C20 4.44772 19.5523 4 19 4H17Z" fill="black"/>
+            <path d="M4 11C4 10.4477 4.44772 10 5 10H7C7.55228 10 8 10.4477 8 11V13C8 13.5523 7.55228 14 7 14H5C4.44772 14 4 13.5523 4 13V11Z" fill="black"/>
+            <path d="M11 10C10.4477 10 10 10.4477 10 11V13C10 13.5523 10.4477 14 11 14H13C13.5523 14 14 13.5523 14 13V11C14 10.4477 13.5523 10 13 10H11Z" fill="black"/>
+            <path d="M16 11C16 10.4477 16.4477 10 17 10H19C19.5523 10 20 10.4477 20 11V13C20 13.5523 19.5523 14 19 14H17C16.4477 14 16 13.5523 16 13V11Z" fill="black"/>
+            <path d="M5 16C4.44772 16 4 16.4477 4 17V19C4 19.5523 4.44772 20 5 20H7C7.55228 20 8 19.5523 8 19V17C8 16.4477 7.55228 16 7 16H5Z" fill="black"/>
+            <path d="M10 17C10 16.4477 10.4477 16 11 16H13C13.5523 16 14 16.4477 14 17V19C14 19.5523 13.5523 20 13 20H11C10.4477 20 10 19.5523 10 19V17Z" fill="black"/>
+            <path d="M17 16C16.4477 16 16 16.4477 16 17V19C16 19.5523 16.4477 20 17 20H19C19.5523 20 20 19.5523 20 19V17C20 16.4477 19.5523 16 19 16H17Z" fill="black"/>  
           </svg>
         </a>
-
-        <img src={Icon_settings} className="rotating icon" tabindex="0" alt="gear" />
+        {/* react 2.0 svg */}
+        <a href="#accounts" onClick={() => {this.setActive(2)}}>
+          <Icon_card tabindex="0" alt="accounts" className={
+            "rotating icon"+
+            ((this.state.activeLink===2)? " icon--active" : "")
+          }/>
+        </a>
+        <a href="#cities" onClick={() => {this.setActive(3)}}>
+          <Icon_user_circle tabindex="0" alt="cities" className={
+            "rotating icon"+
+            ((this.state.activeLink===3)? " icon--active" : "")
+          }/>
+        </a>
       </nav>
     );
-  }
+  };
 };
 
 export default Nav;

@@ -37,6 +37,8 @@ class App extends Component {
           <a name="game"></a>
           <Game
           />
+          <a name="accounts"></a>
+          <a name="cities"></a>
         </main>
       </div>
     );
