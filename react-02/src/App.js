@@ -36,9 +36,13 @@ class App extends Component {
           <a name="game"></a>
           <Game
           />
+          <hr/>
           <a name="accounts"></a>
+          <hr/>
           <a name="cities"></a>
         </main>
+        <footer>
+        </footer>
       </div>
     );
   }

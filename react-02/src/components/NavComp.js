@@ -1,6 +1,6 @@
 import React from 'react';
 import './NavComp.css';
-import icon_settings from '../svg/Icon_settings.svg';
+import logoSvg from '../logo.svg';
 import { ReactComponent as IconCard } from '../svg/Icon_card.svg';
 import { ReactComponent as IconUserCircle } from '../svg/Icon_user_circle.svg';
 
@@ -20,14 +20,13 @@ class Nav extends React.Component {
   }
   render() {
     return (
-      <nav id="idIconNav">
+      <nav id="idNav">
         {/* img */}
-        <a href="#top" onClick={(e) => {
-          e.preventDefault();
+        <a href="#top" onClick={() => {
           this.setActive(0);
           }}>
-          <img src={icon_settings} tabindex="0" alt="home" className={
-            "rotating icon"+
+          <img src={logoSvg} tabIndex="0" alt="home" className={
+            "icon home"+
             ((this.state.activeLink===0)? " icon--active" : "")
           } />
         </a>
@@ -38,7 +37,7 @@ class Nav extends React.Component {
             "rotating icon"+
             ((this.state.activeLink===1)? " icon--active" : "")
             } 
-            tabindex="0" alt ="tic-tac-toe" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            tabIndex="0" alt ="tic-tac-toe" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M4 5C4 4.44772 4.44772 4 5 4H7C7.55228 4 8 4.44772 8 5V7C8 7.55228 7.55228 8 7 8H5C4.44772 8 4 7.55228 4 7V5Z" fill="black"/>
             <path d="M10 5C10 4.44772 10.4477 4 11 4H13C13.5523 4 14 4.44772 14 5V7C14 7.55228 13.5523 8 13 8H11C10.4477 8 10 7.55228 10 7V5Z" fill="black"/>
@@ -53,13 +52,13 @@ class Nav extends React.Component {
         </a>
         {/* react 2.0 svg */}
         <a href="#accounts" onClick={() => {this.setActive(2)}}>
-          <IconCard tabindex="0" alt="accounts" className={
+          <IconCard tabIndex="0" alt="accounts" className={
             "rotating icon"+
             ((this.state.activeLink===2)? " icon--active" : "")
           }/>
         </a>
         <a href="#cities" onClick={() => {this.setActive(3)}}>
-          <IconUserCircle tabindex="0" alt="cities" className={
+          <IconUserCircle tabIndex="0" alt="cities" className={
             "rotating icon"+
             ((this.state.activeLink===3)? " icon--active" : "")
           }/>

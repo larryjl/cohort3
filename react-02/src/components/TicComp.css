@@ -1,8 +1,9 @@
-body {
-    /* font: 14px "Century Gothic", Futura, sans-serif; */
-    margin: 20px;
-    background-color: #282c34;
-    color: #09d3ac;
+#idGame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
   }
   
   ol, ul {
@@ -20,7 +21,7 @@ body {
   }
   
   .square {
-    background: #fff;
+    background: #282c34;
     border: 1px solid #999;
     float: left;
     font-size: 48px;
@@ -32,10 +33,24 @@ body {
     padding: 0;
     text-align: center;
     width: 64px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
   }
-  
   .square:focus {
     outline: none;
+  }
+
+  .token {
+    height: 60px;
+    width: 60px;
+  }
+  .token--win {
+    transition: .1s;
+    filter:drop-shadow(0px 0px 6px #09d3ac);
+  }
+  .token--win path {
+    fill: #fff;
   }
   
   .kbd-navigation .square:focus {
@@ -52,3 +67,8 @@ body {
     margin-left: 20px;
   }
   
+  .status--over {
+    transition: .1s;
+    color: #fff;
+    filter:drop-shadow(0px 0px 6px #09d3ac);
+  }
