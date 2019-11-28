@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Icon_settings from './svg/Icon_settings.svg';
 import Nav from './components/NavComp';
 import Game from './components/TicComp';
 

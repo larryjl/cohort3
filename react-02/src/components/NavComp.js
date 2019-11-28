@@ -1,8 +1,8 @@
 import React from 'react';
 import './NavComp.css';
 import icon_settings from '../svg/Icon_settings.svg';
-import { ReactComponent as Icon_card } from '../svg/Icon_card.svg';
-import { ReactComponent as Icon_user_circle } from '../svg/Icon_user_circle.svg';
+import { ReactComponent as IconCard } from '../svg/Icon_card.svg';
+import { ReactComponent as IconUserCircle } from '../svg/Icon_user_circle.svg';
 
 
 class Nav extends React.Component {  
@@ -53,13 +53,13 @@ class Nav extends React.Component {
         </a>
         {/* react 2.0 svg */}
         <a href="#accounts" onClick={() => {this.setActive(2)}}>
-          <Icon_card tabindex="0" alt="accounts" className={
+          <IconCard tabindex="0" alt="accounts" className={
             "rotating icon"+
             ((this.state.activeLink===2)? " icon--active" : "")
           }/>
         </a>
         <a href="#cities" onClick={() => {this.setActive(3)}}>
-          <Icon_user_circle tabindex="0" alt="cities" className={
+          <IconUserCircle tabindex="0" alt="cities" className={
             "rotating icon"+
             ((this.state.activeLink===3)? " icon--active" : "")
           }/>
