@@ -166,7 +166,7 @@ class Game extends React.Component {
 
     return (
       <div id="idGame">
-        <h1>Tic-Tac-Toe</h1>
+        <h2>Tic-Tac-Toe</h2>
         <div className="game">
           <div className="game-board">
             <Board

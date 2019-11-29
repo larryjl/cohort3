@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Nav from './components/NavComp';
 import Game from './components/TicComp';
+import Accounts from './components/AccountsComp';
+import Cities from './components/CitiesComp';
 
 class App extends Component {
   constructor() {
@@ -14,9 +16,10 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <a name="top"></a>
+        <a name="top">
         <Nav
         />
+        </a>
         <header className="App-header svgStyle">
           <img src={logo} className="App-logo bounceIn" alt="logo" />
           {/* <p>
@@ -33,13 +36,20 @@ class App extends Component {
         </header>
         <main>
           <hr/>
-          <a name="game"></a>
-          <Game
-          />
+          <a name="game">
+            <Game
+            />
+          </a>
           <hr/>
-          <a name="accounts"></a>
+          <a name="accounts">
+            <Accounts
+            />
+          </a>
           <hr/>
-          <a name="cities"></a>
+          <a name="cities">
+            <Cities
+            />
+          </a>
         </main>
         <footer>
         </footer>

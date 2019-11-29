@@ -29,7 +29,7 @@
     fill: #fff;
   }
 
-  a:hover {
+  #idNav a:hover {
     transition: .1s;
     transform: scale(1.1);
     transform-origin: center center;
