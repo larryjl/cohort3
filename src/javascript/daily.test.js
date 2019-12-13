@@ -3,7 +3,17 @@ import functions from './daily.js'
 // -- Daily 2019-11-26
 
 test('today destructuring', () => {
-    const squares = ['X','X','X','O','O',,,,]
+    let squares = [
+        'X','X','X',
+        'O','O',null,
+        null,null,null
+        ]
+    expect(functions.calculateWinner(squares)).toBe('X');
+    squares = [
+        null,null,null,
+        'X','X','X',
+        'O','O',null
+        ]
     expect(functions.calculateWinner(squares)).toBe('X');
 });
 
