@@ -39,18 +39,16 @@ class App extends Component {
         break;
       default: // home
         main = 
-          <div className="main--home">
+          <main id="idMainHome">
             <img src={logo} className="logo bounceIn" alt="logo" />
-          </div>;
+          </main>;
     };
     return (
       <div className="app">
         <Nav
           setPage={this.setPage}
         />
-        <main>
-          {main}
-        </main>
+        {main}
         <footer>
         </footer>
       </div>

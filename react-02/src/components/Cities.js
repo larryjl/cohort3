@@ -1,26 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './Cities.css';
 
 class Cities extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
   render() {
     return (
-      <div id="idCities">
+      <main id="idMainCities">
         <h2>Cities</h2>
-      </div>
+      </main>
     );
   }
 };
-
-ReactDOM.render(
-  <Cities />,
-  document.getElementById('root')
-);
-
 
 export default Cities;

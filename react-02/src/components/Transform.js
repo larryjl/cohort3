@@ -1,26 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './Transform.css';
 
 class Transform extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
   render() {
     return (
-      <div id="idTransform">
+      <main id="idMainTransform">
         <h2>Transformations</h2>
-      </div>
+      </main>
     );
   }
 };
-
-ReactDOM.render(
-  <Transform />,
-  document.getElementById('root')
-);
-
 
 export default Transform;

@@ -20,7 +20,9 @@ main {
   margin-left: 100px;
   background-color: #282c34;
   min-height: 100vh;
-  
+}
+
+#idMainHome {
   display: flex;
   flex-direction: column;
   align-items: center;

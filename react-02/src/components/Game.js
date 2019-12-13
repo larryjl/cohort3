@@ -1,9 +1,7 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import './Game.css';
-import { ReactComponent as IconCloseCircle } from 
-  '../svg/Icon_close_circle.svg';
-import { ReactComponent as IconRecord } from '../svg/Icon_record.svg';
+import { ReactComponent as IconX } from '../svg/Icon_close_circle.svg';
+import { ReactComponent as IconO } from '../svg/Icon_record.svg';
 
 // // Square
 
@@ -22,13 +20,13 @@ function Square(props) {
   let token;
   switch (props.value) {
     case 'X':
-    token = <IconCloseCircle className={
+    token = <IconX className={
       "token" + ((props.winSquare)
         ? " token--win"
         : "")}/>;
       break; 
     case 'O':
-    token = <IconRecord className={
+    token = <IconO className={
       "token" + ((props.winSquare)
         ? " token--win"
         : "")}/>;
@@ -165,7 +163,7 @@ class Game extends React.Component {
     }
 
     return (
-      <div id="idGame">
+      <main id="idMainGame">
         <h2>Tic-Tac-Toe</h2>
         <div className="game">
           <div className="game-board">
@@ -180,7 +178,7 @@ class Game extends React.Component {
             <ol>{moves}</ol>
           </div>
         </div>
-      </div>
+      </main>
     );
   };
 };

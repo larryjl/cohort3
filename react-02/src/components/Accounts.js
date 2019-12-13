@@ -91,7 +91,7 @@ class Accounts extends React.Component {
 
   render() {
     return (
-      <div>
+      <main id="idMainAccounts">
         <h2>Accounts</h2>
 
         <div>
@@ -209,7 +209,7 @@ class Accounts extends React.Component {
             </button>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 };
