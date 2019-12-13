@@ -47,6 +47,7 @@ class App extends Component {
       <div className="app">
         <Nav
           setPage={this.setPage}
+          activePage={this.state.activePage}
         />
         {main}
         <footer>
