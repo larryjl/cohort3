@@ -1,5 +1,5 @@
 import React from 'react';
-import './NavComp.css';
+import './Nav.css';
 import logoSvg from '../logo.svg';
 import { ReactComponent as IconExit } from '../svg/Icon_exit.svg';
 import { ReactComponent as IconCard } from '../svg/Icon_card.svg';

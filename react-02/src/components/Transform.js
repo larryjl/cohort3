@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './TicComp.css';
+import './Transform.css';
 
-class Cities extends React.Component {
+class Transform extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,17 +10,17 @@ class Cities extends React.Component {
   }
   render() {
     return (
-      <div id="idCities">
-        <h2>Cities</h2>
+      <div id="idTransform">
+        <h2>Transformations</h2>
       </div>
     );
   }
 };
 
 ReactDOM.render(
-  <Cities />,
+  <Transform />,
   document.getElementById('root')
 );
 
 
-export default Cities;
+export default Transform;

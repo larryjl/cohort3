@@ -5,3 +5,13 @@
   align-content: center;
   height: 100vh;
 }
+
+#idDivReport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table {
+  text-align: left;
+}

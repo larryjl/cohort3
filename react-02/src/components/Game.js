@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './TicComp.css';
+// import ReactDOM from 'react-dom';
+import './Game.css';
 import { ReactComponent as IconCloseCircle } from 
   '../svg/Icon_close_circle.svg';
 import { ReactComponent as IconRecord } from '../svg/Icon_record.svg';
@@ -210,10 +210,10 @@ function calculateWinner(squares) {
 
 // ========================================
 
-ReactDOM.render(
-  <Game />,
-  document.getElementById('root')
-);
+// ReactDOM.render(
+//   <Game />,
+//   document.getElementById('root')
+// );
 
 
 export default Game;
