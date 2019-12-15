@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
+import {ReactComponent as Logo} from './logo.svg';
 import './App.css';
 import Nav from './components/Nav';
 import Game from './components/Game';
@@ -40,7 +40,7 @@ class App extends Component {
       default: // home
         main = 
           <main id="idMainHome">
-            <img src={logo} className="logo bounceIn" alt="logo" />
+            <Logo className="logo bounceIn" alt="logo" />
           </main>;
     };
     return (

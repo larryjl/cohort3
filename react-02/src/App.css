@@ -16,6 +16,10 @@ h1, h2, h3 {
   height: 40vmin;
 }
 
+.logo path {
+  fill: #FFA50B;
+}
+
 main {
   margin-left: 100px;
   background-color: #282c34;
