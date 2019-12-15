@@ -58,7 +58,8 @@ class Board extends React.Component {
       />
     );
   }
-  renderGrid() {
+
+  render() {
     let grid = []
     for (let i = 0; i < 3; i++) {
       let squareButtons = [];
@@ -69,13 +70,9 @@ class Board extends React.Component {
       };
       grid.push(<div key={i} className="board-row">{squareButtons}</div>)
     };
-    return grid;
-  }
-
-  render() {
     return (
       <div>
-        {this.renderGrid()}
+        {grid}
         {/* <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
