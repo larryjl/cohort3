@@ -1,20 +1,22 @@
 import React from 'react';
 import './Accounts.css';
 import {AccountController} from './account.js';
+import {ReactComponent as IconCheck} from '../svg/Icon_check.svg';
+import {ReactComponent as IconAttention} from '../svg/Icon_attention_circle.svg';
 
 
 class Accounts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: '--',
-      highest: '--',
-      lowest: '--',
+      total: 0,
+      highest: {name: null, bal: 0},
+      lowest: {name: null, bal: 0},
       action: null,
-      defineMsg: null,
-      defineName: '',
-      defineBalance: 0,
-      manipAmount: 0,
+      message: null,
+      messageType: null,
+      accountName: '',
+      amount: 0,
     };
     this.controller = new AccountController();
   }
@@ -27,186 +29,228 @@ class Accounts extends React.Component {
     if (this.controller.accounts.length > 0) {
       this.setState({ 
         total: this.controller.total().toFixed(2),
-        highest: `${this.controller.highest().name}: ${this.controller.highest().bal.toFixed(2)}`,
-        lowest: `${this.controller.lowest().name}: ${this.controller.lowest().bal.toFixed(2)}`
+        highest: {
+          name: this.controller.highest().name,
+          bal: this.controller.highest().bal.toFixed(2)
+        },
+        lowest: {
+          name: this.controller.lowest().name, 
+          bal:this.controller.lowest().bal.toFixed(2)
+        }
       });
-    };
-  };
-
-  accountList() {
-    let list = [];
-    for (let account of this.controller.accounts) {
-      list.push(
-        <tr key={account.id}>
-          <td>
-            {account.id}
-          </td>
-          <td>
-            {account.name}
-          </td>
-          <td>
-            {account.bal.toFixed(2)}
-          </td>
-        </tr>
-      );
-    };
-    return list;
+    } else {
+      this.setState({
+        total: 0,
+        highest: {name: null, bal: 0},
+        lowest: {name: null, bal: 0}
+      })
+    }
   }
 
-  defineConfirm(accountName, accountBalance=0) {
-    console.log('ctlconfim');
+  clearInputs() {
+    this.setState({
+      accountName: '',
+      amount: 0,
+      action: null
+    });
+  }
+
+  confirm(name='', amount=0) {
     let msg;
-    if (this.state.action === 'delete') {
-      msg = this.controller.remove(accountName);
-      if (msg === 'error') {
-        this.setState({
-          defineMsg: `Account does not exist: ${accountName}`
-        });
-      } else {
-        this.setState({
-          defineMsg: `Removed account: ${accountName}`
-        });
-        // functions.accountSelectUpdate(event.target.id, accountName, select);
-        // functions.accountHeadingUpdate(heading, select);
-      };
-    } else if (this.state.action === 'create') {
-      msg = this.controller.add(accountName, accountBalance);
-      if (msg === 'error') {
-        this.setState({
-          defineMsg: `Account already exists: ${accountName}`
-        });
-      } else {
-        this.setState({
-          defineMsg: `Added account: ${accountName}`
-        });
-        // functions.accountSelectUpdate(event.target.id, accountName, select);
-        // functions.accountHeadingUpdate(heading, select);
-      };
+    switch (this.state.action) {
+      case 'create':
+        msg = this.controller.add(name, amount);
+        if (msg === 'error') {
+          this.setState({
+            message: `Account already exists: ${name}.`,
+            messageType: 'warn'
+          });
+        } else {
+          this.setState({
+            message: `Added account: ${name}.`,
+            messageType: 'check'
+          });
+          this.clearInputs();
+        };
+        break;
+      case 'delete':
+        msg = this.controller.remove(name);
+        if (msg === 'error') {
+          this.setState({
+            message: `Account does not exist: ${name}.`,
+            messageType: 'warn'
+          });
+        } else {
+          this.setState({
+            message: `Removed account: ${name}.`,
+            messageType: 'check',
+          });
+          this.clearInputs();
+        };
+        break;
+      case 'deposit':
+      case 'withdraw':
+        msg = this.controller.transaction(this.state.action, amount, null, name);
+        if (msg === 'error') {
+          this.setState({
+            message: `Account does not exist: ${name}.`,
+            messageType: 'warn'
+          });
+        } else {
+          
+          this.setState({
+            message: 
+              (this.state.action==='deposit')?
+                `Deposited $${amount} into ${name}.`:
+                `Withdrew $${amount} from ${name}.`,
+            messageType: 'check',
+          });
+          this.clearInputs();
+        };
+        break;
+      default:
+    }; 
+    this.report();
+  }
+
+  renderButton(label, stateKeyValues, classNames){
+    let state = {};
+    for (let key in stateKeyValues) {
+      state[key] = stateKeyValues[key];
     };
-  }
-
-  manipConfirm(amount=0) {
-
-  }
+    return(
+      <button onClick={() => {this.setState(state)}} className={classNames}>
+        {label}
+      </button>
+  )}
 
   render() {
-    return (
-      <main id="idMainAccounts">
-        <h2>Accounts</h2>
 
-        <div>
-          <h3>Account Summary</h3>
-          <div></div>
-          <div>
-            <table>
-              <tbody>
-                <tr>
-                  <td>Total Balance</td>
-                  <td>{this.state.total}</td>
-                </tr><tr>
-                  <td>Highest Balance</td>
-                  <td>{this.state.highest}</td>
-                </tr><tr>
-                  <td>Lowest Balance</td>
-                  <td>{this.state.lowest}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Account</th>
-                  <th>Balance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.accountList()}
-              </tbody>
-            </table>
+    let list = [];
+    if (!this.controller.accounts.length) {
+      list = 'There are no accounts.';
+    } else {
+      for (let account of this.controller.accounts) {
+        list.push(
+          <div key={account.id} className="accounts--card">
+            <h4>[{account.id}] {account.name}</h4>
+            <p>Balance: {account.bal.toFixed(2)}</p>
+            <div>
+              {this.renderButton(
+                'Deposit', 
+                {action: 'deposit', accountName: account.name}
+              )}
+              {this.renderButton(
+                'Withdraw', 
+                {action: 'withdraw', accountName: account.name}
+              )}
+              {this.renderButton(
+                'Delete Account', 
+                {action: 'delete', accountName: account.name},
+                'button--alert'
+              )}
+            </div>
           </div>
+        );
+      };
+    };
+    let accountsList =
+      <div id="idAccountsList">
+        {list}
+      </div>
+    ;
+
+    let accountsReport =
+      <div id="idAccountsReport">
+        <div>
+          <div className="kpi rag--g">${this.state.total}</div>
+          <div className="kpi--caption">Total Balance</div>
         </div>
-
         <div>
-          <h3>Your Accounts</h3>
-          <p>
-            {this.state.defineMsg}
-          </p>
-          <button onClick={() => {
-            this.setState({
-              action: 'create'
-            })
-          }}>
-            Create a New Account
-          </button>
-          <button onClick={() => {
-            this.setState({
-              action: 'delete'
-            })
-          }}>
-            Delete an Account
-          </button>
+          <div className="kpi rag--a">${this.state.highest.bal}</div>
+          <div className="kpi--caption">Highest Balance</div>
+          <div className="kpi--caption">{
+            (this.state.highest.name)?`(${this.state.highest.name})`:null
+          }</div>
         </div>
-
         <div>
-          <div>
-            <span>Account Name </span>
-            <input type="text" value={this.state.defineName} onChange={event => {
-              this.setState({
-                defineName: event.target.value.trim()
-              });
-            }}></input>
+          <div className="kpi rag--r">${this.state.lowest.bal}</div>
+          <div className="kpi--caption">Lowest Balance</div>
+          <div className="kpi--caption">{
+            (this.state.lowest.name)?`(${this.state.highest.name})`:null
+          }</div>
+        </div>
+      </div>
+    ;
+    
+    let accountsInputs = 
+      <div id="idAccountsInputs">
+        {(this.state.action && this.state.action.match(/delete/))?
+          <div className="input--message button--alert">
+            Confirm the name of the account to delete.
           </div>
-          <div>
-            <span>Starting Balance </span>
-            <span>$</span>
-            <input type="number" min={0} placeholder={0.00} step={0.01} value={this.state.defineBalance} onChange={event => {
-              this.setState({
-                defineBalance: this.roundDown(event.target.value, 2)
-              });
-            }}></input>
+        :null}
+        {(this.state.action && this.state.action.match(/create|delete/))?
+          <div className="input--row">
+            <span className="input--caption">Account Name: </span>
+            <input type="text" 
+              value={this.state.accountName} 
+              onChange={event => {this.setState({
+                accountName: event.target.value.trim()
+              })}}
+            ></input>
           </div>
-          <button onClick={() => this.defineConfirm(
-            this.state.defineName, this.state.defineBalance
+        :null}
+        {(this.state.action && !this.state.action.match(/delete/))?
+          <div className="input--row">
+            <span className="input--caption">{(this.state.action==='create')?
+              'Starting Balance: ':
+              'Amount: '}
+            </span>
+            <span className="input--prefix">$</span>
+            <input type="number" min={0} placeholder={0.00} step={0.01} 
+              value={this.state.amount} 
+              onChange={event => {this.setState({
+                amount: this.roundDown(event.target.value, 2)
+              })}}
+            ></input>
+          </div>
+        :null}
+        <div id="idAccountsInputsButtons">
+          <button className="button--check" onClick={() => this.confirm(
+            this.state.accountName, this.state.amount
           )}>
             Confirm
           </button>
+          {this.renderButton('Cancel', {action: null})}
         </div>
+      </div>
+    ;
 
-        <div>
-          <h3>Make a Transaction</h3>
-          <div>{this.state.manipMsg}</div>
+    let accountsMessage = 
+      <p id="idAccountsMessage">
+        {(this.state.messageType==='check')?
+          <IconCheck className="svg--check"/>:
+          (this.state.messageType==='warn')?
+            <IconAttention className="svg--warn"/>:
+              null
+        }
+        {this.state.message}
+      </p>
+    ;
+
+    return (
+      <main id="idMainAccounts">
+        <h2>Accounts</h2>
+        {accountsReport}
+        {accountsMessage}
+        <div id="idAccountsContainer">
           <div>
-            <button onClick={() => {
-            this.setState({
-              action: 'deposit'
-            })
-          }}>
-              Make a Deposit
-            </button>
-            <button onClick={() => {
-            this.setState({
-              action: 'withdraw'
-            })
-          }}>
-              Make a Withdrawal
-            </button>
+          {accountsList}
+          {this.renderButton('Create Account', {action: 'create'})}
           </div>
-
           <div>
-            <div>
-              <span>$</span>
-              <input type="number" min={0} placeholder={0.00} step={0.01} value={this.state.manipAmount} onChange={event => {
-              this.setState({
-                manipAmount: this.roundDown(event.target.value, 2)
-              });
-            }}></input>
-            </div>
-            <button onClick={() => this.manipConfirm(
-              this.state.manipAmount
-            )}>
-              Confirm
-            </button>
+            {(this.state.action)?accountsInputs:null}
           </div>
         </div>
       </main>

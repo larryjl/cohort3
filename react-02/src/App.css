@@ -4,21 +4,22 @@ body {
   font-size: calc(10px + 2vmin);
 }
 
-h1, h2, h3 {
-  color: #09d3ac;
-}
+h1, h2, h3 {color: #09d3ac;}
 
-.app {
-  text-align: center;
-}
+/* rag colors */
+.rag--g {color: #09d3ac;}
+.rag--a {color: #FFA50B;}
+.rag--r {color: #F90B2C;}
+.svg--check path{fill: #09d3ac;}
+.svg--warn path{fill: #FFA50B;}
+.svg--alert path{fill: #F90B2C;}
 
-.logo {
-  height: 40vmin;
-}
+.bold {font-weight: bold;}
 
-.logo path {
-  fill: #FFA50B;
-}
+.app {text-align: center;}
+
+.logo {height: 40vmin;}
+.logo path {fill: #FFA50B;}
 
 main {
   margin-left: 100px;
@@ -36,7 +37,6 @@ main {
 .bounceIn {
   animation: bounceIn 2s;
 }
-
 @keyframes bounceIn {
   0% {
     transform: scale(0.1);
@@ -49,4 +49,17 @@ main {
   100% {
     transform: scale(1);
   }
+}
+
+/* Remove arrow buttons */
+/* - number inputs - */
+/* -- Chrome, IE -- */
+#idCalc input[type="number"]::-webkit-inner-spin-button, 
+#idCalc input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+/* -- Firefox -- */
+input[type=number] {
+    -moz-appearance:textfield; 
 }
