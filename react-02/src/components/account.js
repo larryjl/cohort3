@@ -4,9 +4,9 @@ const Account = class {
     this.name = name;
     this.bal = Number(bal);
   }
-  // balance() {
-  //   return this.bal;
-  // }
+  balance() {
+    return this.bal;
+  }
   deposit(input=0) {
     this.bal += Number(input);
   }
