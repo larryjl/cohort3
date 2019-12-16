@@ -150,7 +150,7 @@ class Accounts extends React.Component {
               )}
               {this.renderButton(
                 'Delete Account', 
-                {action: 'delete', accountName: account.name},
+                {action: 'delete'},
                 'button--alert'
               )}
             </div>
