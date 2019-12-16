@@ -56,48 +56,41 @@ class Accounts extends React.Component {
   }
 
   confirm(name='', amount=0) {
-    let msg;
     switch (this.state.action) {
       case 'create':
-        msg = this.controller.add(name, amount);
-        if (msg === 'error') {
-          this.setState({
-            message: `Account already exists: ${name}.`,
-            messageType: 'warn'
-          });
-        } else {
+        try {
+          this.controller.add(name, amount);
           this.setState({
             message: `Added account: ${name}.`,
             messageType: 'check'
           });
           this.clearInputs();
+        } catch(error) {
+          this.setState({
+            message: `${name}: ${error}`,
+            messageType: 'warn'
+          });
         };
         break;
       case 'delete':
-        msg = this.controller.remove(name);
-        if (msg === 'error') {
-          this.setState({
-            message: `Account does not exist: ${name}.`,
-            messageType: 'warn'
-          });
-        } else {
+        try {
+          this.controller.remove(name);
           this.setState({
             message: `Removed account: ${name}.`,
             messageType: 'check',
           });
           this.clearInputs();
+        } catch (error) {
+          this.setState({
+            message: `${name}: ${error}`,
+            messageType: 'warn'
+          });
         };
         break;
       case 'deposit':
       case 'withdraw':
-        msg = this.controller.transaction(this.state.action, amount, null, name);
-        if (msg === 'error') {
-          this.setState({
-            message: `Account does not exist: ${name}.`,
-            messageType: 'warn'
-          });
-        } else {
-          
+        try {
+          this.controller.transaction(this.state.action, amount, null, name);
           this.setState({
             message: 
               (this.state.action==='deposit')?
@@ -106,9 +99,18 @@ class Accounts extends React.Component {
             messageType: 'check',
           });
           this.clearInputs();
+        } catch (error) {
+          this.setState({
+            message: `${name}: ${error}`,
+            messageType: 'warn'
+          });
         };
         break;
       default:
+        this.setState({
+          message: 'Unknown error.',
+          messageType: 'warn'
+        });
     }; 
     this.report();
   }
@@ -128,7 +130,9 @@ class Accounts extends React.Component {
 
     let list = [];
     if (!this.controller.accounts.length) {
-      list = 'There are no accounts.';
+      list = 
+        <p>There are no accounts.</p>
+      ;
     } else {
       for (let account of this.controller.accounts) {
         list.push(
@@ -222,7 +226,12 @@ class Accounts extends React.Component {
           )}>
             Confirm
           </button>
-          {this.renderButton('Cancel', {action: null})}
+          {this.renderButton('Cancel', {
+            action: null, 
+            accountName: '', 
+            amount: 0,
+            message: 'Action canceled',
+            messageType: 'check'})}
         </div>
       </div>
     ;

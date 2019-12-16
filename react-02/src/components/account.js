@@ -14,7 +14,7 @@ const Account = class {
     input = Number(input);
     if (this.bal >= input) {
       this.bal -= input;
-    } else return 'error';
+    } else throw Error('Insufficient funds.');
   }
 };
 
@@ -25,11 +25,11 @@ const AccountController = class {
   }
   add(accountName, bal=0) {
     if (!accountName) {
-      return 'error'
+      throw Error('Invalid account name.')
     } else if (
       this.accounts.find(a => a.name === accountName)
     ) {
-      return 'error'
+      throw Error('Account name already exists.')
     } else {
       const account = new Account(accountName, Number(bal), this.id);
       this.id++;
@@ -40,7 +40,7 @@ const AccountController = class {
     const index = this.accounts.findIndex(a => a.name === accountName);
     if ( index > -1) {
       this.accounts.splice(index, 1);
-    } else return 'error';
+    } else throw Error('Account name not found.');
   }
   total() {
     if (this.accounts.length > 0) {
@@ -48,7 +48,7 @@ const AccountController = class {
       // const total = balances.reduce((a, b) => a + b);
       const total = this.accounts.reduce((a, b) => a + b.bal, 0);
       return total;
-    } else return 'error';
+    } else throw Error('No account data.');
   }
   highest() {
     if (this.accounts.length > 0) {
@@ -58,7 +58,7 @@ const AccountController = class {
       return (this.accounts.find(
         a => a.bal === maxBalance
       ))
-    } else return 'error';
+    } else throw Error('No account data.');
   }
   lowest() {
     if (this.accounts.length > 0) {
@@ -67,7 +67,7 @@ const AccountController = class {
       return (this.accounts.find(
         a => a.bal === minBalance
       ))
-    } else return 'error';
+    } else throw Error('No account data.');
   }
   transaction(action, amount, id, name) {
     let account;
@@ -75,13 +75,11 @@ const AccountController = class {
       account = this.accounts.find(a => a.id === id)
     } else if (name) {
       account = this.accounts.find(a => a.name === name)
-    } else {
-      return 'error';
-    };
+    } else throw Error('No account specified.')
     if (action==='deposit') {
-      return account.deposit(amount);
+      account.deposit(amount);
     } else if (action==='withdraw') {
-      return account.withdraw(amount);
+      account.withdraw(amount);
     };
   }
 }
