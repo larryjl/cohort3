@@ -19,8 +19,8 @@ class Accounts extends React.Component {
       amount: '',
     };
     this.controller = new AccountController();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
   }
 
   roundDown(num, digits) {
@@ -57,7 +57,8 @@ class Accounts extends React.Component {
     });
   }
 
-  confirm(name='', amount=0) {
+  confirm(name='', dollars) {
+    const amount = (dollars) ? dollars : 0;
     switch (this.state.action) {
       case 'create':
         try {
@@ -117,23 +118,23 @@ class Accounts extends React.Component {
     this.report();
   }
 
-  renderButton(label, stateKeyValues, classNames){
-    let state = {};
-    for (let key in stateKeyValues) {
-      state[key] = stateKeyValues[key];
-    };
+  renderButton(label, state, classNames){
     return(
-      <button onClick={() => {this.setState(state)}} className={classNames}>
+      <button 
+        onClick={() => this.setState(state)} 
+        className={classNames}
+      >
         {label}
       </button>
   )}
-  handleChange(event) {
+
+  handleInputChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
-  handleBlur(event) {
+  handleInputBlur(event) {
     const stateProp = event.target.name;
     this.setState({
       [stateProp]: (stateProp==='amount')?
@@ -216,8 +217,8 @@ class Accounts extends React.Component {
             <input type="text" 
               value = {this.state.accountName}
               name = 'accountName'
-              onChange={this.handleChange}
-              onBlur = {this.handleBlur}
+              onChange={this.handleInputChange}
+              onBlur = {this.handleInputBlur}
             ></input>
           </div>
         :null}
@@ -231,8 +232,8 @@ class Accounts extends React.Component {
             <input type="number" min={0} placeholder={0.00} step={0.01} 
               value={this.state.amount} 
               name = 'amount'
-              onChange={this.handleChange}
-              onBlur={this.handleBlur}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
             ></input>
           </div>
         :null}
