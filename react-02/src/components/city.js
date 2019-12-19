@@ -17,17 +17,17 @@ const City = class {
     this.lon = lonNum;
     this.pop = popNum; 
   }
-  show() {
-    return `${this.name},${this.lat},${this.lon},${this.pop}`;
-  }
+  // show() {
+  //   return `${this.name},${this.lat},${this.lon},${this.pop}`;
+  // }
   movedIn(num=0) {
     this.pop += num;
     return this.pop;
   }
-  movedOut(num=0) {
-    this.pop -= num;
-    return this.pop;
-  }
+  // movedOut(num=0) {
+  //   this.pop -= num;
+  //   return this.pop;
+  // }
   howBig() {
     const sizes = [ // -- modified values to not overlap
       {size: 'city', min: 100.001*1000, max:Infinity},
@@ -66,9 +66,9 @@ const CityController = class {
       const furthest = Object.values(this.cities).reduce(
         (a, b) => {
           switch (pole) {
-            case 'north':
+            case 'N':
               return (a.lat > b.lat) ? a : b;
-            case 'south':
+            case 'S':
               return (a.lat < b.lat) ? a : b;
             default:
               throw Error('desired hemisphere unknown');
@@ -99,12 +99,12 @@ const CityController = class {
       return citiesStr;
     };
   }
-  getMostNorthern() {
-    return this.getMost('north');
-  }
-  getMostSouthern() {
-    return this.getMost('south');
-  }
+  // getMostNorthern() {
+  //   return this.getMost('north');
+  // }
+  // getMostSouthern() {
+  //   return this.getMost('south');
+  // }
   getPopulation() {
     if (Object.keys(this.cities).length === 0) {
       return 0;
@@ -115,9 +115,9 @@ const CityController = class {
   }
   add(nameStr, latNum, lonNum, popNum=0) {
     if (
-        nameStr === undefined || 
-        latNum === undefined || 
-        lonNum === undefined
+        !nameStr ||
+        (!latNum && latNum !== 0)|| 
+        (!lonNum && lonNum !== 0)
       ) {
       throw Error('missing city info');
     };
@@ -143,7 +143,7 @@ const CityController = class {
     if (action==='move in') {
       city.movedIn(amount);
     } else if (action==='move out') {
-      city.movedOut(amount);
+      city.movedIn(-amount);
     };
   }
 };
