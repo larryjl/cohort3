@@ -24,8 +24,8 @@ class Cities extends React.Component {
       amount: '',
     };
     this.controller = new CityController();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
   }
 
   // roundDown(num, digits) {
@@ -36,8 +36,8 @@ class Cities extends React.Component {
     if (Object.keys(this.controller.cities).length > 0) {
       this.setState({ 
         total: this.controller.getPopulation(),
-        highest: this.controller.getMostNorthern(),
-        lowest: this.controller.getMostSouthern()
+        highest: this.controller.getMost('N'),
+        lowest: this.controller.getMost('S')
       });
     } else {
       this.setState({
@@ -58,7 +58,8 @@ class Cities extends React.Component {
     });
   }
 
-  confirm(name, lat, lon, amount=0) {
+  confirm(name, lat, lon, people) {
+    const amount = (people) ? people : 0;
     switch (this.state.action) {
       case 'create':
         try {
@@ -118,13 +119,12 @@ class Cities extends React.Component {
     this.report();
   }
 
-  renderButton(label, stateKeyValues, classNames){
-    let state = {};
-    for (let key in stateKeyValues) {
-      state[key] = stateKeyValues[key];
-    };
+  renderButton(label, state, classNames){
     return(
-      <button onClick={() => {this.setState(state)}} className={classNames}>
+      <button 
+        onClick={() => this.setState(state)} 
+        className={classNames}
+      >
         {label}
       </button>
   )}
@@ -194,14 +194,14 @@ class Cities extends React.Component {
     return Math.floor(num * 10**digits) / 10**digits;
   }
 
-  handleChange(event) {
+  handleInputChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
-  handleBlur(event) {
-    console.log(event.target.name);
+  handleInputBlur(event) {
+    console.log('onblur');
     const targetValue = event.target.value;
     const stateProp = event.target.name;
     this.setState({
@@ -230,11 +230,13 @@ class Cities extends React.Component {
             <div>
               {this.renderButton(
                 'Add People', 
-                {action: 'move in', name: this.controller.cities[key].name}
+                {action: 'move in', 
+                name: this.controller.cities[key].name}
               )}
               {this.renderButton(
                 'Subtract People', 
-                {action: 'move out', name: this.controller.cities[key].name}
+                {action: 'move out', 
+                name: this.controller.cities[key].name}
               )}
               {this.renderButton(
                 'Delete City', 
@@ -282,8 +284,8 @@ class Cities extends React.Component {
             <input type="text" 
               value={this.state.name} 
               name='name'
-              onChange={this.handleChange}
-              onBlur={this.handleBlur}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
             ></input>
           </div>)
         }
@@ -298,8 +300,8 @@ class Cities extends React.Component {
               placeholder={0.00}
               value={this.state.lat}
               name='lat'
-              onChange={this.handleChange}
-              onBlur={this.handleBlur}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
             ></input>
           </div>)
         }
@@ -314,12 +316,12 @@ class Cities extends React.Component {
               step={10**-8} 
               value={this.state.lon}
               name='lon'
-              onChange={this.handleChange}
-              onBlur={this.handleBlur}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
             ></input>
           </div>)
         }
-        {this.state.action && this.state.action.match(/create|'move in'|'move out'/) &&
+        {this.state.action && this.state.action.match(/create|move in|move out/) &&
           (<div className="input--row">
             <span className="input--caption">
               {(this.state.action==='create')?
@@ -333,8 +335,8 @@ class Cities extends React.Component {
               step={1} 
               value={this.state.amount}
               name='amount'
-              onChange={this.handleChange}
-              onBlur={this.handleBlur}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
             ></input>
           </div>)
         }
