@@ -1,4 +1,4 @@
-import {City, Controller} from './cities_class.js';
+import {City, CityController} from './cities_class.js';
 
 const testCities = [
   {name: 'aname', lat: -1, lon: 0, pop: 1, size: 'hamlet'},
@@ -28,18 +28,18 @@ describe('city class', () => {
     expect(city.lon).toBe(1);
     expect(city.pop).toBe(0);
   });
-  test('city constructor mising info', () => {
+  test('city constructor missing info', () => {
     try {
       new City('aname');
     } catch (error) {
       expect(error).toBeTruthy();
     };
   });
-  test('city show', () => {
-    const city = new City('aname', -1, 0, 1);
-    const result = city.show();
-    expect(result).toBe('aname,-1,0,1');
-  });
+  // test('city show', () => {
+  //   const city = new City('aname', -1, 0, 1);
+  //   const result = city.show();
+  //   expect(result).toBe('aname,-1,0,1');
+  // });
   test('city movedIn', () => {
     const city = new City('aname', -1, 0, 1);
     const result = city.movedIn(2);
@@ -52,13 +52,8 @@ describe('city class', () => {
   });
   test('city movedOut', () => {
     const city = new City('aname', -1, 0, 2);
-    const result = city.movedOut(2);
+    const result = city.movedIn(-2);
     expect(result).toBe(0);
-  });
-  test('city movedOut no num', () => {
-    const city = new City('aname', -1, 0, 2);
-    const result = city.movedOut();
-    expect(result).toBe(2);
   });
   test('city howBig', () => {
     testCities.forEach((v,i) => {
@@ -67,19 +62,32 @@ describe('city class', () => {
       expect(result).toBe(v.size);
     });
   });
+  test('city sphere', () => {
+    let city;
+
+    city = new City('northcity', 1, 0, 0);
+    expect(city.whichSphere()).toEqual('Northern Hemisphere');
+
+    city = new City('southcity', -1, 0, 0);
+    expect(city.whichSphere()).toEqual('Southern Hemisphere');
+
+    city = new City('equatorcity', 0, 0, 0);
+    expect(city.whichSphere()).toEqual('Equator');
+  });
+
 });
 
 describe('controller class', () => {
 
   test('controller constructor', () => {
-    const controller = new Controller();
+    const controller = new CityController();
     expect(controller.cities).toEqual({});
   });
 
   test('controller create', () => {
-    const controller = new Controller();
-    controller.createCity('springfield', 90, 180, 100*1000);
-    controller.createCity('shelbyville', -90, -180, 20*1000);
+    const controller = new CityController();
+    controller.add('springfield', 90, 180, 100*1000);
+    controller.add('shelbyville', -90, -180, 20*1000);
     const key1 = Object.keys(controller.cities).find(
       key => controller.cities[key].name === 'springfield'
     );
@@ -90,22 +98,22 @@ describe('controller class', () => {
   });
 
   test('controller create blank, catch error', () => {
-    const controller = new Controller();
+    const controller = new CityController();
     try {
-      controller.createCity();
+      controller.add();
     } catch(error) {
       expect(error).toBeTruthy();
     }
   });
 
   test('controller delete', () => {
-    const controller = new Controller();
-    controller.createCity('springfield', 90, 180, 100*1000);
-    controller.createCity('shelbyville', -90, -180, 20*1000);
+    const controller = new CityController();
+    controller.add('springfield', 90, 180, 100*1000);
+    controller.add('shelbyville', -90, -180, 20*1000);
     const key = Object.keys(controller.cities).find(
       key => controller.cities[key].name === 'shelbyville'
     );
-    controller.deleteCity(key);
+    controller.remove(key);
     expect(Object.keys(controller.cities).length).toBe(1);
     expect(Object.keys(controller.cities).find(
       key => controller.cities[key].name === 'springfield'))
@@ -113,58 +121,26 @@ describe('controller class', () => {
   });
   
   test('controller delete non-existing', () => {
-    const controller = new Controller();
-    try { controller.deleteCity(0);
-    } catch (error) {
-      expect(error).toBeTruthy();
-    };
-  });
-
-  test('controller sphere', () => {
-    const controller = new Controller();
-    controller.createCity('springfield', 90, -180, 100*1000);
-    controller.createCity('shelbyville', -90, 180, 20*1000);
-    controller.createCity('equatorville', 0, 10, 100);
-    const key1 = Object.keys(controller.cities).find(
-      key => controller.cities[key].name === 'springfield'
-    );
-    const key2 = Object.keys(controller.cities).find(
-      key => controller.cities[key].name === 'shelbyville'
-    );
-    const key3 = Object.keys(controller.cities).find(
-      key => controller.cities[key].name === 'equatorville'
-    );
-    let result;
-
-    result = controller.whichSphere(key1);
-    expect(result).toEqual('Northern Hemisphere');
-
-    result = controller.whichSphere(key2);
-    expect(result).toEqual('Southern Hemisphere');
-
-    result = controller.whichSphere(key3);
-    expect(result).toEqual('Equator');
-
-    try { 
-      controller.whichSphere(99);
+    const controller = new CityController();
+    try { controller.remove(0);
     } catch (error) {
       expect(error).toBeTruthy();
     };
   });
 
   test('controller northern southern', () => {
-    const controller = new Controller();
-    controller.createCity('springfield', 90, -180, 100*1000);
-    controller.createCity('shelbyville', -90, 180, 20*1000);
-    controller.createCity('springfield2', 90, -180, 100*1000);
-    controller.createCity('shelbyville2', -90, 180, 20*1000);
-    controller.createCity('shelbyville3', -90, 180, 20*1000);
+    const controller = new CityController();
+    controller.add('springfield', 90, -180, 100*1000);
+    controller.add('shelbyville', -90, 180, 20*1000);
+    controller.add('springfield2', 90, -180, 100*1000);
+    controller.add('shelbyville2', -90, 180, 20*1000);
+    controller.add('shelbyville3', -90, 180, 20*1000);
     let result;
 
-    result = controller.getMostNorthern();
+    result = controller.getMost('N');
     expect(result).toBe('springfield and springfield2');
 
-    result = controller.getMostSouthern();
+    result = controller.getMost('S');
     expect(result).toBe('shelbyville, shelbyville2, and shelbyville3');
 
     try { controller.getMost()
@@ -174,7 +150,7 @@ describe('controller class', () => {
   });
 
   test('controller getMost no cities', () => {
-    const controller = new Controller();
+    const controller = new CityController();
     try {
       controller.getMost('north');
     } catch (error) {
@@ -183,7 +159,7 @@ describe('controller class', () => {
   });
 
   test('controller getMost no direction', () => {
-    const controller = new Controller();
+    const controller = new CityController();
     try {
       controller.getMost();
     } catch (error) {
@@ -192,15 +168,15 @@ describe('controller class', () => {
   });
 
   test('controller total population', () => {
-    const controller = new Controller();
-    controller.createCity('springfield', 90, -180, 100*1000);
-    controller.createCity('shelbyville', -90, 180, 20*1000);
+    const controller = new CityController();
+    controller.add('springfield', 90, -180, 100*1000);
+    controller.add('shelbyville', -90, 180, 20*1000);
     let result = controller.getPopulation();
     expect(result).toBe(120000);
   });
 
   test('controller no population', () => {
-    const controller = new Controller();
+    const controller = new CityController();
     let result = controller.getPopulation();
     expect(result).toBe(0);
   });

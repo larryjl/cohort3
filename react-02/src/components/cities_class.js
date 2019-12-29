@@ -1,43 +1,4 @@
-// // counter closure
-const idCounter = (() => {
-  let nextId = 0; // initialized only once
-  return () => {
-    nextId++; // nextId available from parent function
-    return nextId;
-  };
-})(); // call to initialize nextId when function is first read
-
-const arrayToSentence = (equalCitiesArr) => {
-  // // make sentence from array: 'a, b and c'
-  let citiesStr;
-  switch (equalCitiesArr.length) {
-    case 0:
-      throw Error('no values');
-    case 1:
-      citiesStr = equalCitiesArr[0];
-      break;
-    case 2:
-      citiesStr = equalCitiesArr.join(' and ');
-      break;
-    default:
-      citiesStr = equalCitiesArr.slice(0, equalCitiesArr.length - 1)
-        .join(', ') + 
-        ', and ' + equalCitiesArr.slice(-1);
-  };
-  return citiesStr;
-};
-
-const equalObjectValues = (itemsObj, reference, measure, out) => {
-  // // get array of values of items with measure equal to reference item
-  const equalItemsArr = [];
-  for(let k in itemsObj) {
-    if (itemsObj[k][measure] === reference[measure]) {
-      equalItemsArr.push(itemsObj[k][out]);
-    };
-  };
-  return equalItemsArr;
-};
-
+import functions from './cities_functions.js';
 
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum=0) {
@@ -74,23 +35,23 @@ const City = class {
       };
     };
   }
+  whichSphere() {
+    if (this.lat || this.lat===0) {
+      return (this.lat > 0)
+        ? "Northern Hemisphere"
+        : (this.lat < 0)
+          ? "Southern Hemisphere"
+          : 'Equator';
+    } else {
+      throw Error('city latitude not found');
+    };
+  }
 };
 
 
 const CityController = class {
   constructor() {
     this.cities = {};
-  }
-  whichSphere(keyNum) {
-    if (this.cities[keyNum]) {
-      return (this.cities[keyNum].lat > 0)
-        ? "Northern Hemisphere"
-        : (this.cities[keyNum].lat < 0)
-          ? "Southern Hemisphere"
-          : 'Equator';
-    } else {
-      throw Error('city not found');
-    };
   }
   getMost(pole) {
     if (Object.keys(this.cities).length) {
@@ -106,10 +67,10 @@ const CityController = class {
         }
       );
       // // get equal cities
-      const equalCitiesArr = equalObjectValues(this.cities, furthest, 'lat', 'name');
+      const equalCitiesArr = functions.equalObjectValues(this.cities, furthest, 'lat', 'name');
       
       // // make sentence from array: 'a, b and c'
-      return arrayToSentence(equalCitiesArr);
+      return functions.arrayToSentence(equalCitiesArr);
       
     } else {
       throw Error('no cities');
@@ -138,7 +99,7 @@ const CityController = class {
       throw Error('Missing city info.');
     };
     const city = new City(nameStr, latNum, lonNum, popNum);
-    const key = idCounter(); // behind closure
+    const key = functions.idCounter(); // behind closure
     this.cities[key]=city;
     const cityClone = Object.assign({}, city);
     return {
@@ -178,4 +139,7 @@ const CityController = class {
   }
 };
 
-export {CityController, idCounter};
+export {
+  City, 
+  CityController
+};
