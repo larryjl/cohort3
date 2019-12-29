@@ -1,4 +1,4 @@
-import {City, Controller} from './class.js';
+import {City, Controller} from './cities_class.js';
 
 const testCities = [
   {name: 'aname', lat: -1, lon: 0, pop: 1, size: 'hamlet'},
