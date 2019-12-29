@@ -1,4 +1,4 @@
-// // closure counter
+// // counter closure
 const idCounter = (() => {
   let nextId = 0; // initialized only once
   return () => {
@@ -6,6 +6,38 @@ const idCounter = (() => {
     return nextId;
   };
 })(); // call to initialize nextId when function is first read
+
+const arrayToSentence = (equalCitiesArr) => {
+  // // make sentence from array: 'a, b and c'
+  let citiesStr;
+  switch (equalCitiesArr.length) {
+    case 0:
+      throw Error('no values');
+    case 1:
+      citiesStr = equalCitiesArr[0];
+      break;
+    case 2:
+      citiesStr = equalCitiesArr.join(' and ');
+      break;
+    default:
+      citiesStr = equalCitiesArr.slice(0, equalCitiesArr.length - 1)
+        .join(', ') + 
+        ', and ' + equalCitiesArr.slice(-1);
+  };
+  return citiesStr;
+};
+
+const equalObjectValues = (itemsObj, reference, measure, out) => {
+  // // get array of values of items with measure equal to reference item
+  const equalItemsArr = [];
+  for(let k in itemsObj) {
+    if (itemsObj[k][measure] === reference[measure]) {
+      equalItemsArr.push(itemsObj[k][out]);
+    };
+  };
+  return equalItemsArr;
+};
+
 
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum=0) {
@@ -44,6 +76,7 @@ const City = class {
   }
 };
 
+
 const CityController = class {
   constructor() {
     this.cities = {};
@@ -60,43 +93,26 @@ const CityController = class {
     };
   }
   getMost(pole) {
-    if (Object.keys(this.cities).length===0) {
-      throw Error('no cities');
-    } else {
+    if (Object.keys(this.cities).length) {
       const furthest = Object.values(this.cities).reduce(
         (a, b) => {
-          switch (pole) {
-            case 'N':
+          if (pole==='N') {
               return (a.lat > b.lat) ? a : b;
-            case 'S':
+          } else if (pole==='S') {
               return (a.lat < b.lat) ? a : b;
-            default:
+          } else {
               throw Error('desired hemisphere unknown');
-          }
+          };
         }
       );
-      // // check for equal cities
-      const equalCitiesArr = [];
-      for(let k in this.cities) {
-        if (this.cities[k].lat === furthest.lat) {
-          equalCitiesArr.push(this.cities[k].name);
-        };
-      };
+      // // get equal cities
+      const equalCitiesArr = equalObjectValues(this.cities, furthest, 'lat', 'name');
+      
       // // make sentence from array: 'a, b and c'
-      let citiesStr;
-      switch (equalCitiesArr.length) {
-        case 1:
-          citiesStr = equalCitiesArr[0];
-          break;
-        case 2:
-          citiesStr = equalCitiesArr.join(' and ');
-          break;
-        default:
-          citiesStr = equalCitiesArr.slice(0, equalCitiesArr.length - 1)
-            .join(', ') + 
-            ', and ' + equalCitiesArr.slice(-1);
-      };
-      return citiesStr;
+      return arrayToSentence(equalCitiesArr);
+      
+    } else {
+      throw Error('no cities');
     };
   }
   // getMostNorthern() {
@@ -119,33 +135,47 @@ const CityController = class {
         (!latNum && latNum !== 0)|| 
         (!lonNum && lonNum !== 0)
       ) {
-      throw Error('missing city info');
+      throw Error('Missing city info.');
     };
     const city = new City(nameStr, latNum, lonNum, popNum);
     const key = idCounter(); // behind closure
     this.cities[key]=city;
-    return city;
+    const cityClone = Object.assign({}, city);
+    return {
+      key: key,
+      info: cityClone
+    };
   }
-  remove(keyNum) {
-    if (this.cities[keyNum]) {
-      delete this.cities[keyNum];
-    } else {
-      throw Error('city not found');
+  remove(id, name) {
+    const key = (id) ? id : this.identify(name);
+    const cityClone = Object.assign({}, this.cities[key]);
+    delete this.cities[key];
+    return {
+      key: key,
+      info: cityClone
     };
   }
   migration(action, amount, id, name) {
-    let city;
-    if (id) {
-      city = this.cities[id];
-    } else if (name) {
-      city = Object.values(this.cities).find(c => c.name === name);
-    } else throw Error('No city specified.')
-    if (action==='move in') {
-      city.movedIn(amount);
-    } else if (action==='move out') {
-      city.movedIn(-amount);
+    const key = (id) ? id : this.identify(name);
+    this.cities[key].movedIn(
+      (action==='move in') ? amount : -amount
+    );
+    const cityClone = Object.assign({}, this.cities[key]);
+    return {
+      key: key,
+      info: cityClone
+    };
+  }
+  identify(name) {
+    const key = Object.keys(this.cities).find(
+      key => this.cities[key].name === name
+    );
+    if (key) {
+      return key;
+    } else {
+      throw Error('City not found.');
     };
   }
 };
 
-export {City, CityController, idCounter};
+export {CityController, idCounter};
