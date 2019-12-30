@@ -146,6 +146,7 @@ class Cities extends React.Component {
     });
   }
 
+  // TODO
   async pull(url) {
     try {
       let data = await postData(url + 'all');
@@ -183,7 +184,7 @@ class Cities extends React.Component {
         };
       };
     } catch (error) {
-      //
+      throw Error(error);
     };
   }
 
@@ -206,13 +207,13 @@ class Cities extends React.Component {
         );
         break;
       default:
+        // do nothing
+        return;
     }
     const key = keyedCity.key;
     
     if (push) {
-      // console.log(cityObj)
       // const key = +functions.objKeyByValue(this.controller.cities, cityObj);
-
       // const cityClone = JSON.parse(JSON.stringify(cityObj));
       // const keyedCity = {
       //   key: key,
@@ -257,7 +258,11 @@ class Cities extends React.Component {
         list.push(
           <div key={key} className="cities--card">
             <h4>[{key}] {this.controller.cities[key].name}</h4>
-            <p>Location: ({this.controller.cities[key].lat},{this.controller.cities[key].lon})</p>
+            <p>Location: (DD): 
+              {this.controller.cities[key].lat},
+              {this.controller.cities[key].lon} 
+              ({this.controller.cities[key].whichSphere()})
+            </p>
             <p>Population: {this.controller.cities[key].pop}</p>
             <div>
               {this.renderButton(
@@ -280,13 +285,13 @@ class Cities extends React.Component {
         );
       };
     };
-    let citiesList =
+    const citiesList =
       <div id="idCitiesList">
         {list}
       </div>
     ;
 
-    let citiesReport =
+    const citiesReport =
       <div id="idCitiesReport">
         <div>
           <div className="kpi rag--g">{this.state.total}</div>
@@ -303,7 +308,7 @@ class Cities extends React.Component {
       </div>
     ;
     
-    let citiesInputs = 
+    const citiesInputs = 
       <div id="idCitiesInputs">
         {this.state.action && this.state.action.match(/delete/) &&
           (<div className="input--message button--alert">
@@ -393,7 +398,7 @@ class Cities extends React.Component {
       </div>
     ;
 
-    let citiesMessage = 
+    const citiesMessage = 
       <p id="idCitiesMessage">
         {(this.state.messageType==='check')?
           <IconCheck className="svg--check"/>:
