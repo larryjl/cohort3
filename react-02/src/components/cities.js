@@ -59,14 +59,14 @@ class Cities extends React.Component {
     });
   }
 
-  confirm(name, amountNum, latNum, lonNum) {
+  async confirm(name, amountNum, latNum, lonNum) {
     const lat = (latNum) ? latNum : 0;
     const lon = (lonNum) ? lonNum : 0;
     const amount = (amountNum) ? amountNum : 0;
     switch (this.state.action) {
       case 'create':
         try {
-          this.update(name, amount, lat, lon);
+          await this.update(name, amount, lat, lon);
           this.setState({
             message: `Added city: ${name}.`,
             messageType: 'check'
@@ -81,7 +81,7 @@ class Cities extends React.Component {
         break;
       case 'delete':
         try {
-          this.update(name);
+          await this.update(name);
           this.setState({
             message: `Removed city: ${name}.`,
             messageType: 'check',
@@ -97,7 +97,7 @@ class Cities extends React.Component {
       case 'move in':
       case 'move out':
         try {
-          this.update(name, amount);
+          await this.update(name, amount);
           this.setState({
             message: 
               (this.state.action==='move in')?
