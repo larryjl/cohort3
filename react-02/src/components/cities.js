@@ -69,6 +69,7 @@ class Cities extends React.Component {
           });
           this.clearInputs();
         } catch(error) {
+          console.log(error);
           this.setState({
             message: `${name}: ${error}`,
             messageType: 'warn'
@@ -84,6 +85,7 @@ class Cities extends React.Component {
           });
           this.clearInputs();
         } catch (error) {
+          console.log(error);
           this.setState({
             message: `${name}: ${error}`,
             messageType: 'warn'
@@ -103,6 +105,7 @@ class Cities extends React.Component {
           });
           this.clearInputs();
         } catch (error) {
+          console.log(error);
           this.setState({
             message: `${name}: ${error}`,
             messageType: 'warn'
@@ -184,6 +187,7 @@ class Cities extends React.Component {
         };
       };
     } catch (error) {
+      console.log(error);
       throw Error(error);
     };
   }
@@ -236,6 +240,7 @@ class Cities extends React.Component {
           console.log('saved')
         };
       } catch (error) {
+        console.log(error);
         if (this.state.action === 'create') {
           delete this.controller.cities[key];
         };
@@ -258,11 +263,8 @@ class Cities extends React.Component {
         list.push(
           <div key={key} className="cities--card">
             <h4>[{key}] {this.controller.cities[key].name}</h4>
-            <p>Location: (DD): 
-              {this.controller.cities[key].lat},
-              {this.controller.cities[key].lon} 
-              ({this.controller.cities[key].whichSphere()})
-            </p>
+            <p>Location (DD): {this.controller.cities[key].lat}, {this.controller.cities[key].lon}</p>
+            <p>({this.controller.cities[key].whichSphere()})</p>
             <p>Population: {this.controller.cities[key].pop}</p>
             <div>
               {this.renderButton(
