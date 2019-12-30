@@ -24,9 +24,7 @@ async function postData(url = '', data = {}) {
   };
   // Default options are marked with *
   const response = await fetch(url, fetchOptions);
-  console.log(response);
   const json = await response.json();    // parses JSON response into native JavaScript objects
-  console.log(json);
   json.status = response.status;
   json.statusText = response.statusText;
   // console.log(json, typeof(json));

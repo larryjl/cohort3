@@ -1,7 +1,8 @@
 import React from 'react';
 import './Cities.css';
-import {CityController, idCounter} from './city.js';
-import postData from './fetch.js';
+import {CityController} from './cities_class';
+import functions from './cities_functions';
+import postData from './fetch';
 import {ReactComponent as IconCheck} from '../svg/Icon_check.svg';
 import {ReactComponent as IconAttention} from '../svg/Icon_attention_circle.svg';
 
@@ -58,12 +59,14 @@ class Cities extends React.Component {
     });
   }
 
-  confirm(name, lat, lon, people) {
-    const amount = (people) ? people : 0;
+  confirm(name, amountNum, latNum, lonNum) {
+    const lat = (latNum) ? latNum : 0;
+    const lon = (lonNum) ? lonNum : 0;
+    const amount = (amountNum) ? amountNum : 0;
     switch (this.state.action) {
       case 'create':
         try {
-          this.controller.add(name, lat, lon, amount);
+          this.update(name, amount, lat, lon);
           this.setState({
             message: `Added city: ${name}.`,
             messageType: 'check'
@@ -78,7 +81,7 @@ class Cities extends React.Component {
         break;
       case 'delete':
         try {
-          this.controller.remove(name);
+          this.update(name);
           this.setState({
             message: `Removed city: ${name}.`,
             messageType: 'check',
@@ -94,7 +97,7 @@ class Cities extends React.Component {
       case 'move in':
       case 'move out':
         try {
-          this.controller.migration(this.state.action, amount, null, name);
+          this.update(name, amount);
           this.setState({
             message: 
               (this.state.action==='move in')?
@@ -132,64 +135,6 @@ class Cities extends React.Component {
   objKeyByValue(object, value) {
     return +Object.keys(object).find(key => object[key] === value);
   }
-
-  async pull(url) {
-    try {
-      let data = await postData(url + 'all');
-      if (data.status===200) {
-        //
-      };
-      if (data.length > 0) {
-        const keys = Object.keys(data);
-        // let keys = [];
-        // for (let city of data) {
-        //   keys.push(city.key);
-        // };
-        const maxKey = keys.reduce((a,b) => (a > b) ? a : b);
-        // controllerInst.cities = {};
-        for (let k=1; k<=maxKey; k++) { 
-          const city = data.find(city => city.key === k);
-          if (city) {
-            let cityValuesArr = Array[4];
-            cityValuesArr[0] = city.info.name;
-            cityValuesArr[1] = city.info.lat;
-            cityValuesArr[2] = city.info.lon;
-            cityValuesArr[3] = city.info.pop;
-
-            await this.createCity(cityValuesArr, false);
-          } else {
-            idCounter();
-          };
-        };
-      };
-    } catch (error) {
-      //
-    };
-  }
-
-  async createCity(cityValuesArr, push) {
-    // // local object, cloned into a new object with the key
-    const cityObj = this.controller.createCity(...cityValuesArr);
-    const key = this.objKeyByValue(this.controller.cities, cityObj);
-    const cityClone = JSON.parse(JSON.stringify(cityObj));
-    const keyedCity = {
-      key: key,
-      info: cityClone
-    };
-    if (push) {
-      try {
-        let data = await postData(url + 'add', keyedCity); // server data
-        if (data.status===200) {
-          await postData(url + 'save');
-        };
-      } catch (error) {
-        delete this.controller.cities[key];
-      }; 
-    } else {
-      //
-    };
-  }
-
   roundDown(num, digits) {
     return Math.floor(num * 10**digits) / 10**digits;
   }
@@ -201,7 +146,6 @@ class Cities extends React.Component {
   }
 
   handleInputBlur(event) {
-    console.log('onblur');
     const targetValue = event.target.value;
     const stateProp = event.target.name;
     this.setState({
@@ -213,11 +157,110 @@ class Cities extends React.Component {
     });
   }
 
+  async pull(url) {
+    try {
+      let data = await postData(url + 'all');
+      if (data.status===200) {
+        //
+      };
+      if (data.length > 0) {
+        this.setState({action: 'create'})
+        const keys = Object.keys(data);
+        // let keys = [];
+        // for (let city of data) {
+        //   keys.push(city.key);
+        // };
+        const maxKey = keys.reduce((a,b) => (a > b) ? a : b);
+        // controllerInst.cities = {};
+        for (let k=1; k<=maxKey; k++) { 
+          const city = data.find(city => city.key === k);
+          if (city) {
+            // let cityValuesArr = Array[4];
+            // cityValuesArr[0] = city.info.name;
+            // cityValuesArr[1] = city.info.lat;
+            // cityValuesArr[2] = city.info.lon;
+            // cityValuesArr[3] = city.info.pop;
+
+            await this.createCity(
+              city.info.name, 
+              city.info.lat,
+              city.info.lon,
+              city.info.pop,
+              false
+              );
+          } else {
+            functions.idCounter();
+          };
+        };
+      };
+    } catch (error) {
+      //
+    };
+  }
+
+  async update(name, pop, lat, lon, push=true) {
+    this.setState({
+      controller: JSON.parse(JSON.stringify(this.controller))
+    });
+    let keyedCity;
+    switch (this.state.action) {
+      case 'create':
+        keyedCity = this.controller.add(name, pop, lat, lon);
+        break;
+      case 'delete':
+        keyedCity = this.controller.remove(null, name);
+        break;
+      case 'move in':
+      case 'move out':
+        keyedCity = this.controller.migration(
+          this.state.action, pop, null, name
+        );
+        break;
+      default:
+    }
+    const key = keyedCity.key;
+    
+    if (push) {
+      // console.log(cityObj)
+      // const key = this.objKeyByValue(this.controller.cities, cityObj);
+
+      // const cityClone = JSON.parse(JSON.stringify(cityObj));
+      // const keyedCity = {
+      //   key: key,
+      //   info: cityClone
+      // };
+      try {
+        let data;
+        if (this.state.action.match(/create|move in|move out/)) {
+          data = await postData(
+            url + (
+              (this.state.action==='create') ? 'add' : 'update'
+            ),
+            keyedCity
+          );
+        } else if (this.state.action === 'delete') {
+          data = await postData(url + 'delete', {key: key});
+        };
+        if (data.status===200) {
+          await postData(url + 'save');
+          console.log('saved')
+        };
+      } catch (error) {
+        if (this.state.action === 'create') {
+          delete this.controller.cities[key];
+        };
+        throw Error(error);
+      };
+    } else {
+      // do nothing
+    };
+  }
+
   render() {
 
     let list = [];
     if (!Object.keys(this.controller.cities).length) {
-      list = 
+      list =
         <p>There are no cities.</p>
       ;
     } else {
@@ -342,7 +385,10 @@ class Cities extends React.Component {
         }
         <div id="idCitiesInputsButtons">
           <button className="button--check" onClick={() => this.confirm(
-            this.state.name, this.state.lat, this.state.lon, this.state.amount
+            this.state.name, 
+            this.state.lat, 
+            this.state.lon, 
+            this.state.amount
           )}>
             Confirm
           </button>

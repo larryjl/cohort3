@@ -1,4 +1,4 @@
-import functions from './cities_functions.js';
+import functions from './cities_functions';
 
 const City = class {
   constructor(nameStr, latNum, lonNum, popNum=0) {
