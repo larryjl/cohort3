@@ -1,10 +1,7 @@
 import functions from './cities_functions';
 
 const City = class {
-  constructor(nameStr, latNum, lonNum, popNum=0) {
-    if (lonNum === undefined) {
-      throw Error('missing city info');
-    };
+  constructor(nameStr, latNum=0, lonNum=0, popNum=0) {
     this.name = nameStr;
     this.lat = latNum;
     this.lon = lonNum;
@@ -90,12 +87,8 @@ const CityController = class {
       return popArr.reduce((a, v) => a + v);
     };
   }
-  add(nameStr, latNum, lonNum, popNum=0) {
-    if (
-        !nameStr ||
-        (!latNum && latNum !== 0)|| 
-        (!lonNum && lonNum !== 0)
-      ) {
+  add(nameStr, latNum=0, lonNum=0, popNum=0) {
+    if (!nameStr) {
       throw Error('Missing city info.');
     };
     const city = new City(nameStr, latNum, lonNum, popNum);

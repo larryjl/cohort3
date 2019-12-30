@@ -55,10 +55,7 @@ class Cities extends React.Component {
     });
   }
 
-  async confirm(name, amountNum, latNum, lonNum) {
-    const lat = (latNum) ? latNum : 0;
-    const lon = (lonNum) ? lonNum : 0;
-    const amount = (amountNum) ? amountNum : 0;
+  async confirm(name, amount=0, lat=0, lon=0) {
     switch (this.state.action) {
       case 'create':
         try {
@@ -87,7 +84,7 @@ class Cities extends React.Component {
         } catch (error) {
           console.log(error);
           this.setState({
-            message: `${name}: ${error}`,
+            message: `${error}`,
             messageType: 'warn'
           });
         };
@@ -199,7 +196,7 @@ class Cities extends React.Component {
     let keyedCity;
     switch (this.state.action) {
       case 'create':
-        keyedCity = this.controller.add(name, pop, lat, lon);
+        keyedCity = this.controller.add(name, lat, lon, pop);
         break;
       case 'delete':
         keyedCity = this.controller.remove(null, name);
@@ -382,9 +379,9 @@ class Cities extends React.Component {
         <div id="idCitiesInputsButtons">
           <button className="button--check" onClick={() => this.confirm(
             this.state.name, 
+            this.state.amount,
             this.state.lat, 
             this.state.lon, 
-            this.state.amount
           )}>
             Confirm
           </button>
