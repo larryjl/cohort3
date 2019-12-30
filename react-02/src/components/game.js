@@ -1,5 +1,5 @@
 import React from 'react';
-import './Game.css';
+import './game.css';
 import { ReactComponent as IconX } from '../svg/Icon_close_circle.svg';
 import { ReactComponent as IconO } from '../svg/Icon_record.svg';
 

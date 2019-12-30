@@ -1,5 +1,5 @@
 import React from 'react';
-import './Cities.css';
+import './cities.css';
 import {CityController} from './cities_class';
 import functions from './cities_functions';
 import postData from './fetch';

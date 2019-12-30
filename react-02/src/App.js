@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {ReactComponent as Logo} from './logo.svg';
 import './App.css';
-import Nav from './components/Nav';
-import Game from './components/Game';
+import Nav from './components/nav';
+import Game from './components/game';
 import Transform from './components/Transform';
-import Accounts from './components/Accounts';
-import Cities from './components/Cities';
+import Accounts from './components/accounts';
+import Cities from './components/cities';
 
 class App extends Component {
 

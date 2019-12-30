@@ -1,6 +1,6 @@
 import React from 'react';
-import './Accounts.css';
-import {AccountController} from './account.js';
+import './accounts.css';
+import {AccountController} from './accounts_class.js';
 import {ReactComponent as IconCheck} from '../svg/Icon_check.svg';
 import {ReactComponent as IconAttention} from '../svg/Icon_attention_circle.svg';
 

@@ -1,4 +1,4 @@
-import {Account, AccountController} from './account.js';
+import {Account, AccountController} from './accounts_class.js';
 
 test('account methods', () => {
   const account = new Account('checkingAccount', 25, 1);
