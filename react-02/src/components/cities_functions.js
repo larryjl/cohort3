@@ -38,6 +38,14 @@ const functions = {
       };
     };
     return equalItemsArr;
+  },
+
+  objKeyByValue: (object, value) => {
+    return Object.keys(object).find(key => object[key] === value);
+  },
+
+  roundDown: (num, digits) => {
+    return Math.floor(num * 10**digits) / 10**digits;
   }
 
 };

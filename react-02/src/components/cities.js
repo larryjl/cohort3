@@ -29,10 +29,6 @@ class Cities extends React.Component {
     this.handleInputBlur = this.handleInputBlur.bind(this);
   }
 
-  // roundDown(num, digits) {
-  //   return Math.floor(num * 10**digits) / 10**digits;
-  // }
-
   report() {
     if (Object.keys(this.controller.cities).length > 0) {
       this.setState({ 
@@ -132,13 +128,6 @@ class Cities extends React.Component {
       </button>
   )}
 
-  objKeyByValue(object, value) {
-    return +Object.keys(object).find(key => object[key] === value);
-  }
-  roundDown(num, digits) {
-    return Math.floor(num * 10**digits) / 10**digits;
-  }
-
   handleInputChange(event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -152,7 +141,7 @@ class Cities extends React.Component {
       [stateProp]: (stateProp==='amount') ?
       Math.floor(targetValue) :
         (stateProp==='lat' || stateProp==='lon') ?
-          this.roundDown(targetValue,8) :
+          functions.roundDown(targetValue,8) :
           targetValue.trim() // name
     });
   }
@@ -222,7 +211,7 @@ class Cities extends React.Component {
     
     if (push) {
       // console.log(cityObj)
-      // const key = this.objKeyByValue(this.controller.cities, cityObj);
+      // const key = +functions.objKeyByValue(this.controller.cities, cityObj);
 
       // const cityClone = JSON.parse(JSON.stringify(cityObj));
       // const keyedCity = {
