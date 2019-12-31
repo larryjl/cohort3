@@ -40,8 +40,13 @@ const functions = {
     return equalItemsArr;
   },
 
-  objKeyByValue: (object, value) => {
-    return Object.keys(object).find(key => object[key] === value);
+  objKeyByValue: (object, value, property) => {
+    return (Object.keys(object).find(key => 
+      (property)
+        ? object[key][property]
+        : object[key] 
+      === value
+    ));
   },
 
   roundDown: (num, digits) => {
