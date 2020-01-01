@@ -40,7 +40,7 @@ class App extends Component {
       default: // home
         main = 
           <main id="idMainHome">
-            <Logo className="logo bounceIn" alt="logo" />
+              <Logo className="logo logo--orbit" alt="logo" />
           </main>;
     };
     return (

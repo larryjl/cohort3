@@ -18,9 +18,6 @@ h1, h2, h3 {color: #09d3ac;}
 
 .app {text-align: center;}
 
-.logo {height: 40vmin;}
-.logo path {fill: #FFA50B;}
-
 main {
   margin-left: 100px;
   background-color: #282c34;
@@ -34,6 +31,18 @@ main {
   justify-content: center;
 }
 
+.logo {
+  width: 50vw;
+}
+.logo--orbit path {
+  stroke: #FFA50B;
+  stroke-width: 2px;
+  fill: #000;
+  stroke-dasharray: 100px 300px;
+  animation: orbit 8s infinite linear;
+}
+@keyframes orbit { to { stroke-dashoffset: 400px;}}
+
 .bounceIn {
   animation: bounceIn 2s;
 }
@@ -43,7 +52,7 @@ main {
     opacity: 0;
   }
   60% {
-    transform: scale(1.2);
+    transform: scale(1.4);
     opacity: 1;
   }
   100% {

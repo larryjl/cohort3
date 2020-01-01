@@ -25,7 +25,7 @@ class Nav extends React.Component {
         </button>
         {/* inline with focus */}
         <button key="game" onClick={() => this.handleClick("game")}>
-          <svg className={"rotating icon" + ((this.props.activePage==="game")?" icon--active":"")} tabIndex="0" alt ="tic-tac-toe" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className={"icon" + ((this.props.activePage==="game")?" icon--active":"")} tabIndex="0" alt ="tic-tac-toe" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 5C4 4.44772 4.44772 4 5 4H7C7.55228 4 8 4.44772 8 5V7C8 7.55228 7.55228 8 7 8H5C4.44772 8 4 7.55228 4 7V5Z" fill="black"/>
             <path d="M10 5C10 4.44772 10.4477 4 11 4H13C13.5523 4 14 4.44772 14 5V7C14 7.55228 13.5523 8 13 8H11C10.4477 8 10 7.55228 10 7V5Z" fill="black"/>
             <path d="M17 4C16.4477 4 16 4.44772 16 5V7C16 7.55228 16.4477 8 17 8H19C19.5523 8 20 7.55228 20 7V5C20 4.44772 19.5523 4 19 4H17Z" fill="black"/>
@@ -39,13 +39,13 @@ class Nav extends React.Component {
         </button>
         {/* react 2.0 svg */}
         <button key="transform" onClick={() => this.handleClick("transform")}>
-          <IconExit tabIndex="0" alt="transform" className={"rotating icon" + ((this.props.activePage==="transform")?" icon--active":"")}/>
+          <IconExit tabIndex="0" alt="transform" className={"icon" + ((this.props.activePage==="transform")?" icon--active":"")}/>
         </button>
         <button key="accounts" onClick={() => this.handleClick("accounts")}>
-          <IconCard tabIndex="0" alt="accounts" className={"rotating icon" + ((this.props.activePage==="accounts")?" icon--active":"")}/>
+          <IconCard tabIndex="0" alt="accounts" className={"icon" + ((this.props.activePage==="accounts")?" icon--active":"")}/>
         </button>
         <button key="cities" onClick={() => this.handleClick("cities")}>
-          <IconUserCircle tabIndex="0" alt="cities" className={"rotating icon" + ((this.props.activePage==="cities")?" icon--active":"")}/>
+          <IconUserCircle tabIndex="0" alt="cities" className={"icon" + ((this.props.activePage==="cities")?" icon--active":"")}/>
         </button>
       </nav>
     );
