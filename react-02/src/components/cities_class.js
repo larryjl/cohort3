@@ -101,7 +101,7 @@ const CityController = class {
     };
   }
   remove(id, name) {
-    const key = (id) ? id : this.identify(name);
+    const key = (id) ? id : +functions.objKeyByValue(this.cities, name, 'name');
     const cityClone = Object.assign({}, this.cities[key]);
     delete this.cities[key];
     return {
@@ -110,7 +110,7 @@ const CityController = class {
     };
   }
   migration(action, amount, id, name) {
-    const key = (id) ? id : this.identify(name);
+    const key = (id) ? id : +functions.objKeyByValue(this.cities, name, 'name');
     this.cities[key].movedIn(
       (action==='move in') ? amount : -amount
     );
@@ -120,16 +120,16 @@ const CityController = class {
       info: cityClone
     };
   }
-  identify(name) {
-    const key = Object.keys(this.cities).find(
-      key => this.cities[key].name === name
-    );
-    if (key) {
-      return key;
-    } else {
-      throw Error('City not found.');
-    };
-  }
+  // identify(name) {
+  //   const key = +Object.keys(this.cities).find(
+  //     key => this.cities[key].name === name
+  //   );
+  //   if (key) {
+  //     return key;
+  //   } else {
+  //     throw Error('City not found.');
+  //   };
+  // }
 };
 
 export {

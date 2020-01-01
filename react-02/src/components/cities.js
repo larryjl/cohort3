@@ -68,7 +68,7 @@ class Cities extends React.Component {
         } catch(error) {
           console.log(error);
           this.setState({
-            message: `${name}: ${error}`,
+            message: `${error}`,
             messageType: 'warn'
           });
         };
@@ -104,7 +104,7 @@ class Cities extends React.Component {
         } catch (error) {
           console.log(error);
           this.setState({
-            message: `${name}: ${error}`,
+            message: `${error}`,
             messageType: 'warn'
           });
         };
@@ -210,16 +210,10 @@ class Cities extends React.Component {
       default:
         // do nothing
         return;
-    }
+    };
     const key = keyedCity.key;
     
     if (push) {
-      // const key = +functions.objKeyByValue(this.controller.cities, cityObj);
-      // const cityClone = JSON.parse(JSON.stringify(cityObj));
-      // const keyedCity = {
-      //   key: key,
-      //   info: cityClone
-      // };
       try {
         let data;
         if (this.state.action.match(/create|move in|move out/)) {
@@ -233,8 +227,12 @@ class Cities extends React.Component {
           data = await postData(url + 'delete', {key: key});
         };
         if (data.status===200) {
-          await postData(url + 'save');
-          console.log('saved')
+          // await postData(url + 'save');
+          // console.log('saved')
+        } else if (data.msg) {
+          throw Error(data.msg);
+        } else {
+          throw Error('unknkown database error')
         };
       } catch (error) {
         console.log(error);
@@ -260,7 +258,7 @@ class Cities extends React.Component {
         list.push(
           <div key={key} className="cities--card">
             <h4>[{key}] {this.controller.cities[key].name}</h4>
-            <p>Location (DD): {this.controller.cities[key].lat}, {this.controller.cities[key].lon}</p>
+            <p>Location: ({this.controller.cities[key].lat}, {this.controller.cities[key].lon})</p>
             <p>({this.controller.cities[key].whichSphere()})</p>
             <p>Population: {this.controller.cities[key].pop}</p>
             <div>
