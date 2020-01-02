@@ -3,7 +3,18 @@
     flex-direction: column;
     align-content: center;
   }
+  #idMainCities .disabled{
+    color: grey;
+  }
   
+  /* Toggle  */
+  #idCitiesToggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+
   /* Report */
   #idCitiesReport {
     display: grid;

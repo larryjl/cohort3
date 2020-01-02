@@ -3,6 +3,7 @@ import './cities.css';
 import {CityController} from './cities_class';
 import functions from './cities_functions';
 import postData from './fetch';
+import Toggle from './toggle';
 import {ReactComponent as IconCheck} from '../svg/Icon_check.svg';
 import {ReactComponent as IconAttention} from '../svg/Icon_attention_circle.svg';
 
@@ -23,10 +24,13 @@ class Cities extends React.Component {
       lat: '',
       lon:'',
       amount: '',
+      online: false,
+      update: false
     };
     this.controller = new CityController();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
   report() {
@@ -246,6 +250,11 @@ class Cities extends React.Component {
     };
   }
 
+  handleToggle(toggle) {
+    console.log('test');
+    this.setState({update: toggle});
+  }
+
   render() {
 
     let list = [];
@@ -411,6 +420,17 @@ class Cities extends React.Component {
 
       <main id="idMainCities">
         <h2>Cities</h2>
+        <div id="idCitiesToggle">
+          <Toggle 
+            name="toggleDatabase" 
+            disabled={!this.state.online} 
+            onChange={this.handleToggle}
+          />
+          {(this.state.online)
+            ?<span>Auto-Save</span>
+            :<span className="disabled">Auto-Save Unavailable: No Local Server</span>
+          }
+        </div>
         {citiesReport}
         {citiesMessage}
         <div id="idCitiesContainer">
