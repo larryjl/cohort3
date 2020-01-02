@@ -2,7 +2,7 @@ import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 
-import Cities from 'cities';
+import Cities from './cities';
 
 let container = null;
 beforeEach(() => {
@@ -29,7 +29,7 @@ describe('offline', () => {
 });
 
 describe('online mock', () => {
-  test('', () => {
+  test('', async () => {
 
     const data = {
       key: 1,

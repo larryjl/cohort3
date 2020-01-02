@@ -11,7 +11,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cov": "react-scripts test --coverage --runInBand --watchAll=false; xdg-open coverage/lcov-report/index.html"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +28,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "./src/components/*.js"
+    ],
+    "coverageThreshold": {
+      "./src/components/*.js": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      }
+    }
   }
 }
