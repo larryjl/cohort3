@@ -37,7 +37,7 @@ main {
 .logo--orbit path {
   stroke: #FFA50B;
   stroke-width: 2px;
-  fill: #000;
+  fill: none;
   stroke-dasharray: 100px 300px;
   animation: orbit 8s infinite linear;
 }
