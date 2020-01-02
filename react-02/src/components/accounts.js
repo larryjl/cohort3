@@ -198,7 +198,7 @@ class Accounts extends React.Component {
           <div className="kpi rag--r">${this.state.lowest.bal}</div>
           <div className="kpi--caption">Lowest Balance</div>
           <div className="kpi--caption">{
-            (this.state.lowest.name)?`(${this.state.highest.name})`:null
+            (this.state.lowest.name)?`(${this.state.lowest.name})`:null
           }</div>
         </div>
       </div>
