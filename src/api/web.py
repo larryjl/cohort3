@@ -115,8 +115,18 @@ def load():
 			print('Record: ', d)
 	print("data2:", data)
 	# return "<h1>EvolveU test</h1> <h2>" + str(len(data)) + " records Loaded</h2>"
-	return jsonify(data), 200
+	return jsonify(list(data.values())), 200
 
+@app.route("/loadset", methods = ['GET'])
+def loadset():
+	global data
+	print("data1:", data)
+	with open('dataset.json') as json_file:
+		data = json.load(json_file)
+		for d in data:
+			print('Record: ', d)
+	print("data2:", data)
+	return jsonify(list(data.values())), 200
 
 @app.route("/save", methods = ['GET'])
 def save():
@@ -124,7 +134,7 @@ def save():
 	with open('data.json', 'w') as outfile:
 		json.dump(data, outfile)
 	# return "<h1>EvolveU test</h1> <h2>" + str(len(data)) + " records Saved</h2>"
-	return jsonify(data), 200
+	return jsonify(list(data.values())), 200
 
 
 @app.route("/clear", methods = ['POST','GET'])
