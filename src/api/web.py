@@ -14,14 +14,9 @@ app.secret_key = os.urandom(16)
 CORS(app, supports_credentials=True)
 
 @app.route("/")
-def index():
-	# return render_template("clock-bos.html")
-	return "<p>API Server up and running.</p>"
-
-
-@app.route("/hi")
-def hi():
-	return jsonify({}), 200
+def hello():
+	return render_template("clock-bos.html")
+	# return "<h1>EvolveU test</h1> <h2>API Server up and running..</h2>"
 
 
 @app.route("/all", methods = ['POST','GET'])
