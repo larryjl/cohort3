@@ -24,6 +24,8 @@ class Cities extends Component {
       message: null,
       messageType: null,
 
+      nextId: 0,
+
       id: null,
       name: '',
       lat: '',
@@ -200,22 +202,28 @@ class Cities extends Component {
         const maxKey = data.reduce(
           (a,b) => (a.key > b.key) ? a : b
         ).key;
-        for (let k=1; k<=maxKey; k++) { 
-          const keyedCity = data.find(e => e.key === k);
-          if (keyedCity) {
-            await this.controller.add(
-              keyedCity.info.name, 
-              keyedCity.info.lat,
-              keyedCity.info.lon,
-              keyedCity.info.pop,
-              false
-            );
-          } else {
-            functions.idCounter();
+        if (maxKey < this.state.nextId) {
+          throw Error('Browser data is ahead of saved file. Please refresh the page before loading saved data.')
+        } else {
+          for (let k=1; k<=maxKey; k++) { 
+            const keyedCity = data.find(e => e.key === k);
+            if (keyedCity) {
+              await this.controller.add(
+                keyedCity.info.name, 
+                keyedCity.info.lat,
+                keyedCity.info.lon,
+                keyedCity.info.pop,
+                false
+              );
+            } else {
+              this.setState({
+                nextId: functions.idCounter()
+              });
+            };
           };
+          this.setController();
+          this.setMessage('Retrieved saved data.', 'check');
         };
-        this.setController();
-        this.setMessage('Retrieved saved data.', 'check');
       } else {
         this.setMessage('No saved data.', 'check');
       };
@@ -243,6 +251,9 @@ class Cities extends Component {
         return;
     };
     const key = keyedCity.key;
+    this.setState({
+      nextId: key
+    });
     
     if (this.state.update && push) {
       try {
@@ -303,7 +314,8 @@ class Cities extends Component {
     try {
       data = await postData(url + 'clear');
       if (data.status === 200 && !data.length) {
-        this.setMessage('cleared server data', 'check');
+        this.controller.cities = {};
+        this.setMessage('cleared data', 'check');
       } else {
         throw Error('failed to clear api data');
       };
@@ -311,6 +323,7 @@ class Cities extends Component {
       this.setMessage(error.message, 'warn');
     };
   }
+  
   render() {
 
     let list = [];
@@ -356,16 +369,16 @@ class Cities extends Component {
 
     const citiesToggle = 
       <div id="idCitiesToggle">
+        {(this.state.online)
+          ?<span>Auto-Save</span>
+          :<span className="disabled">Auto-Save Unavailable: No Local Server</span>
+        }
         <Toggle 
           name="toggleDatabase" 
           disabled={!this.state.online} 
           checked={this.state.update}
           onChange={this.handleToggle}
         />
-        {(this.state.online)
-          ?<span>Auto-Save</span>
-          :<span className="disabled">Auto-Save Unavailable: No Local Server</span>
-        }
       </div>
     ;
 
@@ -506,10 +519,11 @@ class Cities extends Component {
             Load Saved Data
           </button>
           <button
+            className="button--alert"
             onClick = {() => this.handleClear()}
             disabled = {!this.state.update}
           >
-            Clear Server Data
+            Clear
           </button>
         </div>
         {citiesReport}
