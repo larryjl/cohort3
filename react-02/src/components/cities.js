@@ -298,6 +298,17 @@ class Cities extends Component {
     };
   }
 
+  async handleClear() {
+    let data = {};
+    try {
+      data = await postData(url + 'clear');
+      if (data.status !== 200 || data.length > 0) {
+        throw Error('failed to clear api data');
+      };
+    } catch (error) {
+      this.setMessage(error.message, 'warn');
+    };
+  }
   render() {
 
     let list = [];
@@ -491,6 +502,12 @@ class Cities extends Component {
             disabled = {!this.state.update}
           >
             Load Saved Data
+          </button>
+          <button
+            onClick = {() => this.handleClear()}
+            disabled = {!this.state.update}
+          >
+            Clear Server Data
           </button>
         </div>
         {citiesReport}
