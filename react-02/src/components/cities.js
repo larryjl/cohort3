@@ -47,7 +47,7 @@ class Cities extends Component {
         update: true
       });
     } catch (error) {
-      this.setMessage(error, 'warn')
+      this.setMessage(error.message, 'warn')
     };
   }
 
@@ -182,6 +182,7 @@ class Cities extends Component {
   }
 
   setMessage(message, type) {
+    console.log(message);
     this.setState({
       message: message,
       messageType: type,
@@ -219,8 +220,7 @@ class Cities extends Component {
         this.setMessage('No saved data.', 'check');
       };
     } catch (error) {
-      console.log(error);
-      this.setMessage('Unable to connect to local API.', 'warn');
+      this.setMessage(error.message, 'warn');
     };
   }
 
@@ -294,7 +294,7 @@ class Cities extends Component {
         throw Error('no data in file');
       }
     } catch (error) {
-      this.setMessage(error, 'warn');
+      this.setMessage(error.message, 'warn');
     };
   }
 
