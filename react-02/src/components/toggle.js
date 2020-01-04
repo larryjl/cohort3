@@ -11,6 +11,7 @@ function Toggle(props) {
           props.onChange(!state);
         }}
         disabled = {props.disabled}
+        checked = {props.checked}
       >
         
       </input>
