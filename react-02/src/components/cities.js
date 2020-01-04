@@ -14,7 +14,6 @@ class Cities extends Component {
     super(props);
     this.state = {
       controller: {},
-      data: {},
 
       total: 0,
       highest: '--',
@@ -42,10 +41,8 @@ class Cities extends Component {
 
   async componentDidMount() {
     try {
-      // const online = await postData(url + 'hi');
-      const data = await this.pull(url);
+      await this.pull();
       this.setState({
-        data: data,
         online: true,
         update: true
       });
@@ -81,7 +78,7 @@ class Cities extends Component {
     });
   }
 
-  async confirm(action, id, name, amount, lat, lon) {
+  async handleConfirm(action, id, name, amount, lat, lon) {
     amount = (amount)?amount:0;
     lat = (lat)?lat:0;
     lon = (lon)?lon:0;
@@ -185,14 +182,13 @@ class Cities extends Component {
   }
 
   setMessage(message, type) {
-    console.log(message);
     this.setState({
       message: message,
       messageType: type,
-    })
+    });
   }
 
-  async pull(url) {
+  async pull() {
     try {
       let data = await postData(url + 'all');
       if (data.status!==200) {
@@ -224,7 +220,7 @@ class Cities extends Component {
       };
     } catch (error) {
       console.log(error);
-      this.setMessage('Unable to connect to API.', 'warn');
+      this.setMessage('Unable to connect to local API.', 'warn');
     };
   }
 
@@ -274,9 +270,7 @@ class Cities extends Component {
         };
       } catch (error) {
         console.log(error);
-        // if (this.state.action === 'create') {
-        //   delete this.controller.cities[key];
-        // };
+        // TODO
         throw Error(error);
       };
     } else {
@@ -286,6 +280,22 @@ class Cities extends Component {
 
   handleToggle(toggle) {
     this.setState({update: toggle});
+  }
+
+  async handleLoad() {
+    let data = {};
+    try {
+      data = await postData(url + 'load');
+      if (data.status !== 200) {
+        throw Error('failed to load from file');
+      } else if (data.length > 0) {
+        await this.pull();
+      } else {
+        throw Error('no data in file');
+      }
+    } catch (error) {
+      this.setMessage(error, 'warn');
+    };
   }
 
   render() {
@@ -435,7 +445,7 @@ class Cities extends Component {
         <div id="idCitiesInputsButtons">
           <button 
             className="button--check"
-            onClick={() => this.confirm(
+            onClick={() => this.handleConfirm(
               this.state.action,
               this.state.id,
               this.state.name, 
@@ -474,7 +484,15 @@ class Cities extends Component {
 
       <main id="idMainCities">
         <h2>Cities</h2>
-        {citiesToggle}
+        <div id="idCitiesUpdate">
+          {citiesToggle}
+          <button
+            onClick = {() => this.handleLoad()}
+            disabled = {!this.state.update}
+          >
+            Load Saved Data
+          </button>
+        </div>
         {citiesReport}
         {citiesMessage}
         <div id="idCitiesContainer">
