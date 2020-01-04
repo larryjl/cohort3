@@ -25,6 +25,7 @@ class Cities extends Component {
       message: null,
       messageType: null,
 
+      id: null,
       name: '',
       lat: '',
       lon:'',
@@ -71,6 +72,7 @@ class Cities extends Component {
 
   clearInputs() {
     this.setState({
+      id: null,
       name: '',
       lat: '',
       lon: '',
@@ -79,14 +81,14 @@ class Cities extends Component {
     });
   }
 
-  async confirm(name, amount, lat, lon) {
+  async confirm(action, id, name, amount, lat, lon) {
     amount = (amount)?amount:0;
     lat = (lat)?lat:0;
     lon = (lon)?lon:0;
-    switch (this.state.action) {
+    switch (action) {
       case 'create':
         try {
-          await this.update(name, amount, lat, lon);
+          await this.update(action, undefined, name, amount, lat, lon);
           this.setState({
             message: `Added city: ${name}.`,
             messageType: 'check'
@@ -102,7 +104,10 @@ class Cities extends Component {
         break;
       case 'delete':
         try {
-          await this.update(name);
+          if (this.controller.cities[this.state.id].name !== this.state.name) {
+            throw Error('name does not match');
+          }
+          await this.update(action, id);
           this.setState({
             message: `Removed city: ${name}.`,
             messageType: 'check',
@@ -119,7 +124,7 @@ class Cities extends Component {
       case 'move in':
       case 'move out':
         try {
-          await this.update(name, amount);
+          await this.update(action, id, undefined, amount);
           this.setState({
             message: 
               (this.state.action==='move in')?
@@ -223,21 +228,19 @@ class Cities extends Component {
     };
   }
 
-  async update(name, pop, lat, lon, push=true) {
+  async update(action, id, name, pop, lat, lon, push=true) {
     this.setController();
     let keyedCity;
-    switch (this.state.action) {
+    switch (action) {
       case 'create':
         keyedCity = this.controller.add(name, lat, lon, pop);
         break;
       case 'delete':
-        keyedCity = this.controller.remove(null, name);
+        keyedCity = this.controller.remove(id);
         break;
       case 'move in':
       case 'move out':
-        keyedCity = this.controller.migration(
-          this.state.action, pop, null, name
-        );
+        keyedCity = this.controller.migration(action, pop, id);
         break;
       default:
         // do nothing
@@ -248,29 +251,28 @@ class Cities extends Component {
     if (this.state.update && push) {
       try {
         let data;
-        if (this.state.action.match(/create|move in|move out/)) {
-          data = await postData(
-            url + (
-              (this.state.action==='create') ? 'add' : 'update'
-            ),
-            keyedCity
-          );
+        if (this.state.action === 'create') {
+          data = await postData(url + 'add', keyedCity);
+        } else if (this.state.action.match(/move in|move out/)) {
+          data = await postData(url + 'update', keyedCity);
         } else if (this.state.action === 'delete') {
           data = await postData(url + 'delete', {key: key});
         };
-        if (data.status===200) {
+        if (data.status === 200) {
           // await postData(url + 'save');
-          // console.log('saved')
+          // console.log('saved to file');
         } else if (data.msg) {
+          console.log(data.msg);
           throw Error(data.msg);
         } else {
-          throw Error('unknown database error')
+          console.log('unknown database error');
+          throw Error('unknown database error');
         };
       } catch (error) {
         console.log(error);
-        if (this.state.action === 'create') {
-          delete this.controller.cities[key];
-        };
+        // if (this.state.action === 'create') {
+        //   delete this.controller.cities[key];
+        // };
         throw Error(error);
       };
     } else {
@@ -301,16 +303,17 @@ class Cities extends Component {
               {this.renderButton(
                 'Add People', 
                 {action: 'move in', 
-                name: this.controller.cities[key].name}
+                id: key}
               )}
               {this.renderButton(
                 'Subtract People', 
                 {action: 'move out', 
-                name: this.controller.cities[key].name}
+                id: key}
               )}
               {this.renderButton(
                 'Delete City', 
-                {action: 'delete'},
+                {action: 'delete',
+                id: key},
                 'button--alert'
               )}
             </div>
@@ -429,6 +432,8 @@ class Cities extends Component {
           <button 
             className="button--check"
             onClick={() => this.confirm(
+              this.state.action,
+              this.state.id,
               this.state.name, 
               this.state.amount,
               this.state.lat, 

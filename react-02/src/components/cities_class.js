@@ -96,27 +96,27 @@ const CityController = class {
     this.cities[key]=city;
     const cityClone = Object.assign({}, city);
     return {
-      key: key,
+      key: +key,
       info: cityClone
     };
   }
   remove(id, name) {
-    const key = (id) ? id : +functions.objKeyByValue(this.cities, name, 'name');
+    const key = (id) ? id : functions.objKeyByValue(this.cities, name, 'name');
     const cityClone = Object.assign({}, this.cities[key]);
     delete this.cities[key];
     return {
-      key: key,
+      key: +key,
       info: cityClone
     };
   }
   migration(action, amount, id, name) {
-    const key = (id) ? id : +functions.objKeyByValue(this.cities, name, 'name');
+    const key = (id) ? id : functions.objKeyByValue(this.cities, name, 'name');
     this.cities[key].movedIn(
       (action==='move in') ? amount : -amount
     );
     const cityClone = Object.assign({}, this.cities[key]);
     return {
-      key: key,
+      key: +key,
       info: cityClone
     };
   }
