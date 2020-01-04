@@ -61,6 +61,14 @@ test('test that the fetch works?', async () => {
   await postData(url + 'clear');
 });
 
+test('test save/load', async () => {
+    let data;
+    data = await postData(url + 'save');
+    expect(data.status).toEqual(200);
+    data = await postData(url + 'load');
+    expect(data.status).toEqual(200);
+})
+
 test('test blank url', async () => {
   try {
     const data = await postData();
