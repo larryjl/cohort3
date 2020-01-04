@@ -302,7 +302,9 @@ class Cities extends Component {
     let data = {};
     try {
       data = await postData(url + 'clear');
-      if (data.status !== 200 || data.length > 0) {
+      if (data.status === 200 && !data.length) {
+        this.setMessage('cleared server data', 'check');
+      } else {
         throw Error('failed to clear api data');
       };
     } catch (error) {
