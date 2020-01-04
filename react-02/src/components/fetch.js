@@ -28,11 +28,11 @@ async function postData(url = '', data = {}) {
   const json = await response.json();    // parses JSON response into native JavaScript objects
   json.status = response.status;
   json.statusText = response.statusText;
+  return json;
   } catch (error) {
     console.log(error);
     console.log(response);
   };
-  return json;
 }
 
 export default postData;
