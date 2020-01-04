@@ -2,17 +2,19 @@ import postData from './fetch.js';
 // import {postData} from '~/code/reference/src/api/javascript/api.test.js';
 
 const url = 'http://localhost:5000/';
+const cities = [
+    {key:1, name:"Calgary"},
+    {key:2, name:"Edmonton"},
+];
 
+beforeEach(async () => {
+  // Check that the server is running and clear any data
+  await postData(url + 'clear');
+})
 
 test('test that the fetch works?', async () => {
 
-  const cities = [
-      {key:1, name:"Calgary"},
-      {key:2, name:"Edmonton"},
-  ]
-
-  // Check that the server is running and clear any data
-  let data = await postData(url + 'clear');
+  let data = {};
 
   data = await postData(url + 'all');
   expect(data.status).toEqual(200);
@@ -62,11 +64,37 @@ test('test that the fetch works?', async () => {
 });
 
 test('test save/load', async () => {
-    let data;
+    let data = {};
+
+    data = await postData(url + 'all');
+    expect(data.status).toEqual(200);
+    expect(data.length).toBe(0);
+  
+    data = await postData(url + 'add', cities[0]);
+    expect(data.status).toEqual(200);
+  
+    data = await postData(url + 'all');
+    expect(data.status).toEqual(200);
+    expect(data.length).toBe(1);
+    expect(data[0].name).toBe("Calgary");
+
     data = await postData(url + 'save');
     expect(data.status).toEqual(200);
+
+    data = await postData(url + 'clear');
+    expect(data.status).toEqual(200);
+
+    data = await postData(url + 'all');
+    expect(data.status).toEqual(200);
+    expect(data.length).toBe(0);
+
     data = await postData(url + 'load');
     expect(data.status).toEqual(200);
+
+    data = await postData(url + 'all');
+    expect(data.status).toEqual(200);
+    expect(data.length).toBe(1);
+    expect(data[0].name).toBe("Calgary");
 })
 
 test('test blank url', async () => {
