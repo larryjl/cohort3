@@ -293,10 +293,10 @@ class Cities extends Component {
     this.setState({update: toggle});
   }
 
-  async handleLoad() {
+  async handleLoad(set) {
     let data = {};
     try {
-      data = await postData(url + 'load');
+      data = await postData(url + ((set)?'loadset':'load'));
       if (data.status !== 200) {
         throw Error('failed to load from file');
       } else if (data.length > 0) {
@@ -520,6 +520,12 @@ class Cities extends Component {
             Load Saved Data
           </button>
           <button
+            onClick = {() => this.handleLoad(true)}
+            disabled = {!this.state.update}
+          >
+            Load 10 Saved Cities
+          </button>
+          <button
             className="button--alert"
             onClick = {() => this.handleClear()}
             disabled = {!this.state.update}
@@ -531,8 +537,8 @@ class Cities extends Component {
         {citiesMessage}
         <div id="idCitiesContainer">
           <div>
-          {citiesList}
           {this.renderButton('Add City', {action: 'create'})}
+          {citiesList}
           </div>
           <div>
             {this.state.action && citiesInputs}
