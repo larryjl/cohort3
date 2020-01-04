@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './cities.css';
 import {CityController} from './cities_class';
 import functions from './cities_functions';
@@ -9,21 +9,27 @@ import {ReactComponent as IconAttention} from '../svg/Icon_attention_circle.svg'
 
 const url = 'http://localhost:5000/';
 
-class Cities extends React.Component {
+class Cities extends Component {
   constructor(props) {
     super(props);
     this.state = {
       controller: {},
+      data: {},
+
       total: 0,
       highest: '--',
       lowest: '--',
+
       action: null,
+
       message: null,
       messageType: null,
+
       name: '',
       lat: '',
       lon:'',
       amount: '',
+
       online: false,
       update: false
     };
@@ -31,6 +37,20 @@ class Cities extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      // const online = await postData(url + 'hi');
+      const data = await this.pull(url);
+      this.setState({
+        data: data,
+        online: true,
+        update: true
+      });
+    } catch (error) {
+      this.setMessage(error, 'warn')
+    };
   }
 
   report() {
@@ -59,7 +79,10 @@ class Cities extends React.Component {
     });
   }
 
-  async confirm(name, amount=0, lat=0, lon=0) {
+  async confirm(name, amount, lat, lon) {
+    amount = (amount)?amount:0;
+    lat = (lat)?lat:0;
+    lon = (lon)?lon:0;
     switch (this.state.action) {
       case 'create':
         try {
@@ -150,53 +173,58 @@ class Cities extends React.Component {
     });
   }
 
-  // TODO
+  setController() {
+    this.setState({
+      controller: JSON.parse(JSON.stringify(this.controller))
+    });
+  }
+
+  setMessage(message, type) {
+    console.log(message);
+    this.setState({
+      message: message,
+      messageType: type,
+    })
+  }
+
   async pull(url) {
     try {
       let data = await postData(url + 'all');
-      if (data.status===200) {
-        //
-      };
-      if (data.length > 0) {
+      if (data.status!==200) {
+        console.log(data.status);
+        throw Error(data.status);
+      } else if (data.length > 0) {
         this.setState({action: 'create'})
-        const keys = Object.keys(data);
-        // let keys = [];
-        // for (let city of data) {
-        //   keys.push(city.key);
-        // };
-        const maxKey = keys.reduce((a,b) => (a > b) ? a : b);
-        // controllerInst.cities = {};
+        const maxKey = data.reduce(
+          (a,b) => (a.key > b.key) ? a : b
+        ).key;
         for (let k=1; k<=maxKey; k++) { 
-          const city = data.find(city => city.key === k);
-          if (city) {
-            // let cityValuesArr = Array[4];
-            // cityValuesArr[0] = city.info.name;
-            // cityValuesArr[1] = city.info.lat;
-            // cityValuesArr[2] = city.info.lon;
-            // cityValuesArr[3] = city.info.pop;
-
-            await this.createCity(
-              city.info.name, 
-              city.info.lat,
-              city.info.lon,
-              city.info.pop,
+          const keyedCity = data.find(e => e.key === k);
+          if (keyedCity) {
+            await this.controller.add(
+              keyedCity.info.name, 
+              keyedCity.info.lat,
+              keyedCity.info.lon,
+              keyedCity.info.pop,
               false
-              );
+            );
           } else {
             functions.idCounter();
           };
         };
+        this.setController();
+        this.setMessage('Retrieved saved data.', 'check');
+      } else {
+        this.setMessage('No saved data.', 'check');
       };
     } catch (error) {
       console.log(error);
-      throw Error(error);
+      this.setMessage('Unable to connect to API.', 'warn');
     };
   }
 
   async update(name, pop, lat, lon, push=true) {
-    this.setState({
-      controller: JSON.parse(JSON.stringify(this.controller))
-    });
+    this.setController();
     let keyedCity;
     switch (this.state.action) {
       case 'create':
@@ -217,7 +245,7 @@ class Cities extends React.Component {
     };
     const key = keyedCity.key;
     
-    if (push) {
+    if (this.state.update && push) {
       try {
         let data;
         if (this.state.action.match(/create|move in|move out/)) {
@@ -236,7 +264,7 @@ class Cities extends React.Component {
         } else if (data.msg) {
           throw Error(data.msg);
         } else {
-          throw Error('unknkown database error')
+          throw Error('unknown database error')
         };
       } catch (error) {
         console.log(error);
@@ -251,7 +279,6 @@ class Cities extends React.Component {
   }
 
   handleToggle(toggle) {
-    console.log('test');
     this.setState({update: toggle});
   }
 
@@ -294,6 +321,21 @@ class Cities extends React.Component {
     const citiesList =
       <div id="idCitiesList">
         {list}
+      </div>
+    ;
+
+    const citiesToggle = 
+      <div id="idCitiesToggle">
+        <Toggle 
+          name="toggleDatabase" 
+          disabled={!this.state.online} 
+          checked={this.state.update}
+          onChange={this.handleToggle}
+        />
+        {(this.state.online)
+          ?<span>Auto-Save</span>
+          :<span className="disabled">Auto-Save Unavailable: No Local Server</span>
+        }
       </div>
     ;
 
@@ -384,12 +426,15 @@ class Cities extends React.Component {
           </div>)
         }
         <div id="idCitiesInputsButtons">
-          <button className="button--check" onClick={() => this.confirm(
-            this.state.name, 
-            this.state.amount,
-            this.state.lat, 
-            this.state.lon, 
-          )}>
+          <button 
+            className="button--check"
+            onClick={() => this.confirm(
+              this.state.name, 
+              this.state.amount,
+              this.state.lat, 
+              this.state.lon, 
+            )}
+          >
             Confirm
           </button>
           {this.renderButton('Cancel', {
@@ -420,17 +465,7 @@ class Cities extends React.Component {
 
       <main id="idMainCities">
         <h2>Cities</h2>
-        <div id="idCitiesToggle">
-          <Toggle 
-            name="toggleDatabase" 
-            disabled={!this.state.online} 
-            onChange={this.handleToggle}
-          />
-          {(this.state.online)
-            ?<span>Auto-Save</span>
-            :<span className="disabled">Auto-Save Unavailable: No Local Server</span>
-          }
-        </div>
+        {citiesToggle}
         {citiesReport}
         {citiesMessage}
         <div id="idCitiesContainer">
