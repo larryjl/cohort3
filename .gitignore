@@ -32,6 +32,9 @@ yarn-error.log*
 __pycache__
 /__pycache__
 
+# data
+src/api/data.json
+
 # Special Files
 javascript/github/repositories.js
 javascript/github/pictures

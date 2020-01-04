@@ -114,7 +114,8 @@ def load():
 		for d in data:
 			print('Record: ', d)
 	print("data2:", data)
-	return "<h1>EvolveU test</h1> <h2>" + str(len(data)) + " records Loaded</h2>"
+	# return "<h1>EvolveU test</h1> <h2>" + str(len(data)) + " records Loaded</h2>"
+	return jsonify(data), 200
 
 
 @app.route("/save", methods = ['GET'])
@@ -122,7 +123,8 @@ def save():
 	global data
 	with open('data.json', 'w') as outfile:
 		json.dump(data, outfile)
-	return "<h1>EvolveU test</h1> <h2>" + str(len(data)) + " records Saved</h2>"
+	# return "<h1>EvolveU test</h1> <h2>" + str(len(data)) + " records Saved</h2>"
+	return jsonify(data), 200
 
 
 @app.route("/clear", methods = ['POST','GET'])

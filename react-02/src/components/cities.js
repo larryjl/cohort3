@@ -259,8 +259,12 @@ class Cities extends Component {
           data = await postData(url + 'delete', {key: key});
         };
         if (data.status === 200) {
-          // await postData(url + 'save');
-          // console.log('saved to file');
+          const saveData = await postData(url + 'save');
+          if (saveData.status === 200) {
+            console.log('saved to file');
+          } else {
+            console.log('error saving to file');
+          }
         } else if (data.msg) {
           console.log(data.msg);
           throw Error(data.msg);
