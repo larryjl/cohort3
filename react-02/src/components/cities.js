@@ -336,9 +336,10 @@ class Cities extends Component {
         list.push(
           <div key={key} className="cities--card">
             <h4>[{key}] {this.controller.cities[key].name}</h4>
-            <p>Location: ({this.controller.cities[key].lat}, {this.controller.cities[key].lon})</p>
-            <p>({this.controller.cities[key].whichSphere()})</p>
-            <p>Population: {this.controller.cities[key].pop}</p>
+            <p>Location: ({this.controller.cities[key].lat}, {this.controller.cities[key].lon})
+            <br/>({this.controller.cities[key].whichSphere()})</p>
+            <p>Population: {this.controller.cities[key].pop}
+            <br/>({this.controller.cities[key].howBig()})</p>
             <div>
               {this.renderButton(
                 'Add People', 
