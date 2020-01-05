@@ -1,10 +1,11 @@
 import React from 'react';
 import './nav.css';
 import logoSvg from '../logo.svg';
-import { ReactComponent as IconExit } from '../svg/Icon_exit.svg';
+// import { ReactComponent as IconExit } from '../svg/Icon_exit.svg';
 import { ReactComponent as IconCard } from '../svg/Icon_card.svg';
 import { ReactComponent as IconUserCircle } from '../svg/Icon_user_circle.svg';
-
+import { ReactComponent as IconLink } from '../svg/Icon_link.svg';
+import { ReactComponent as IconSorting } from '../svg/Icon_sorting.svg';
 
 class Nav extends React.Component {  
   constructor(props) {
@@ -38,14 +39,20 @@ class Nav extends React.Component {
           </svg>
         </button>
         {/* react 2.0 svg */}
-        <button key="transform" onClick={() => this.handleClick("transform")}>
+        {/* <button key="transform" onClick={() => this.handleClick("transform")}>
           <IconExit tabIndex="0" alt="transform" className={"icon" + ((this.props.activePage==="transform")?" icon--active":"")}/>
-        </button>
+        </button> */}
         <button key="accounts" onClick={() => this.handleClick("accounts")}>
           <IconCard tabIndex="0" alt="accounts" className={"icon" + ((this.props.activePage==="accounts")?" icon--active":"")}/>
         </button>
         <button key="cities" onClick={() => this.handleClick("cities")}>
           <IconUserCircle tabIndex="0" alt="cities" className={"icon" + ((this.props.activePage==="cities")?" icon--active":"")}/>
+        </button>
+        <button key="link" onClick={() => this.handleClick("link")}>
+          <IconLink tabIndex="0" alt="cities" className={"icon" + ((this.props.activePage==="link")?" icon--active":"")}/>
+        </button>
+        <button key="fifo" onClick={() => this.handleClick("fifo")}>
+          <IconSorting tabIndex="0" alt="cities" className={"icon" + ((this.props.activePage==="fifo")?" icon--active":"")}/>
         </button>
       </nav>
     );
