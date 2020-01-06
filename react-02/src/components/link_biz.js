@@ -97,6 +97,36 @@ const linkListDummy = class {
   }
 };
 
+const linkListDouble = class {
+  constructor(data) {
+    const n = data.length;
+    for (let i=n-1; i>=0; i--) {
+      this.head = this.linkAdd(this.head, data[i]);
+      if (i===n-1) {
+        this.tail = this.head;
+      };
+    };
+  }
+  // add before
+  linkAdd(node, data) {
+    const newNode = new linkNode(data, node);
+    if (node) {
+      node.prevNode = newNode;
+    };
+    return newNode;
+  }
+  // insert after
+  linkInsert(node, data) { 
+    const newNode = new linkNode(data, node.forwardNode);
+    node.forwardNode = newNode;
+    newNode.prevNode = node;
+    if (newNode.forwardNode) {
+      newNode.forwardNode.prevNode = newNode;
+    };
+    return newNode;
+  }
+};
+
 const functions = {
   // first ⇒ position to the first node
   first: (linkList) => {
@@ -114,8 +144,17 @@ const functions = {
   },
 
   // previous ⇒ backup one node (how are we going to do this?)
-  previous: (node) => {
-    return node;
+  previous: (linkList, node) => {
+    let current = linkList.head;
+    while (current) {
+      if (current.forwardNode === node) return current;
+      current = current.forwardNode;
+    };
+  },
+
+  // previous - using doubly linked list?
+  previousDouble: (node) => {
+    return node.prevNode;
   },
 
   // insert ⇒ inserts a new node after the current node (which node will be the current node after the insertion?)
@@ -126,8 +165,8 @@ const functions = {
   },
 
   // delete ⇒ delete the current node (which node will be the current node after the deletion?)
-  delete: (node) => {
-    functions.previous(node).forwardNode = node.forwardNode;
+  delete: (list, node) => {
+    functions.previous(list, node).forwardNode = node.forwardNode;
     return node.forwardNode;
   },
 
@@ -156,5 +195,6 @@ export {
   linkNode,
   linkList,
   linkListDummy,
+  linkListDouble,
   functions
 };
