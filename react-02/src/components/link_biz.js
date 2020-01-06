@@ -1,32 +1,26 @@
-import React, {useState, useEffect} from 'react';
-
-function Link(props) {
-  const [position, setPosition] = useState(0);
-  useEffect(() => {
-    // side effect
-    return function cleanup() {
-      // cleanup
-    };
-  });
-
-  const nodeList = {
-    head: new linkNode('a', 0, new linkNode('b', 1, new linkNode('c', 2, null)))
-  };
-
-  return (
-    <div>
-    </div>
-  );
-};
-
 const linkNode = class {
-  constructor(subject, amount, forwardNode) {
+  constructor(info, forwardNode) {
     this.forwardNode = forwardNode;
-    this.subject = subject;
-    this.amount = amount;
+    if (info) {
+      this.subject = info.subject;
+      this.amount = info.amount;
+    //   for (let i in info) {
+    //     this[i] = info[i];
+    //   };
+    };
   }
   show() {
-    return `subject: ${this.subject}, amount: ${this.amount}`
+    return `subject: ${this.subject}, amount: ${this.amount}`;
+    // let info = Object.entries(this);
+    // delete info.forwardNode;
+    // info.sort((a,b) => (
+    //   (a[0] > b[0]) ? 1 : -1
+    // ));
+    // let string = '';
+    // for (let e of info) {
+    //   string = `${string}, ${e[0]}: ${e[1]}`
+    // };
+    // return string;
   }
 };
 
@@ -34,29 +28,29 @@ const linkList = class {
   constructor(data) {
     const n = data.length;
     for (let i=n-1; i>=0; i--) {
-      // this.linkAdd(this.head, ...data[i]);
-      this.head = this.linkAdd(this.head, ...data[i]);
+      // this.linkAdd(this.head, data[i]);
+      this.head = this.linkAdd(this.head, data[i]);
     };
   }
   // add to beginning
-  linkAdd(head, subject, amount) {
-    const node = new linkNode(subject, amount, head);
+  linkAdd(head, data) {
+    const node = new linkNode(data, head);
     // previous = node;
     return node;
   }
   // add to end
-  linkTail(subject, amount) {
-    // const node = new linkNode(subject, amount, null);
+  linkTail(data) {
+    // const node = new linkNode(data, null);
     let current = this.head;
     if (!current) {
       // this.head = node;
-      this.head = linkAdd(this.head, subject, amount);
+      this.head = linkAdd(this.head, data);
     } else {
       while (current.forwardNode) {
         current = current.forwardNode;
       };
       // current.forwardNode = node;
-      current.forwardNode = this.linkAdd(current.forwardNode, subject, amount)
+      current.forwardNode = this.linkAdd(current.forwardNode, data)
     };
     this.tail = current.forwardNode;
     // return this.head;
@@ -88,13 +82,13 @@ const linkListDummy = class {
     const dummy = new linkNode();
     this.tail = dummy;
     for(let v of data) {
-      this.tail.forwardNode = this.linkAdd(this.tail.forwardNode, ...v);
+      this.tail.forwardNode = this.linkAdd(this.tail.forwardNode, v);
       this.tail = this.tail.forwardNode;
     };
     this.head = dummy.forwardNode;
   }
-  linkAdd(head, subject, amount) {
-    const node = new linkNode(subject, amount, head);
+  linkAdd(head, data) {
+    const node = new linkNode(data, head);
     return node;
   }
 };
@@ -123,7 +117,6 @@ const functions = {
 };
 
 export { 
-  Link, 
   linkNode,
   linkList,
   linkListDummy,

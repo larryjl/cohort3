@@ -1,50 +1,21 @@
-import React from "react";
-import { render, unmountComponentAtNode } from "react-dom";
-import { act } from "react-dom/test-utils";
-
 import {
-  Link, 
   linkNode, 
   linkList, 
   linkListDummy, 
   functions
 } from './link_biz';
 
-describe('Link component', () => {
-
-  let container = null;
-  beforeEach(() => {
-    // setup a DOM element as a render target
-    container = document.createElement("div");
-    document.body.appendChild(container);
-  });
-  afterEach(() => {
-    // cleanup on exiting
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
-  });
-
-test('', () => {
-    act(() => {
-      // render components
-      render(<Link />, container);
-    });
-    // make assertions
-  });
-});
-
-describe.only('linkNode', () => {
+describe.only('linkList', () => {
   test('show', () => {
-    const node = new linkNode('a', 0, null);
+    const node = new linkNode({subject: 'a', amount: 0}, null);
     node.show('subject: a, amount: 0');
   });
 
   test('naive list', () => {
     const list = {
-      node0: new linkNode('a', 0),
-      node1: new linkNode('b', 1),
-      node2: new linkNode('c', 2),
+      node0: new linkNode({subject: 'a', amount: 0}),
+      node1: new linkNode({subject: 'b', amount: 1}),
+      node2: new linkNode({subject: 'c', amount: 2}),
     };
     list.head = list.node0;
     list.node0.forwardNode = list.node1;
@@ -57,9 +28,9 @@ describe.only('linkNode', () => {
 
 test('single line nested list', () => {
     const list = {
-        head: new linkNode('a', 0, 
-        new linkNode('b', 1, 
-        new linkNode('c', 2, null)))
+        head: new linkNode({subject: 'a', amount: 0}, 
+        new linkNode({subject: 'b', amount: 1}, 
+        new linkNode({subject: 'c', amount: 2}, null)))
     };
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
@@ -68,15 +39,15 @@ test('single line nested list', () => {
 
   test('generic iterated list', () => {
     const data = [
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
+      {subject: 'a', amount: 0},
+      {subject: 'b', amount: 1},
+      {subject: 'c', amount: 2}
     ];
     const n = data.length;
     let list = {head: null};
     let node = null;
     for (let i=n-1; i>=0; i--) {
-      node = new linkNode(...data[i], node);
+      node = new linkNode(data[i], node);
     };
     list.head = node;
     expect(list.head.amount).toBe(0);
@@ -86,32 +57,32 @@ test('single line nested list', () => {
 
   test('list as class, add to start', () => {
     const data = [
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
+      {subject: 'a', amount: 0},
+      {subject: 'b', amount: 1},
+      {subject: 'c', amount: 2}
     ];
     const list = new linkList(data)
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
     expect(list.head.forwardNode.forwardNode.amount).toBe(2);
 
-    list.head = list.linkAdd(list.head, 'd', 3);
+    list.head = list.linkAdd(list.head, {subject: 'd', amount: 3});
     expect(list.head.amount).toBe(3);
     expect(list.head.forwardNode.amount).toBe(0);
   });
 
   test('list as class, add to end', () => {
     const data = [
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
+      {subject: 'a', amount: 0},
+      {subject: 'b', amount: 1},
+      {subject: 'c', amount: 2}
     ];
     const list = new linkList(data)
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
     expect(list.head.forwardNode.forwardNode.amount).toBe(2);
 
-    list.linkTail('d', 3);
+    list.linkTail({subject: 'd', amount: 3});
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.forwardNode.forwardNode.amount).toBe(3);
     expect(list.tail.amount).toBe(3);
@@ -119,9 +90,9 @@ test('single line nested list', () => {
 
   test('list using dummy', () => {
     const data = [
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
+      {subject: 'a', amount: 0},
+      {subject: 'b', amount: 1},
+      {subject: 'c', amount: 2}
     ];
     const list = new linkListDummy(data)
     expect(list.head.amount).toBe(0);
@@ -129,7 +100,7 @@ test('single line nested list', () => {
     expect(list.head.forwardNode.forwardNode.amount).toBe(2);
     expect(list.tail.amount).toBe(2);
 
-    list.head = list.linkAdd(list.head, 'd', 3);
+    list.head = list.linkAdd(list.head, {subject: 'd', amount: 3});
     expect(list.head.amount).toBe(3);
     expect(list.head.forwardNode.amount).toBe(0);
   });
@@ -137,9 +108,9 @@ test('single line nested list', () => {
   test('print list', () => {
     console.log = jest.fn();
     const data = [
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
+      {subject: 'a', amount: 0},
+      {subject: 'b', amount: 1},
+      {subject: 'c', amount: 2}
     ];
     const list = new linkList(data)
     list.printList();
@@ -154,9 +125,9 @@ test('single line nested list', () => {
 
   test('show list', () => {
     const data = [
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
+      {subject: 'a', amount: 0},
+      {subject: 'b', amount: 1},
+      {subject: 'c', amount: 2}
     ];
     const list = new linkList(data)
     expect(list.showList()).toBe('subject: a, amount: 0; subject: b, amount: 1; subject: c, amount: 2; null');
