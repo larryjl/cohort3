@@ -60,6 +60,7 @@ test('single line nested list', () => {
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
     expect(list.head.forwardNode.forwardNode.amount).toBe(2);
+    expect(list.tail.amount).toBe(2);
 
     list.head = list.linkAdd(list.head, {subject: 'd', amount: 3});
     expect(list.head.amount).toBe(3);
@@ -113,35 +114,55 @@ describe('functions', () => {
   const data = [
     {subject: 'a', amount: 0},
     {subject: 'b', amount: 1},
-    {subject: 'c', amount: 2}
+    {subject: 'c', amount: 2},
+    {subject: 'd', amount: 3},
   ];
   test('first', () => {
-    const list = new linkListDummy(data)
-    const result = functions.first();
-    expect(result).toEqual({});
+    const list = new linkListDummy(data);
+    const result = functions.first(list);
+    expect(result.amount).toBe(0);
   });
   test('last', () => {
-    const result = functions.last();
-    expect(result).toEqual({});
+    const list = new linkListDummy(data);
+    const result = functions.last(list);
+    expect(result.amount).toBe(3);
   });
   test('next', () => {
-    const resu = functions.next();
-    expect(result).toEqual({});
+    const list = new linkListDummy(data);
+    let node = list.head.forwardNode;
+    const result = functions.next(node);
+    expect(result.amount).toBe(2);
   });
   test('previous', () => {
-    const result = functions.previous();
-    expect(result).toEqual({});
+    const list = new linkListDummy(data);
+    let node = list.head.forwardNode.forwardNode;
+    const result = functions.previous(node);
+    expect(result.amount).toBe(1);
   });
   test('insert', () => {
-    const result = functions.insert();
-    expect(result).toEqual({});
+    const list = new linkListDummy(data);
+    let node = list.head;
+    const result = functions.insert(node);
+    expect(result.amount).toBe(99);
+    expect(list.head.forwardNode.amount).toBe(99);
+    expect(result.forwardNode.amount).toBe(1);
+    expect(list.head.forwardNode.forwardNode.amount).toBe(1);
   });
   test('delete', () => {
+    const list = new linkListDummy(data);
+    let node = list.head.forwardNode;
     const result = functions.delete();
-    expect(result).toEqual({});
+    expect(result.amount).toBe(2);
+    expect(list.head.forwardNode).toBe(2);
   });
   test('total', () => {
-    const result = functions.total();
-    expect(result).toEqual({});
+    const list = new linkListDummy(data);
+    const result = functions.total(list, 'amount');
+    expect(result).toBe(6);
+  });
+  test('length', () => {
+    const list = new linkListDummy(data);
+    const result = functions.length(list);
+    expect(result).toBe(4);
   });
 });

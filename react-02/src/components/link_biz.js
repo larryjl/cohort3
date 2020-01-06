@@ -30,15 +30,17 @@ const linkList = class {
   constructor(data) {
     const n = data.length;
     for (let i=n-1; i>=0; i--) {
-      // this.linkAdd(this.head, data[i]);
       this.head = this.linkAdd(this.head, data[i]);
+      if (i===n-1) {
+        this.tail = this.head;
+      };
     };
   }
-  // add to beginning
-  linkAdd(head, data) {
-    const node = new linkNode(data, head);
+  // add before
+  linkAdd(node, data) {
+    const newNode = new linkNode(data, node);
     // previous = node;
-    return node;
+    return newNode;
   }
   // add to end
   linkTail(data) {
@@ -58,7 +60,7 @@ const linkList = class {
     // return this.head;
     return current.forwardNode; 
   }
-  // print list
+  
   printList() {
     let current = this.head;
     while (current) {
@@ -66,7 +68,7 @@ const linkList = class {
       current = current.forwardNode;
     };
   }
-  // show list
+  
   showList() {
     let current = this.head;
     let string = '';
@@ -89,36 +91,65 @@ const linkListDummy = class {
     };
     this.head = dummy.forwardNode;
   }
-  linkAdd(head, data) {
-    const node = new linkNode(data, head);
-    return node;
+  linkAdd(node, data) {
+    const newNode = new linkNode(data, node);
+    return newNode;
   }
 };
 
 const functions = {
   // first ⇒ position to the first node
   first: (linkList) => {
-    let node;
-    return node;
+    return linkList.head;
   },
 
   // last ⇒ position to the last node
-  last: () => {},
+  last: (linkList) => {
+    return linkList.tail;
+  },
 
   // next ⇒ move to the next node
-  next: () => {},
+  next: (node) => {
+    return node.forwardNode;
+  },
 
   // previous ⇒ backup one node (how are we going to do this?)
-  previous: () => {},
+  previous: (node) => {
+    return node;
+  },
 
   // insert ⇒ inserts a new node after the current node (which node will be the current node after the insertion?)
-  insert: () => {},
+  insert: (node) => {
+    let newNode = new linkNode({subject: 'z', amount: 99}, node.forwardNode);
+    node.forwardNode = newNode;
+    return newNode;
+  },
 
   // delete ⇒ delete the current node (which node will be the current node after the deletion?)
-  delete: () => {},
+  delete: (node) => {
+    functions.previous(node).forwardNode = node.forwardNode;
+    return node.forwardNode;
+  },
 
   // We need to have a total function that will show the total of all the amounts of all the ListNodes
-  total: () => {}
+  total: (linkList, key) => {
+    let current = linkList.head;
+    let total = 0;
+    while (current) {
+      total += current[key];
+      current = current.forwardNode;
+    };
+    return total;
+  },
+  length: (linkList) => {
+    let current = linkList.head;
+    let length = 0;
+    while (current) {
+      length++;
+      current = current.forwardNode;
+    };
+    return length;
+  }
 };
 
 export { 
