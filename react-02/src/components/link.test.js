@@ -110,6 +110,34 @@ test('single line nested list', () => {
     expect(list.head.forwardNode.forwardNode.forwardNode.amount).toBe(3);
     expect(list.tail.amount).toBe(3);
   });
+
+  test('print list', () => {
+    console.log = jest.fn();
+    const data = [
+      ['a', 0],
+      ['b', 1],
+      ['c', 2]
+    ];
+    const list = new linkList(data)
+    list.printList();
+    expect(console.log.mock.calls.length).toBe(4);
+    expect(console.log.mock.calls).toEqual([
+      ['a', 0],
+      ['b', 1],
+      ['c', 2],
+      ['null']
+    ]);
+  });
+
+  test('show list', () => {
+    const data = [
+      ['a', 0],
+      ['b', 1],
+      ['c', 2]
+    ];
+    const list = new linkList(data)
+    expect(list.showList()).toBe('subject: a, amount: 0; subject: b, amount: 1; subject: c, amount: 2; null');
+  })
 });
 
 describe('functions', () => {

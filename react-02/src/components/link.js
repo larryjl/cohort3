@@ -58,7 +58,27 @@ const linkList = class {
       // current.forwardNode = node;
       current.forwardNode = this.linkAdd(current.forwardNode, subject, amount)
     };
-    return current.forwardNode;
+    // return this.head;
+    return current.forwardNode; 
+  }
+  // print list
+  printList() {
+    let current = this.head;
+    while (current) {
+      console.log(current.subject, current.amount);
+      current = current.forwardNode;
+    };
+    console.log('null');
+  }
+  // show list
+  showList() {
+    let current = this.head;
+    let string = '';
+    while (current) {
+      string = string + current.show() + '; ' ;
+      current = current.forwardNode;
+    };
+    return string + 'null';
   }
 };
 
