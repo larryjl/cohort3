@@ -2,7 +2,13 @@ import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 
-import {Link, linkNode, linkList, functions} from './link';
+import {
+  Link, 
+  linkNode, 
+  linkList, 
+  linkListDummy, 
+  functions
+} from './link_biz';
 
 describe('Link component', () => {
 
@@ -105,10 +111,27 @@ test('single line nested list', () => {
     expect(list.head.forwardNode.amount).toBe(1);
     expect(list.head.forwardNode.forwardNode.amount).toBe(2);
 
-    list.tail = list.linkTail('d', 3);
+    list.linkTail('d', 3);
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.forwardNode.forwardNode.amount).toBe(3);
     expect(list.tail.amount).toBe(3);
+  });
+
+  test('list using dummy', () => {
+    const data = [
+      ['a', 0],
+      ['b', 1],
+      ['c', 2]
+    ];
+    const list = new linkListDummy(data)
+    expect(list.head.amount).toBe(0);
+    expect(list.head.forwardNode.amount).toBe(1);
+    expect(list.head.forwardNode.forwardNode.amount).toBe(2);
+    expect(list.tail.amount).toBe(2);
+
+    list.head = list.linkAdd(list.head, 'd', 3);
+    expect(list.head.amount).toBe(3);
+    expect(list.head.forwardNode.amount).toBe(0);
   });
 
   test('print list', () => {

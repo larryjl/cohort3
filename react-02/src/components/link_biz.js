@@ -39,8 +39,8 @@ const linkList = class {
     };
   }
   // add to beginning
-  linkAdd(previous, subject, amount) {
-    const node = new linkNode(subject, amount, previous);
+  linkAdd(head, subject, amount) {
+    const node = new linkNode(subject, amount, head);
     // previous = node;
     return node;
   }
@@ -58,6 +58,7 @@ const linkList = class {
       // current.forwardNode = node;
       current.forwardNode = this.linkAdd(current.forwardNode, subject, amount)
     };
+    this.tail = current.forwardNode;
     // return this.head;
     return current.forwardNode; 
   }
@@ -79,6 +80,22 @@ const linkList = class {
       current = current.forwardNode;
     };
     return string + 'null';
+  }
+};
+
+const linkListDummy = class {
+  constructor(data) {
+    const dummy = new linkNode();
+    this.tail = dummy;
+    for(let v of data) {
+      this.tail.forwardNode = this.linkAdd(this.tail.forwardNode, ...v);
+      this.tail = this.tail.forwardNode;
+    };
+    this.head = dummy.forwardNode;
+  }
+  linkAdd(head, subject, amount) {
+    const node = new linkNode(subject, amount, head);
+    return node;
   }
 };
 
@@ -109,5 +126,6 @@ export {
   Link, 
   linkNode,
   linkList,
+  linkListDummy,
   functions
 };
