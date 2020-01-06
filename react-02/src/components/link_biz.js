@@ -48,7 +48,7 @@ const linkList = class {
     let current = this.head;
     if (!current) {
       // this.head = node;
-      this.head = linkAdd(this.head, data);
+      this.head = this.linkAdd(this.head, data);
     } else {
       while (current.forwardNode) {
         current = current.forwardNode;
