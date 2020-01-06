@@ -127,9 +127,11 @@ const linkListDouble = class {
     return newNode;
   }
   showList() {
+    // console.log('showlist');
     let current = this.head;
     let string = '';
     while (current) {
+      // console.log(current);
       string += current.show() + '; ';
       current = current.forwardNode;
     };
@@ -161,7 +163,6 @@ const functions = {
 
   // previous ⇒ backup one node (how are we going to do this?)
   previous: (linkList, node) => {
-    console.log(node.prevNode);
     let current = linkList.head;
     while (current) {
       if (current.forwardNode === node) return current;
@@ -171,8 +172,6 @@ const functions = {
 
   // previous - using doubly linked list
   previousDouble: (node) => {
-    console.log(node);
-    console.log(node.prevNode);
     return node.prevNode;
   },
 
@@ -185,8 +184,15 @@ const functions = {
 
   // delete ⇒ delete the current node (which node will be the current node after the deletion?)
   delete: (list, node) => {
-    functions.previous(list, node).forwardNode = node.forwardNode;
-    return node.forwardNode;
+    // functions.previous(list, node).forwardNode = node.forwardNode;
+    node.prevNode.forwardNode = node.forwardNode;
+    node.forwardNode.prevNode = node.prevNode;
+    console.log(node.prevNode);
+    if (node.forwardNode) {
+      return node.forwardNode;
+    } else {
+      return node.prevNode;
+    };
   },
 
   // We need to have a total function that will show the total of all the amounts of all the ListNodes
