@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {
   // linkNode, 
   linkList, 
-  // linkListDummy, 
-  // linkListDouble,
+  linkListDummy, 
+  linkListDouble,
   functions
 } from './link_biz';
 
@@ -19,15 +19,15 @@ function Link(props) {
     };
   });
   const data = [
-    {ingredient: 'toast', calories: 100},
+    {ingredient: 'bottom bread', calories: 100},
     {ingredient: 'chicken', calories: 187},
     {ingredient: 'bacon', calories: 108},
     {ingredient: 'lettuce', calories: 5},
     {ingredient: 'tomato', calories: 8},
     {ingredient: 'mayonnaise', calories: 94},
-    {ingredient: 'toast', calories: 100}
+    {ingredient: 'top bread', calories: 100}
   ];
-  const list = new linkList(data);
+  const list = new linkListDouble(data);
   // setPosition(list.head);
   // setListText(list.showList());
   // setTotal(functions.total(list, 'calories'));
@@ -35,7 +35,7 @@ function Link(props) {
     first: {f: functions.first, p: [list]},
     last: {f: functions.last, p: [list]},
     next: {f: functions.next, p: [position]},
-    previous: {f: functions.previous, p: [list, position]},
+    previous: {f: functions.previousDouble, p: [position]},
     insert: {f: functions.insert, p: [position, inputInfo]},
     delete: {f: functions.delete, p: [list, position]},
   }

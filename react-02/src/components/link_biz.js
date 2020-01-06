@@ -12,6 +12,7 @@ const linkNode = class {
   show() {
     // return `subject: ${this.subject}, amount: ${this.amount}`;
     const clone = Object.assign({}, this);
+    delete clone.prevNode;
     delete clone.forwardNode;
     let info = Object.entries(clone);
     info.sort((a,b) => (
@@ -125,6 +126,16 @@ const linkListDouble = class {
     };
     return newNode;
   }
+  showList() {
+    let current = this.head;
+    let string = '';
+    while (current) {
+      string += current.show() + '; ';
+      current = current.forwardNode;
+    };
+    string = string.slice(0,-2);
+    return string;
+  }
 };
 
 const functions = {
@@ -140,11 +151,17 @@ const functions = {
 
   // next ⇒ move to the next node
   next: (node) => {
-    return node.forwardNode;
+    if (node.forwardNode) {
+      return node.forwardNode;
+    } else {
+      console.log('no forward node');
+      return node;
+    };
   },
 
   // previous ⇒ backup one node (how are we going to do this?)
   previous: (linkList, node) => {
+    console.log(node.prevNode);
     let current = linkList.head;
     while (current) {
       if (current.forwardNode === node) return current;
@@ -152,8 +169,10 @@ const functions = {
     };
   },
 
-  // previous - using doubly linked list?
+  // previous - using doubly linked list
   previousDouble: (node) => {
+    console.log(node);
+    console.log(node.prevNode);
     return node.prevNode;
   },
 
