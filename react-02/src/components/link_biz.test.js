@@ -144,9 +144,10 @@ describe('functions', () => {
     expect(result.amount).toBe(1);
   });
   test('insert', () => {
+    const info = {subject: 'z', amount: 99};
     const list = new linkListDummy(data);
     let node = list.head;
-    const result = functions.insert(node);
+    const result = functions.insert(node, info);
     expect(list.head.amount).toBe(0);
     expect(result.amount).toBe(99);
     expect(list.head.forwardNode.amount).toBe(99);

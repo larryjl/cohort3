@@ -158,8 +158,8 @@ const functions = {
   },
 
   // insert ⇒ inserts a new node after the current node (which node will be the current node after the insertion?)
-  insert: (node) => {
-    let newNode = new linkNode({subject: 'z', amount: 99}, node.forwardNode);
+  insert: (node, info) => {
+    let newNode = new linkNode(info, node.forwardNode);
     node.forwardNode = newNode;
     return newNode;
   },
