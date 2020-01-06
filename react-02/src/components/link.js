@@ -1,4 +1,10 @@
 import React, {useState, useEffect} from 'react';
+import {
+  linkNode, 
+  linkList, 
+  linkListDummy, 
+  functions
+} from './link_biz';
 
 function Link(props) {
   const [position, setPosition] = useState(0);
@@ -8,10 +14,6 @@ function Link(props) {
       // cleanup
     };
   });
-
-  const nodeList = {
-    head: new linkNode('a', 0, new linkNode('b', 1, new linkNode('c', 2, null)))
-  };
 
   return (
     <div>
