@@ -5,10 +5,15 @@ import {
   functions
 } from './link_biz';
 
-describe.only('linkList', () => {
+describe('linkList', () => {
+  const data = [
+    {subject: 'a', amount: 0},
+    {subject: 'b', amount: 1},
+    {subject: 'c', amount: 2}
+  ];
   test('show', () => {
     const node = new linkNode({subject: 'a', amount: 0}, null);
-    node.show('subject: a, amount: 0');
+    expect(node.show()).toBe('amount: 0, subject: a');
   });
 
   test('naive list', () => {
@@ -38,11 +43,6 @@ test('single line nested list', () => {
   });
 
   test('generic iterated list', () => {
-    const data = [
-      {subject: 'a', amount: 0},
-      {subject: 'b', amount: 1},
-      {subject: 'c', amount: 2}
-    ];
     const n = data.length;
     let list = {head: null};
     let node = null;
@@ -56,11 +56,6 @@ test('single line nested list', () => {
   });
 
   test('list as class, add to start', () => {
-    const data = [
-      {subject: 'a', amount: 0},
-      {subject: 'b', amount: 1},
-      {subject: 'c', amount: 2}
-    ];
     const list = new linkList(data)
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
@@ -72,11 +67,6 @@ test('single line nested list', () => {
   });
 
   test('list as class, add to end', () => {
-    const data = [
-      {subject: 'a', amount: 0},
-      {subject: 'b', amount: 1},
-      {subject: 'c', amount: 2}
-    ];
     const list = new linkList(data)
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
@@ -89,11 +79,6 @@ test('single line nested list', () => {
   });
 
   test('list using dummy', () => {
-    const data = [
-      {subject: 'a', amount: 0},
-      {subject: 'b', amount: 1},
-      {subject: 'c', amount: 2}
-    ];
     const list = new linkListDummy(data)
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(1);
@@ -107,35 +92,31 @@ test('single line nested list', () => {
 
   test('print list', () => {
     console.log = jest.fn();
-    const data = [
-      {subject: 'a', amount: 0},
-      {subject: 'b', amount: 1},
-      {subject: 'c', amount: 2}
-    ];
     const list = new linkList(data)
     list.printList();
-    expect(console.log.mock.calls.length).toBe(4);
+    expect(console.log.mock.calls.length).toBe(3);
     expect(console.log.mock.calls).toEqual([
       ['a', 0],
       ['b', 1],
-      ['c', 2],
-      ['null']
+      ['c', 2]
     ]);
   });
 
   test('show list', () => {
-    const data = [
-      {subject: 'a', amount: 0},
-      {subject: 'b', amount: 1},
-      {subject: 'c', amount: 2}
-    ];
     const list = new linkList(data)
-    expect(list.showList()).toBe('subject: a, amount: 0; subject: b, amount: 1; subject: c, amount: 2; null');
+    expect(list.showList()).toBe(
+      'amount: 0, subject: a; amount: 1, subject: b; amount: 2, subject: c');
   })
 });
 
 describe('functions', () => {
+  const data = [
+    {subject: 'a', amount: 0},
+    {subject: 'b', amount: 1},
+    {subject: 'c', amount: 2}
+  ];
   test('first', () => {
+    const list = new linkListDummy(data)
     const result = functions.first();
     expect(result).toEqual({});
   });

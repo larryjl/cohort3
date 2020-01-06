@@ -2,25 +2,27 @@ const linkNode = class {
   constructor(info, forwardNode) {
     this.forwardNode = forwardNode;
     if (info) {
-      this.subject = info.subject;
-      this.amount = info.amount;
-    //   for (let i in info) {
-    //     this[i] = info[i];
-    //   };
+      // this.subject = info.subject;
+      // this.amount = info.amount;
+      for (let i in info) {
+        this[i] = info[i];
+      };
     };
   }
   show() {
-    return `subject: ${this.subject}, amount: ${this.amount}`;
-    // let info = Object.entries(this);
-    // delete info.forwardNode;
-    // info.sort((a,b) => (
-    //   (a[0] > b[0]) ? 1 : -1
-    // ));
-    // let string = '';
-    // for (let e of info) {
-    //   string = `${string}, ${e[0]}: ${e[1]}`
-    // };
-    // return string;
+    // return `subject: ${this.subject}, amount: ${this.amount}`;
+    const clone = Object.assign({}, this);
+    delete clone.forwardNode;
+    let info = Object.entries(clone);
+    info.sort((a,b) => (
+      (a[0] > b[0]) ? 1 : -1
+    ));
+    let string = '';
+    for (let e of info) {
+      string += `${e[0]}: ${e[1]}, `
+    };
+    string = string.slice(0, -2);
+    return string;
   }
 };
 
@@ -63,17 +65,17 @@ const linkList = class {
       console.log(current.subject, current.amount);
       current = current.forwardNode;
     };
-    console.log('null');
   }
   // show list
   showList() {
     let current = this.head;
     let string = '';
     while (current) {
-      string = string + current.show() + '; ' ;
+      string += current.show() + '; ';
       current = current.forwardNode;
     };
-    return string + 'null';
+    string = string.slice(0,-2);
+    return string;
   }
 };
 
@@ -95,7 +97,10 @@ const linkListDummy = class {
 
 const functions = {
   // first ⇒ position to the first node
-  first: () => {},
+  first: (linkList) => {
+    let node;
+    return node;
+  },
 
   // last ⇒ position to the last node
   last: () => {},
