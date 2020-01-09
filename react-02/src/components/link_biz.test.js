@@ -94,27 +94,9 @@ test('single line nested list', () => {
     expect(list.head.amount).toBe(3);
     expect(list.head.forwardNode.amount).toBe(0);
   });
-
-  test('print list', () => {
-    console.log = jest.fn();
-    const list = new linkList(data)
-    list.printList();
-    expect(console.log.mock.calls.length).toBe(3);
-    expect(console.log.mock.calls).toEqual([
-      ['a', 0],
-      ['b', 1],
-      ['c', 2]
-    ]);
-  });
-
-  test('show list', () => {
-    const list = new linkList(data)
-    expect(list.showList()).toBe(
-      'amount: 0, subject: a; amount: 1, subject: b; amount: 2, subject: c');
-  })
 });
 
-describe('functions', () => {
+describe('linkList Dummy', () => {
   const data = [
     {subject: 'a', amount: 0},
     {subject: 'b', amount: 1},
@@ -123,31 +105,31 @@ describe('functions', () => {
   ];
   test('first', () => {
     const list = new linkListDummy(data);
-    const result = functions.first(list);
+    const result = list.first();
     expect(result.amount).toBe(0);
   });
   test('last', () => {
     const list = new linkListDummy(data);
-    const result = functions.last(list);
+    const result = list.last();
     expect(result.amount).toBe(3);
   });
   test('next', () => {
     const list = new linkListDummy(data);
     let node = list.head.forwardNode;
-    const result = functions.next(node);
+    const result = list.next(node);
     expect(result.amount).toBe(2);
   });
   test('previous', () => {
     const list = new linkListDummy(data);
     let node = list.head.forwardNode.forwardNode;
-    const result = functions.previous(list, node);
+    const result = list.previous(node);
     expect(result.amount).toBe(1);
   });
   test('insert', () => {
     const info = {subject: 'z', amount: 99};
     const list = new linkListDummy(data);
     let node = list.head;
-    const result = functions.insert(node, info);
+    const result = list.insert(node, info);
     expect(list.head.amount).toBe(0);
     expect(result.amount).toBe(99);
     expect(list.head.forwardNode.amount).toBe(99);
@@ -157,20 +139,10 @@ describe('functions', () => {
   test('delete', () => {
     const list = new linkListDummy(data);
     let node = list.head.forwardNode;
-    const result = functions.delete(list, node);
+    const result = list.delete(node);
     expect(result.amount).toBe(2);
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(2);
-  });
-  test('total', () => {
-    const list = new linkListDummy(data);
-    const result = functions.total(list, 'amount');
-    expect(result).toBe(6);
-  });
-  test('length', () => {
-    const list = new linkListDummy(data);
-    const result = functions.length(list);
-    expect(result).toBe(4);
   });
 });
 
@@ -194,14 +166,14 @@ describe('doubly linked list', () => {
   });
   test('add to start', () => {
     const list = new linkListDouble(data);
-    list.head = list.linkAdd(list.head, {subject: 'e', amount: 4});
+    list.head = list.add(list.head, {subject: 'e', amount: 4});
     expect(list.head.amount).toBe(4);
     expect(list.head.forwardNode.amount).toBe(0);
     expect(list.head.forwardNode.prevNode.amount).toBe(4);
   });
   test('insert after', () => {
     const list = new linkListDouble(data);
-    list.linkInsert(list.head, {subject: 'e', amount: 4});
+    list.insert(list.head, {subject: 'e', amount: 4});
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(4);
     expect(list.head.forwardNode.forwardNode.amount).toBe(1);
@@ -212,15 +184,58 @@ describe('doubly linked list', () => {
     let node = list.head.forwardNode.forwardNode;
     expect(list.head.forwardNode.prevNode.amount).toBe(0);
     expect(node.prevNode.amount).toBe(1);
-    const result = functions.previousDouble(node);
+    const result = list.previous(node);
     expect(result.amount).toBe(1);
   });
   test('delete', () => {
     const list = new linkListDouble(data);
     let node = list.head.forwardNode;
-    const result = functions.delete(list, node);
+    const result = list.delete(node);
     expect(result.amount).toBe(2);
     expect(list.head.amount).toBe(0);
     expect(list.head.forwardNode.amount).toBe(2);
   });
 });
+
+describe('aggregate functions', () => {
+
+  const data = [
+    {subject: 'a', amount: 0},
+    {subject: 'b', amount: 1},
+    {subject: 'c', amount: 2},
+  ];
+  test('print list', () => {
+    console.log = jest.fn();
+    const list = new linkListDouble(data)
+    list.printList();
+    expect(console.log.mock.calls.length).toBe(3);
+    expect(console.log.mock.calls).toEqual([
+      ['a', 0],
+      ['b', 1],
+      ['c', 2]
+    ]);
+  });
+  test('show list', () => {
+    const list = new linkListDouble(data)
+    expect(list.showList()).toBe(
+      'amount: 0, subject: a; amount: 1, subject: b; amount: 2, subject: c');
+  });
+  test('total', () => {
+    const list = new linkListDouble(data);
+    const result = list.total('amount');
+    expect(result).toBe(3);
+  });
+  test('length', () => {
+    const list = new linkListDouble(data);
+    const result = list.length();
+    expect(result).toBe(3);
+  });
+
+  test('clone object with prototype', () => {
+    const node = new linkNode({subject: 'a', amount: 0}, null);
+    expect(node.show()).toBe('amount: 0, subject: a');
+
+    let nodeClone = functions.clonePrototype(node);
+    expect(nodeClone.show()).toBe('amount: 0, subject: a');
+  });
+})
