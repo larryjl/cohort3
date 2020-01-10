@@ -8,12 +8,14 @@ const linkNode = class {
         this[i] = info[i];
       };
     };
+    // this.show = this.show.bind(this);
   }
   show() {
     // return `subject: ${this.subject}, amount: ${this.amount}`;
     const clone = Object.assign({}, this);
     delete clone.prevNode;
     delete clone.forwardNode;
+    // delete clone.show;
     let info = Object.entries(clone);
     info.sort((a,b) => (
       (a[0] > b[0]) ? 1 : -1
@@ -140,6 +142,12 @@ const linkListDouble = class {
         this.tail = this.head;
       };
     };
+    this.first = this.first.bind(this);
+    this.last = this.last.bind(this);
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
+    this.insert = this.insert.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   // build before !does not handle newNode.prevNode!
