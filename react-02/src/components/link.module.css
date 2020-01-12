@@ -8,3 +8,10 @@
 .selected {
     background-color: #0F1726;
 }
+#container {
+    display: flex;
+}
+#container > div {
+    padding: 10px;
+    min-width: calc(50% - 20px);
+}

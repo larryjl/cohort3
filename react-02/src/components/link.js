@@ -108,21 +108,19 @@ function Link(props) {
   return (
     <main id="idMainLink">
       <h2>Linked List</h2>
-      <div>
+      <div id={styles.container}>
+        <DisplayList
+          keys = {keys}
+          info = {array}
+          selected = {position.name}
+        />
         <div>
-          <DisplayList
-            keys = {keys}
-            info = {array}
-            selected = {position.name}
-          />
           <p>
             Total: {`${summary.total} ${keys[1]}`}
           </p>
           <p>
             Selected {position.show}
           </p>
-        </div>
-        <div>
           <div>
             {buttons}
           </div>
