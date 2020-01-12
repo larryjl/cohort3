@@ -8,7 +8,6 @@ const linkNode = class {
         this[i] = info[i];
       };
     };
-    // this.show = this.show.bind(this);
   }
   show() {
     // return `subject: ${this.subject}, amount: ${this.amount}`;
@@ -233,6 +232,19 @@ const linkListDouble = class {
     };
     string = string.slice(0,-2);
     return string;
+  }
+
+  arrayList() {
+    let current = this.head;
+    let array = [];
+    while (current) {
+      const clone = Object.assign({}, current);
+      delete clone.prevNode;
+      delete clone.forwardNode;
+      array.push(clone);
+      current = current.forwardNode;
+    };
+    return array;
   }
 
   // We need to have a total function that will show the total of all the amounts of all the ListNodes
