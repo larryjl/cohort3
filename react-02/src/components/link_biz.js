@@ -203,7 +203,7 @@ const linkListDouble = class {
     if (node.prevNode) {
       node.prevNode.forwardNode = node.forwardNode;
     };
-    if (node.forwardNod) {
+    if (node.forwardNode) {
       node.forwardNode.prevNode = node.prevNode;
     };
     if (node.forwardNode) {
