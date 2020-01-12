@@ -6,30 +6,43 @@ import {
   linkListDouble,
   // functions
 } from './link_biz';
-import './link.css';
+import styles from './link.module.css';
 
 let data = [{}];
 data = [
-  {ingredient: 'bread', calories: 100},
-  {ingredient: 'chicken', calories: 187},
-  {ingredient: 'bacon', calories: 108},
-  {ingredient: 'lettuce', calories: 5},
-  {ingredient: 'tomato', calories: 8},
-  {ingredient: 'mayonnaise', calories: 94},
-  {ingredient: 'more bread', calories: 100}
+  {ingredient: 'bottom bread', calories: 100, style: {color:'goldenrod'}},
+  {ingredient: 'chicken', calories: 187, style: {color:'black'}},
+  {ingredient: 'bacon', calories: 108, style: {color:'brown'}},
+  {ingredient: 'lettuce', calories: 5, style: {color:'greenyellow'}},
+  {ingredient: 'tomato', calories: 8, style: {color:'red'}},
+  {ingredient: 'mayonnaise', calories: 94, style: {color:'white'}},
+  {ingredient: 'top bread', calories: 100, style: {color:'goldenrod'}}
 ];
-
 const list = new linkListDouble(data);
 
 function Link(props) {
-  const [position, setPosition] = useState({
-    node: {}, show: ''
-  });
-  const [summary, setSummary] = useState({
-    showList: '', total: ''
-  });
+
+  const keys = (data)
+    ? Object.keys(data[0])
+    : ['subject', 'amount']
+  ;
+  const [position, setPosition] = useState(
+    (data)
+      ? {node: list.head, show: list.head.show(), name: list.head[keys[0]]}
+      : {node: {}, show: '', name: ''}
+  );
+  const [array, setArray] = useState(
+    (data)
+      ? list.arrayList()
+      : []
+  );
+  const [summary, setSummary] = useState(
+    (data)
+      ? {showList: list.showList(), total: list.total(keys[1])}
+      : {showList: '', total: 0}
+  );
   const [inputInfo, setInputInfo] = useState({
-    ingredient: '', calories: ''
+    [keys[0]]: '', [keys[1]]: ''
   });
   useEffect(() => {
     // side effect
@@ -53,9 +66,9 @@ function Link(props) {
     try {
       fun = functionsObj[e.target.name];
       const node = fun.f(...fun.p);
-      console.log(node);
-      setPosition({node: node, show: node.show()});
-      setSummary({showList: list.showList(), total: list.total()});
+      setPosition({node: node, show: node.show(), name: node[keys[0]]});
+      setArray(list.arrayList());
+      setSummary({showList: list.showList(), total: list.total(keys[1])});
     } catch (error) {
       console.log(error);
     };
@@ -77,36 +90,71 @@ function Link(props) {
   };
   const input = (type, name) => {
     return (
-      <input
-        type={type}
-        value={inputInfo[name]}
-        name={name}
-        onChange={(e) => handleInputChange(e)}
-      ></input>
+      <div>
+        <span>
+          new {name}: 
+        </span>
+        <input
+          type={type}
+          // value={inputInfo[name]}
+          name={name}
+          onChange={(e) => handleInputChange(e)}
+        ></input>
+      </div>
     );
   }
   return (
     <main id="idMainLink">
       <h2>Linked List</h2>
       <div>
-        <p>
-          List: {summary.showList}
-        </p>
-        <p>
-          Calories: {summary.total}
-        </p>
-        <p>
-          Selected: {position.show}
-        </p>
-      </div>
-      <div>
-        {buttons}
-      </div>
-      <div>
-        {input('text', 'ingredient')}
-        {input('number', 'calories')}
+        <div>
+          <DisplayList
+            keys = {keys}
+            info = {array}
+            selected = {position.name}
+          />
+          <p>
+            Total: {`${summary.total} ${keys[1]}`}
+          </p>
+          <p>
+            Selected {position.show}
+          </p>
+        </div>
+        <div>
+          <div>
+            {buttons}
+          </div>
+          <div>
+            {input('text', keys[0])}
+            {input('number', keys[1])}
+          </div>
+        </div>
       </div>
     </main>
+  );
+};
+
+function DisplayList(props) {
+  const {keys, info, selected} = props;
+  const subject = keys[0];
+  let display = info.map((v,i) =>
+    (<p 
+      key={i+v[subject]} 
+      className={[
+        styles.item,  
+        (v[subject]===selected)
+          ? styles.selected
+          : ''
+      ].join(' ')}
+      style={v.style}
+    >
+      {v[subject]}
+    </p>)
+  ).reverse();
+  return (
+    <div>
+      {display}
+    </div>
   );
 };
 
