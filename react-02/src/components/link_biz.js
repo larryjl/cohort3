@@ -151,7 +151,8 @@ const linkListDouble = class {
     this.delete = this.delete.bind(this);
   }
 
-  // build before !does not handle newNode.prevNode!
+  // add before when building list
+  // newNode.prevNode is undefined
   add(node, data) {
     const newNode = new linkNode(data, node);
     if (node) {
@@ -171,17 +172,14 @@ const linkListDouble = class {
     return newNode;
   }
 
-  // first ⇒ position to the first node
   first () {
     return this.head;
   }
 
-  // last ⇒ position to the last node
   last () {
     return this.tail;
   }
 
-  // next ⇒ move to the next node
   next (node) {
     if (node.forwardNode) {
       return node.forwardNode;
@@ -201,7 +199,6 @@ const linkListDouble = class {
     };
   }
 
-  // delete ⇒ delete the current node (which node will be the current node after the deletion?)
   delete (node) {
     if (node.prevNode) {
       node.prevNode.forwardNode = node.forwardNode;
@@ -249,7 +246,6 @@ const linkListDouble = class {
     return array;
   }
 
-  // We need to have a total function that will show the total of all the amounts of all the ListNodes
   total(key) {
     let current = this.head;
     let total = 0;
@@ -298,7 +294,6 @@ const functions = {
   //   string = string.slice(0,-2);
   //   return string;
   // },
-
   // // We need to have a total function that will show the total of all the amounts of all the ListNodes
   // total(linkList, key) {
   //   let current = linkList.head;
@@ -309,7 +304,6 @@ const functions = {
   //   };
   //   return total;
   // },
-
   // length(linkList) {
   //   let current = linkList.head;
   //   let length = 0;
@@ -329,7 +323,6 @@ const functions = {
   // last: (linkList) => {
   //   return linkList.tail;
   // },
-
   // // next ⇒ move to the next node
   // next: (node) => {
   //   if (node.forwardNode) {
@@ -339,7 +332,6 @@ const functions = {
   //     return node;
   //   };
   // },
-
   // // previous ⇒ backup one node (how are we going to do this?)
   // previous: (linkList, node) => {
   //   let current = linkList.head;
@@ -348,19 +340,16 @@ const functions = {
   //     current = current.forwardNode;
   //   };
   // },
-
   // // previous - using doubly linked list
   // previousDouble: (node) => {
   //   return node.prevNode;
   // },
-
   // // insert ⇒ inserts a new node after the current node (which node will be the current node after the insertion?)
   // insert: (node, info) => {
   //   let newNode = new linkNode(info, node.forwardNode);
   //   node.forwardNode = newNode;
   //   return newNode;
   // },
-
   // // delete ⇒ delete the current node (which node will be the current node after the deletion?)
   // delete: (list, node) => {
   //   // functions.previous(list, node).forwardNode = node.forwardNode;
