@@ -14,14 +14,16 @@ const linkNode = class {
     const clone = Object.assign({}, this);
     delete clone.prevNode;
     delete clone.forwardNode;
-    // delete clone.show;
     let info = Object.entries(clone);
-    info.sort((a,b) => (
-      (a[0] > b[0]) ? 1 : -1
-    ));
+    // info.sort((a,b) => (
+    //   (a[0] > b[0]) ? 1 : -1
+    // ));
     let string = '';
+    let i = 0;
     for (let e of info) {
-      string += `${e[0]}: ${e[1]}, `
+      string += `${e[0]}: ${e[1]}, `;
+      i++;
+      if (i>1) {break;};
     };
     string = string.slice(0, -2);
     return string;
