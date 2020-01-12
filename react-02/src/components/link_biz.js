@@ -250,7 +250,7 @@ const linkListDouble = class {
     let current = this.head;
     let total = 0;
     while (current) {
-      total += current[key];
+      total += +current[key];
       current = current.forwardNode;
     };
     return total;
