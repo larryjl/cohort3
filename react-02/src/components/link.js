@@ -86,7 +86,8 @@ function Link(props) {
     );
   };
   const handleInputChange = (e) => {
-    setInputInfo({[e.target.name]: e.target.value});
+    const target = e.target;
+    setInputInfo(state => ({...state, [target.name]: target.value}));
   };
   const input = (type, name) => {
     return (
@@ -99,6 +100,7 @@ function Link(props) {
           // value={inputInfo[name]}
           name={name}
           onChange={(e) => handleInputChange(e)}
+          onBlur={(e) => handleInputChange(e)}
         ></input>
       </div>
     );
