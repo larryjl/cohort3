@@ -32,6 +32,19 @@ describe('stack methods', () => {
     };
     expect(stack.arr).toEqual([1, 2, 3]);
   });
+  it('push no capacity', () => {
+    const stack = new Stack();
+    expect(stack.push(1)).toBe(1);
+    expect(stack.push(2)).toBe(2);
+    expect(stack.arr).toEqual([1, 2]);
+    expect(stack.push(3)).toBe(3);
+    try {
+      stack.push(4);
+    } catch (error) {
+      expect(error).toBeFalsy();
+    };
+    expect(stack.arr).toEqual([1, 2, 3, 4]);
+  });
   it('pop', () => {
     const stack = new Stack(3);
     stack.push(1);
@@ -56,7 +69,7 @@ describe('stack methods', () => {
 
   });
   it('isFull', () => {
-    const stack = new Stack(1);
+    const stack = new Stack(2);
     expect(stack.isFull()).toBe(false);
     stack.push(1);
     expect(stack.isFull()).toBe(false);
