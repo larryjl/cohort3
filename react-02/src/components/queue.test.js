@@ -2,7 +2,8 @@ import {
   Queue, 
   ReverseEnqueueStack, 
   ReverseDequeueStack,
-  RecursiveStack
+  RecursiveStack,
+  generateBinary
 } from './queue.js';
 
 describe('queue constructor', () => {
@@ -282,4 +283,16 @@ describe('recursive queue built on stack', () => {
     };
     expect(queue.arr).toEqual([undefined, undefined, undefined]);
   });
+});
+
+test('binary generator', () => {
+  expect(generateBinary(7)).toEqual([
+    '1',
+    '10',
+    '11', 
+    '100', 
+    '101',
+    '110',
+    '111'
+  ]);
 });

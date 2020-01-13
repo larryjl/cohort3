@@ -1,4 +1,4 @@
-import Stack from './stack';
+import {Stack} from './stack';
 
 const Queue = class {
   constructor(size) {
@@ -133,9 +133,9 @@ const ReverseDequeueStack = class extends Stack {
 
 // Queue based on Stack structure, reverse dequeue isntead of enqueue
 const RecursiveStack = class extends Stack {
-  constructor(size) {
-    super(size);
-  };
+  // constructor(size) {
+  //   super(size);
+  // };
   enqueue(data) {
     if (!this.isFull()) {
       return this.push(data);
@@ -144,7 +144,6 @@ const RecursiveStack = class extends Stack {
     };
   }
   dequeue() {
-    const s = this.stack;
     if (!this.isEmpty()) {
       // pop an item
       const removed = this.pop();
@@ -164,4 +163,37 @@ const RecursiveStack = class extends Stack {
   }
 };
 
-export {Queue , ReverseEnqueueStack, ReverseDequeueStack, RecursiveStack};
+function generateBinary(n) { 
+  // https://www.geeksforgeeks.org/implementation-queue-javascript/
+  // Create an empty queue of strings 
+  const q = new Queue();
+          
+  // Enqueue the first binary number 
+  q.enqueue("1"); 
+  
+  const numbers = [];
+  while(n-- > 0) { 
+    // front of queue 
+    const s1 = q.arr[q.front]; 
+    q.dequeue();
+    numbers.push(s1);
+            
+    // Store s1 before changing it 
+    const s2 = s1; 
+            
+    // Append "0" to s1 and enqueue it 
+    q.enqueue(s1 + "0"); 
+            
+    // Append "1" to s2 and enqueue it. Note that s2 contains the previous front 
+    q.enqueue(s2 + "1"); 
+  };
+  return numbers;
+};
+
+export {
+  Queue, 
+  ReverseEnqueueStack, 
+  ReverseDequeueStack, 
+  RecursiveStack,
+  generateBinary
+};
