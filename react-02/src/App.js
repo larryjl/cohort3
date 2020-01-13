@@ -7,6 +7,7 @@ import Game from './components/game';
 import Accounts from './components/accounts';
 import Cities from './components/cities';
 import Link from './components/link';
+import Fifo from './components/Fifo';
 
 class App extends Component {
 
@@ -34,25 +35,9 @@ class App extends Component {
       accounts: <Accounts/>,
       cities: <Cities/>,
       link: <Link/>,
+      fifo: <Fifo/>,
     };
     let main = pages[this.state.activePage];
-    // let main;
-    // switch(this.state.activePage){
-    //   case "game":
-    //     main = <Game/>
-    //     break;
-    //   case "accounts":
-    //     main = <Accounts/>
-    //     break;
-    //   case "cities":
-    //     main = <Cities/>
-    //     break;
-    //   default: // home
-    //     main = 
-    //       <main id="idMainHome">
-    //           <Logo className="logo logo--orbit" alt="logo" />
-    //       </main>;
-    // };
     return (
       <div className="app">
         <Nav

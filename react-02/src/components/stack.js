@@ -39,4 +39,4 @@ const Stack = class {
   }
 };
 
-export default Stack;
+export {Stack};
