@@ -14,12 +14,13 @@ const inputs = {
       </button>
   )},
 
-  handleClick(e, callbacks, setInputs) {
+  handleClick(e, callbacks, setState) {
     try {
-      const s = callbacks[e.target.name].f(
-        ...callbacks[e.target.name].p
+      setState(
+        callbacks[e.target.name].f(
+          ...callbacks[e.target.name].p
+        )
       );
-      setInputs(state => ({...state, [e.target.name]: s}));
     } catch (error) {
       console.log(error);
     };
