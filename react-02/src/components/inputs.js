@@ -7,7 +7,7 @@ const inputs = {
       <button 
         key={id}
         name={name}
-        onClick={(e) => this.handleClick(e, callbacks, setInputs)} 
+        onClick={(e) => inputs.handleClick(e, callbacks, setInputs)} 
         className={classes}
       >
         {label}
@@ -35,8 +35,8 @@ const inputs = {
           name={name}
           type={type}
           value={inputs[name]}
-          onChange={(e) => this.handleInputChange(e, setInputs)}
-          onBlur={(e) => this.handleInputChange(e, setInputs)}
+          onChange={(e) => inputs.handleInputChange(e, setInputs)}
+          onBlur={(e) => inputs.handleInputChange(e, setInputs)}
           className={classes}
         ></input>
       </div>
