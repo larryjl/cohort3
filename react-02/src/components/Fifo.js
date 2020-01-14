@@ -42,18 +42,29 @@ function Fifo(props) {
     forward: IconUp,
     turnLeft: IconLeft,
     turnRight: IconRight,
-    run: IconPlay
+    runFifo: IconPlay,
+    runLifo: IconPlay
   };
   let count=0;
   const callbacks = {
     forward: {f: stack.push, p: [{id: [count++], cmd: 'forward'}]},
     turnLeft: {f: stack.push, p: [{id: [count++], cmd: 'turnLeft'}]},
     turnRight: {f: stack.push, p: [{id: [count++], cmd: 'turnRight'}]},
-    run: {f: run, p: []}
+    runFifo: {f: runFifo, p: []},
+    runLifo: {f: runLifo, p: []}
   };
-  function run() {
-    for (let v of stack.arr) {
-      setPosition(functions[v.cmd].f(...functions[v.cmd].p));
+  function runLifo() {
+    while (!stack.isEmpty()) {
+      setPosition(functions[stack.pop().cmd].f(
+        // ...functions[stack.pop().cmd].p
+      ));
+    };
+  };
+  function runFifo() {
+    while (!stack.isEmpty()) {
+      setPosition(functions[stack.dequeue().cmd].f(
+        // ...functions[stack.pop().cmd].p
+      ));
     };
   };
   const buttons = (
@@ -67,6 +78,7 @@ function Fifo(props) {
             name={v}
             label={
               <Icon
+                key={i}
                 name={v}
                 alt={v + ' button'}
                 tabIndex="0"
