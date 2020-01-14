@@ -20,35 +20,37 @@ describe('inputs', () => {
   });
 
   it('forward', () => {
-    expect(functions.forward([0,0], 1, [1,0])).toEqual([1,0]);
-    expect(functions.forward([0,0], 10, [1,0])).toEqual([10,0]);
-    expect(functions.forward([0,0], 2, [-1,0])).toEqual([-2,0]);
-    expect(functions.forward([0,0], 2, [0,1])).toEqual([0,2]);
-    expect(functions.forward([0,0], 2, [0,-1])).toEqual([0,-2]);
+    expect(functions.forward([0,0], 1, [1,0]).point).toEqual([1,0]);
+    expect(functions.forward([0,0], 10, [1,0]).point).toEqual([10,0]);
+    expect(functions.forward([0,0], 2, [-1,0]).point).toEqual([-2,0]);
+    expect(functions.forward([0,0], 2, [0,1]).point).toEqual([0,2]);
+    expect(functions.forward([0,0], 2, [0,-1]).point).toEqual([0,-2]);
 
-    expect(functions.forward([1,1], 2, [1,0])).toEqual([3,1]);
-    expect(functions.forward([1,1], 2, [-1,0])).toEqual([-1,1]);
-    expect(functions.forward([1,1], 2, [0,1])).toEqual([1,3]);
-    expect(functions.forward([1,1], 2, [0,-1])).toEqual([1,-1]);
+    expect(functions.forward([1,1], 2, [1,0]).point).toEqual([3,1]);
+    expect(functions.forward([1,1], 2, [-1,0]).point).toEqual([-1,1]);
+    expect(functions.forward([1,1], 2, [0,1]).point).toEqual([1,3]);
+    expect(functions.forward([1,1], 2, [0,-1]).point).toEqual([1,-1]);
 
 
-    expect(functions.forward([-1,-1], 2, [1,0])).toEqual([1,-1]);
-    expect(functions.forward([-1,-1], 2, [-1,0])).toEqual([-3,-1]);
-    expect(functions.forward([-1,-1], 2, [0,1])).toEqual([-1,1]);
-    expect(functions.forward([-1,-1], 2, [0,-1])).toEqual([-1,-3]);
+    expect(functions.forward([-1,-1], 2, [1,0]).point).toEqual([1,-1]);
+    expect(functions.forward([-1,-1], 2, [-1,0]).point).toEqual([-3,-1]);
+    expect(functions.forward([-1,-1], 2, [0,1]).point).toEqual([-1,1]);
+    expect(functions.forward([-1,-1], 2, [0,-1]).point).toEqual([-1,-3]);
   });
 
   it('left turn', () => {
-    expect(functions.turnLeft([0,1])).toEqual([-1,0]);
-    expect(functions.turnLeft([-1,0])).toEqual([0,-1]);
-    expect(functions.turnLeft([0,-1])).toEqual([1,0]);
-    expect(functions.turnLeft([1,0])).toEqual([0,1]);
+    const p = [0,0];
+    expect(functions.turnLeft(p, [0,1]).direction).toEqual([-1,0]);
+    expect(functions.turnLeft(p, [-1,0]).direction).toEqual([0,-1]);
+    expect(functions.turnLeft(p, [0,-1]).direction).toEqual([1,0]);
+    expect(functions.turnLeft(p, [1,0]).direction).toEqual([0,1]);
   });
 
   it('right turn', () => {
-    expect(functions.turnRight([0,1])).toEqual([1,0]);
-    expect(functions.turnRight([-1,0])).toEqual([0,1]);
-    expect(functions.turnRight([0,-1])).toEqual([-1,0]);
-    expect(functions.turnRight([1,0])).toEqual([0,-1]);
+    const p = [0,0];
+    expect(functions.turnRight(p, [0,1]).direction).toEqual([1,0]);
+    expect(functions.turnRight(p, [-1,0]).direction).toEqual([0,1]);
+    expect(functions.turnRight(p, [0,-1]).direction).toEqual([-1,0]);
+    expect(functions.turnRight(p, [1,0]).direction).toEqual([0,-1]);
   });
 });
