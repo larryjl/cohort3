@@ -7,7 +7,7 @@ const inputs = {
       <button 
         key={id}
         name={name}
-        onClick={(e) => inputs.handleClick(e, callbacks, setInputs)} 
+        onClickCapture={(e) => inputs.handleClick(e, callbacks, setInputs)} 
         className={classes}
       >
         {label}
