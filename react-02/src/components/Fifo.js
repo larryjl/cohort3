@@ -6,6 +6,7 @@ import inputs from './inputs';
 import { ReactComponent as IconUp } from '../svg/Icon_up.svg';
 import { ReactComponent as IconLeft } from '../svg/Icon_left.svg';
 import { ReactComponent as IconRight } from '../svg/Icon_right.svg';
+import { ReactComponent as IconPlay } from '../svg/Icon_play.svg';
 import styles from './Fifo.module.css';
 
 const {Button,} = inputs;
@@ -13,22 +14,47 @@ const {Button,} = inputs;
 const stack = new RecursiveStack();
 
 function Fifo(props) {
-  const [inputs, setInputs] = useState({});
+  const [last, setLast] = useState({});
+  const [position, setPosition] = useState(
+    {point: [0,0], direction: [1,0]}
+  );
   useEffect(() => {
     // side effect
     return function cleanup() {
       // cleanup
     };
   });
-  const callbacks = {
-    forward: {f: fifoFunctions.forward, p: []},
-    turnLeft: {f: fifoFunctions.turnLeft, p: []},
-    turnRight: {f: fifoFunctions.turnRight, p: []}
+  const functions = {
+    forward: {
+      f: fifoFunctions.forward, 
+      p: [position.point, 1, position.direction]
+    },
+    turnLeft: {
+      f: fifoFunctions.turnLeft, 
+      p: [position.point, position.direction]
+    },
+    turnRight: {
+      f: fifoFunctions.turnRight, 
+      p: [position.point, position.direction]
+    }
   };
   const icons = {
     forward: IconUp,
     turnLeft: IconLeft,
-    turnRight: IconRight
+    turnRight: IconRight,
+    run: IconPlay
+  };
+  let count=0;
+  const callbacks = {
+    forward: {f: stack.push, p: [{id: [count++], cmd: 'forward'}]},
+    turnLeft: {f: stack.push, p: [{id: [count++], cmd: 'turnLeft'}]},
+    turnRight: {f: stack.push, p: [{id: [count++], cmd: 'turnRight'}]},
+    run: {f: run, p: []}
+  };
+  function run() {
+    for (let v of stack.arr) {
+      setPosition(functions[v.cmd].f(...functions[v.cmd].p));
+    };
   };
   const buttons = (
     <div>
@@ -39,58 +65,58 @@ function Fifo(props) {
             key={i}
             id={i}
             name={v}
-            label={<Icon
-              name={v}
-              alt={v + ' button'}
-              tabIndex="0"
-              className={[styles.icon, styles.arrow].join(' ')}
-            />}
+            label={
+              <Icon
+                name={v}
+                alt={v + ' button'}
+                tabIndex="0"
+                className={[styles.icon, styles.arrow].join(' ')}
+              />
+            }
             callbacks={callbacks}
-            setInputs={setInputs}
+            setInputs={setLast}
             classes={styles.button}
           />
         )
       })}
     </div>
   );
-  return (<main id="idMainLink">
-    <h2>Stacks and Queues</h2>
-    {buttons}
-    <div id={styles.container}>
-      {/* <StackComp
-      />
-      <QueueComp
-      /> */}
-    </div>
-  </main>);
+  return (
+    <main id="idMainLink">
+      <h2>Stacks and Queues</h2>
+      {buttons}
+      <div id={styles.container}>
+      </div>
+    </main>
+  );
 };
 
-function StackComp(props) {
-  const [state, setState] = useState();
-  useEffect(() => {
-    // side effect
-    return function cleanup() {
-      // cleanup
-    };
-  });
-  return (<div>
-    <h3>Stack</h3>
+// function StackComp(props) {
+//   const [state, setState] = useState();
+//   useEffect(() => {
+//     // side effect
+//     return function cleanup() {
+//       // cleanup
+//     };
+//   });
+//   return (<div>
+//     <h3>Stack</h3>
 
-  </div>);
-};
+//   </div>);
+// };
 
-function QueueComp(props) {
-  const [state, setState] = useState();
-  useEffect(() => {
-    // side effect
-    return function cleanup() {
-      // cleanup
-    };
-  });
-  return (<div>
-    <h3>Queue</h3>
+// function QueueComp(props) {
+//   const [state, setState] = useState();
+//   useEffect(() => {
+//     // side effect
+//     return function cleanup() {
+//       // cleanup
+//     };
+//   });
+//   return (<div>
+//     <h3>Queue</h3>
 
-  </div>);
-};
+//   </div>);
+// };
 
 export default Fifo;
