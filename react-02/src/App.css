@@ -1,5 +1,4 @@
 body {
-  background-color: #282c34;
   color: #fff;
   font-size: calc(10px + 2vmin);
 }
@@ -17,10 +16,17 @@ h1, h2, h3 {color: #09d3ac;}
 .bold {font-weight: bold;}
 
 .app {text-align: center;}
+.app.light {
+  background-color: gainsboro;
+  color: #282c34;
+}
+.app.dark {
+  background-color: #282c34;
+  color: #fff;
+}
 
 main {
   margin-left: 100px;
-  background-color: #282c34;
   min-height: 100vh;
 }
 

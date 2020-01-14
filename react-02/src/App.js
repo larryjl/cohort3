@@ -1,27 +1,34 @@
 import React, {Component} from 'react';
+import ThemeContext from './components/themeContext';
 import {ReactComponent as Logo} from './logo.svg';
 import './App.css';
 import Nav from './components/nav';
 import Game from './components/game';
-// import Transform from './components/Transform';
 import Accounts from './components/accounts';
 import Cities from './components/cities';
 import Link from './components/link';
 import Fifo from './components/Fifo';
+import Header from './components/Header';
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      activePage: "home"
+      activePage: "home",
+      theme: 'dark'
     };
+    this.handleTheme = this.handleTheme.bind(this);
   };
 
   setPage = (page) => {
     this.setState({
       activePage: page
     });
+  };
+
+  handleTheme(theme) {
+    this.setState({theme: theme})
   };
 
   render() {
@@ -39,15 +46,20 @@ class App extends Component {
     };
     let main = pages[this.state.activePage];
     return (
-      <div className="app">
-        <Nav
-          setPage={this.setPage}
-          activePage={this.state.activePage}
-        />
-        {main}
-        <footer>
-        </footer>
-      </div>
+      <ThemeContext.Provider value = {this.state.theme}>
+        <div className={'app ' + this.state.theme}>
+          <Nav
+            setPage={this.setPage}
+            activePage={this.state.activePage}
+          />
+          <Header 
+            onChange={this.handleTheme}
+          />
+          {main}
+          <footer>
+          </footer>
+        </div>
+      </ThemeContext.Provider>
     );
   }
 };
