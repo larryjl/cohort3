@@ -3,6 +3,13 @@ const Stack = class {
     this.arr = new Array(size);
     this.capacity = size;
     this.top = -1;
+
+    this.push = this.push.bind(this);
+    this.pop = this.pop.bind(this);
+    this.isEmpty = this.isEmpty.bind(this);
+    this.isFull = this.isFull.bind(this);
+    this.peek = this.peek.bind(this);
+    this.size = this.size.bind(this);
   }
   push(data) {
     if (!this.isFull()) {
