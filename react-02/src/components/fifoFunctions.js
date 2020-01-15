@@ -1,5 +1,5 @@
 const functions = {
-  forward(point, distance, direction) {
+  forward(point, direction, distance) {
     // direction is an array: [1,0], [-1,0], [0,1] or [0,-1]
     return {
       point: point.map((v,i) => (
@@ -9,24 +9,13 @@ const functions = {
     };
   },
   turnLeft(point, prevDirection) {
+    console.log(point, prevDirection);
     let [x, y] = prevDirection;
     // convert signed -0 to 0
     return {
       point: point,
       direction: [(-y)?-y:0, x]
     };
-    // switch (prevDirection) {
-    //   case [0,1]:
-    //     return [-1,0];
-    //   case [-1,0]:
-    //     return [0,-1];
-    //   case [0,-1]:
-    //     return [1,0];
-    //   case [1,0]:
-    //     return [0,1];
-    //   default:
-    //     return [1,0];
-    // };
   },
   turnRight(point,prevDirection) {
     let [x, y] = prevDirection;
