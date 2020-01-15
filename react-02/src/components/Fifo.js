@@ -27,7 +27,7 @@ function Fifo(props) {
   const functions = {
     forward: {
       f: fifoFunctions.forward, 
-      p: [position.point, 1, position.direction]
+      p: [position.point, position.direction, 1]
     },
     turnLeft: {
       f: fifoFunctions.turnLeft, 
@@ -38,39 +38,61 @@ function Fifo(props) {
       p: [position.point, position.direction]
     }
   };
-  const icons = {
-    forward: IconUp,
-    turnLeft: IconLeft,
-    turnRight: IconRight,
-    runFifo: IconPlay,
-    runLifo: IconPlay
-  };
+  // const icons = {
+  //   forward: IconUp,
+  //   turnLeft: IconLeft,
+  //   turnRight: IconRight,
+  //   runFifo: IconPlay,
+  //   runLifo: IconPlay
+  // };
   let count=0;
   const callbacks = {
-    forward: {f: stack.push, p: [{id: [count++], cmd: 'forward'}]},
-    turnLeft: {f: stack.push, p: [{id: [count++], cmd: 'turnLeft'}]},
-    turnRight: {f: stack.push, p: [{id: [count++], cmd: 'turnRight'}]},
-    runFifo: {f: runFifo, p: []},
-    runLifo: {f: runLifo, p: []}
+    forward: {
+      f: stack.push, 
+      p: [{id: [count++], cmd: 'forward'}],
+      i: IconUp
+    },
+    turnLeft: {
+      f: stack.push, 
+      p: [{id: [count++], cmd: 'turnLeft'}],
+      i: IconLeft
+      },
+    turnRight: {
+      f: stack.push, 
+      p: [{id: [count++], cmd: 'turnRight'}],
+      i: IconRight
+    },
+    runFifo: {
+      f: runFifo, 
+      p: [],
+      i: IconPlay
+    },
+    runLifo: {
+      f: runLifo, 
+      p: [],
+      i: IconPlay
+    }
   };
   function runLifo() {
     while (!stack.isEmpty()) {
-      setPosition(functions[stack.pop().cmd].f(
-        // ...functions[stack.pop().cmd].p
+      const removed = stack.pop()
+      setPosition(functions[removed.cmd].f(
+        ...functions[removed.cmd].p
       ));
     };
   };
   function runFifo() {
     while (!stack.isEmpty()) {
-      setPosition(functions[stack.dequeue().cmd].f(
-        // ...functions[stack.pop().cmd].p
+      const removed = stack.dequeue()
+      setPosition(functions[removed.cmd].f(
+        ...functions[removed.cmd].p
       ));
     };
   };
   const buttons = (
     <div>
       {Object.keys(callbacks).map((v,i) => {
-        const Icon = icons[v];
+        const Icon = callbacks[v].i;
         return (
           <Button
             key={i}
