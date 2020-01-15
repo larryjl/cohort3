@@ -15,13 +15,31 @@ const stack = new RecursiveStack();
 
 function Fifo(props) {
   const [last, setLast] = useState({});
+  const [first, setFirst] = useState({});
+  const [sequence, setSequence] = useState('');
   const [position, setPosition] = useState(
     {point: [0,0], direction: [1,0]}
   );
+  // const [stack, setStack] = useState(new RecursiveStack());
   useEffect(() => {
-    // side effect
+    console.log('effect');
+    let timer;
+    if (!stack.isEmpty() && sequence) {
+      console.log('run');
+      timer = setTimeout(() => {
+        let command;
+        if (sequence==='lifo') {
+          command = stack.pop().cmd;
+        } else if (sequence==='fifo') {
+          command = stack.dequeue().cmd;
+        };
+        setPosition(functions[command].f(
+          ...functions[command].p
+        ));
+      }, 20);
+    };
     return function cleanup() {
-      // cleanup
+      clearTimeout(timer);
     };
   });
   const functions = {
@@ -38,56 +56,33 @@ function Fifo(props) {
       p: [position.point, position.direction]
     }
   };
-  // const icons = {
-  //   forward: IconUp,
-  //   turnLeft: IconLeft,
-  //   turnRight: IconRight,
-  //   runFifo: IconPlay,
-  //   runLifo: IconPlay
-  // };
   let count=0;
   const callbacks = {
     forward: {
       f: stack.push, 
-      p: [{id: [count++], cmd: 'forward'}],
+      p: [{id: count++, cmd: 'forward'}],
       i: IconUp
     },
     turnLeft: {
       f: stack.push, 
-      p: [{id: [count++], cmd: 'turnLeft'}],
+      p: [{id: count++, cmd: 'turnLeft'}],
       i: IconLeft
       },
     turnRight: {
       f: stack.push, 
-      p: [{id: [count++], cmd: 'turnRight'}],
+      p: [{id: count++, cmd: 'turnRight'}],
       i: IconRight
     },
-    runFifo: {
-      f: runFifo, 
-      p: [],
+    fifo: {
+      f: setSequence, 
+      p: ['fifo'],
       i: IconPlay
     },
-    runLifo: {
-      f: runLifo, 
-      p: [],
+    lifo: {
+      f: setSequence, 
+      p: ['lifo'],
       i: IconPlay
     }
-  };
-  function runLifo() {
-    while (!stack.isEmpty()) {
-      const removed = stack.pop()
-      setPosition(functions[removed.cmd].f(
-        ...functions[removed.cmd].p
-      ));
-    };
-  };
-  function runFifo() {
-    while (!stack.isEmpty()) {
-      const removed = stack.dequeue()
-      setPosition(functions[removed.cmd].f(
-        ...functions[removed.cmd].p
-      ));
-    };
   };
   const buttons = (
     <div>
@@ -99,16 +94,18 @@ function Fifo(props) {
             id={i}
             name={v}
             label={
-              <Icon
+              [<Icon
                 key={i}
                 name={v}
                 alt={v + ' button'}
                 tabIndex="0"
                 className={[styles.icon, styles.arrow].join(' ')}
-              />
+              />,
+              v]
             }
             callbacks={callbacks}
-            setInputs={setLast}
+            setNewState={setSequence}
+            newState={(v==='fifo' || v==='lifo')?v:''}
             classes={styles.button}
           />
         )
@@ -124,33 +121,5 @@ function Fifo(props) {
     </main>
   );
 };
-
-// function StackComp(props) {
-//   const [state, setState] = useState();
-//   useEffect(() => {
-//     // side effect
-//     return function cleanup() {
-//       // cleanup
-//     };
-//   });
-//   return (<div>
-//     <h3>Stack</h3>
-
-//   </div>);
-// };
-
-// function QueueComp(props) {
-//   const [state, setState] = useState();
-//   useEffect(() => {
-//     // side effect
-//     return function cleanup() {
-//       // cleanup
-//     };
-//   });
-//   return (<div>
-//     <h3>Queue</h3>
-
-//   </div>);
-// };
 
 export default Fifo;

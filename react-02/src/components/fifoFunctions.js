@@ -9,7 +9,6 @@ const functions = {
     };
   },
   turnLeft(point, prevDirection) {
-    console.log(point, prevDirection);
     let [x, y] = prevDirection;
     // convert signed -0 to 0
     return {

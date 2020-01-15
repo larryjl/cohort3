@@ -2,25 +2,24 @@ import React from "react";
 const inputs = {
 
   Button(props) {
-    const {id, name, label, callbacks, setInputs, classes} = props
+    const {id, name, label, classes, callbacks, setNewState, newState} = props
     return(
       <button 
         key={id}
         name={name}
-        onClick={(e) => inputs.handleClick(e, callbacks, setInputs)} 
+        onClick={(e) => inputs.handleClick(e, callbacks, setNewState, newState)} 
         className={classes}
       >
         {label}
       </button>
   )},
 
-  handleClick(e, callbacks, setState) {
+  handleClick(e, callbacks, setNewState, newState) {
     try {
-      setState(
-        callbacks[e.currentTarget.name].f(
-          ...callbacks[e.currentTarget.name].p
-        )
+      const result = callbacks[e.currentTarget.name].f(
+        ...callbacks[e.currentTarget.name].p
       );
+      setNewState((newState!==undefined)?newState:result);
     } catch (error) {
       console.log(error);
     };
