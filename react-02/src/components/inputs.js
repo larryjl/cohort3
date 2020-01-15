@@ -7,7 +7,7 @@ const inputs = {
       <button 
         key={id}
         name={name}
-        onClickCapture={(e) => inputs.handleClick(e, callbacks, setInputs)} 
+        onClick={(e) => inputs.handleClick(e, callbacks, setInputs)} 
         className={classes}
       >
         {label}
@@ -17,8 +17,8 @@ const inputs = {
   handleClick(e, callbacks, setState) {
     try {
       setState(
-        callbacks[e.target.name].f(
-          ...callbacks[e.target.name].p
+        callbacks[e.currentTarget.name].f(
+          ...callbacks[e.currentTarget.name].p
         )
       );
     } catch (error) {
@@ -45,7 +45,7 @@ const inputs = {
   },
 
   handleInputChange(e, setInputs) {
-    setInputs(state => ({...state, [e.target.name]: e.target.value}));
+    setInputs(state => ({...state, [e.currentTarget.name]: e.currentTarget.value}));
   },
 
 };
