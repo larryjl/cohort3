@@ -163,37 +163,9 @@ const RecursiveStack = class extends Stack {
   }
 };
 
-function generateBinary(n) { 
-  // https://www.geeksforgeeks.org/implementation-queue-javascript/
-  // Create an empty queue of strings 
-  const q = new Queue();
-          
-  // Enqueue the first binary number 
-  q.enqueue("1"); 
-  
-  const numbers = [];
-  while(n-- > 0) { 
-    // front of queue 
-    const s1 = q.arr[q.front]; 
-    q.dequeue();
-    numbers.push(s1);
-            
-    // Store s1 before changing it 
-    const s2 = s1; 
-            
-    // Append "0" to s1 and enqueue it 
-    q.enqueue(s1 + "0"); 
-            
-    // Append "1" to s2 and enqueue it. Note that s2 contains the previous front 
-    q.enqueue(s2 + "1"); 
-  };
-  return numbers;
-};
-
 export {
   Queue, 
   ReverseEnqueueStack, 
   ReverseDequeueStack, 
-  RecursiveStack,
-  generateBinary
+  RecursiveStack
 };
