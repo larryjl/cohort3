@@ -14,34 +14,11 @@ const {Button,} = inputs;
 const stack = new RecursiveStack();
 
 function Fifo(props) {
-  const [last, setLast] = useState({});
-  const [first, setFirst] = useState({});
+  const [top, setTop] = useState(-1);
   const [sequence, setSequence] = useState('');
   const [position, setPosition] = useState(
     {point: [0,0], direction: [1,0]}
   );
-  // const [stack, setStack] = useState(new RecursiveStack());
-  useEffect(() => {
-    console.log('effect');
-    let timer;
-    if (!stack.isEmpty() && sequence) {
-      console.log('run');
-      timer = setTimeout(() => {
-        let command;
-        if (sequence==='lifo') {
-          command = stack.pop().cmd;
-        } else if (sequence==='fifo') {
-          command = stack.dequeue().cmd;
-        };
-        setPosition(functions[command].f(
-          ...functions[command].p
-        ));
-      }, 20);
-    };
-    return function cleanup() {
-      clearTimeout(timer);
-    };
-  });
   const functions = {
     forward: {
       f: fifoFunctions.forward, 
@@ -56,20 +33,44 @@ function Fifo(props) {
       p: [position.point, position.direction]
     }
   };
+  useEffect(() => {
+    let timer;
+    if (!stack.isEmpty() && sequence) {
+      timer = setTimeout(() => {
+        let command;
+        if (sequence==='lifo') {
+          command = stack.pop().cmd;
+        } else if (sequence==='fifo') {
+          command = stack.dequeue().cmd;
+        };
+        setPosition(functions[command].f(
+          ...functions[command].p
+        ));
+        setTop(stack.top);
+      }, 300);
+    };
+    return function cleanup() {
+      clearTimeout(timer);
+    };
+  }, [sequence, functions]);
+  function stackUpdate(p) {
+    stack.push(p);
+    setTop(stack.top);
+  };
   let count=0;
   const callbacks = {
     forward: {
-      f: stack.push, 
+      f: stackUpdate, 
       p: [{id: count++, cmd: 'forward'}],
       i: IconUp
     },
     turnLeft: {
-      f: stack.push, 
+      f: stackUpdate, 
       p: [{id: count++, cmd: 'turnLeft'}],
       i: IconLeft
       },
     turnRight: {
-      f: stack.push, 
+      f: stackUpdate, 
       p: [{id: count++, cmd: 'turnRight'}],
       i: IconRight
     },
@@ -88,6 +89,14 @@ function Fifo(props) {
     <div>
       {Object.keys(callbacks).map((v,i) => {
         const Icon = callbacks[v].i;
+        let color;
+        if (v==='fifo') {
+          color = 'amber';
+        } else if (v==='lifo') {
+          color = 'red';
+        } else {
+          color = 'black'
+        };
         return (
           <Button
             key={i}
@@ -99,7 +108,10 @@ function Fifo(props) {
                 name={v}
                 alt={v + ' button'}
                 tabIndex="0"
-                className={[styles.icon, styles.arrow].join(' ')}
+                className={[
+                  styles.button,
+                  styles[color]
+                ].join(' ')}
               />,
               v]
             }
@@ -112,11 +124,44 @@ function Fifo(props) {
       })}
     </div>
   );
+  const cardStack = stack.arr.map((v,i) => {
+    if (v) {
+      const cmd = v.cmd;
+      const Icon = callbacks[cmd].i;
+      let color;
+      if (i===0) {
+        color = 'amber';
+      } else if (i===top) {
+        color = 'red';
+      } else {
+        color = 'white';
+      };
+      return (
+        <Icon
+          key={i}
+          name={cmd}
+          alt={cmd + ' card'}
+          className={[
+            styles.card,
+            styles[color]
+          ].join(' ')}
+        />
+      );
+    } else {
+      return null;
+    }
+  });
   return (
     <main id="idMainLink">
       <h2>Stacks and Queues</h2>
       {buttons}
       <div id={styles.container}>
+        <div id={styles.cardStack}>
+          {cardStack}
+        </div>
+        <div>
+
+        </div>
       </div>
     </main>
   );
