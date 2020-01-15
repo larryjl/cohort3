@@ -47,6 +47,9 @@ main {
   stroke-dasharray: 100px 300px;
   animation: orbit 8s infinite linear;
 }
+.logo--orbit.light path {
+  stroke: #F90B2C;
+}
 @keyframes orbit { to { stroke-dashoffset: 400px;}}
 
 .bounceIn {

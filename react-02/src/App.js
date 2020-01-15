@@ -35,7 +35,13 @@ class App extends Component {
     const pages = {
       home: 
         <main id="idMainHome">
-            <Logo className="logo logo--orbit" alt="logo" />
+            <Logo 
+              className={
+                "logo logo--orbit"
+                + ((this.state.theme==="light")?" light":" dark")
+              } 
+              alt="logo" 
+            />
         </main>
       ,
       game: <Game/>,
