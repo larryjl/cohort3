@@ -24,7 +24,8 @@ const City = class {
       {size: 'large town', min: 20.001*1000, max:100*1000},
       {size: 'town', min: 1001, max: 20*1000},
       {size: 'village', min: 101, max: 1000},
-      {size: 'hamlet', min: 1, max: 100}
+      {size: 'hamlet', min: 1, max: 100},
+      {size: 'ghost town', min: Infinity, max:0}
     ];
     for (let i in sizes) {
       if (this.pop >= sizes[i].min && this.pop <= sizes[i].max) {
