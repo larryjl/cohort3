@@ -163,9 +163,35 @@ const RecursiveStack = class extends Stack {
   }
 };
 
+// Queue as a polymorph of Stack. Pop overwrites the parent pop and actually dequeues.
+const QueuePolymorph = class extends Stack {
+  dequeue() { // recursive dequeue
+    if (!this.isEmpty()) {
+      // pop an item
+      const removed = this.pop();
+      // when stack becomes empty, return the last popped item
+      if (this.isEmpty()) {
+        return removed;
+      };
+      // recur
+      const item = this.dequeue();
+      // push popped item back to rebuild stack
+      this.push(removed);
+      // return the result of the dequeue call
+      return item;
+    } else {
+      throw Error('stack is empty');
+    };
+  }
+  out() {
+    return this.dequeue();
+  }
+};
+
 export {
   Queue, 
   ReverseEnqueueStack, 
   ReverseDequeueStack, 
-  RecursiveStack
+  RecursiveStack,
+  QueuePolymorph
 };

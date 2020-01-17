@@ -28,6 +28,9 @@ const Stack = class {
       throw Error('stack is empty');
     }
   }
+  out() { // for testing polymorphism. child components will overwrite.
+    return this.pop();
+  }
   isEmpty() {
     // return this.size() === 0;
     return this.top === -1; 

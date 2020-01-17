@@ -2,7 +2,8 @@ import {
   Queue, 
   ReverseEnqueueStack, 
   ReverseDequeueStack,
-  RecursiveStack
+  RecursiveStack,
+  QueuePolymorph
 } from './queue.js';
 
 describe('queue constructor', () => {
@@ -309,6 +310,41 @@ describe('recursive queue built on stack', () => {
     expect(queue.size()).toBe(0);
     try {
       queue.dequeue();
+    } catch (error) {
+      expect(error).toBeTruthy();
+    };
+    expect(queue.arr).toEqual([undefined, undefined, undefined]);
+  });
+});
+
+describe('out but really dequeue', () => {
+  it('out', () => {
+    const queue = new QueuePolymorph(3);
+    queue.push(1);
+    queue.push(2);
+    queue.push(3);
+
+    expect(queue.out()).toBe(1);
+    expect(queue.arr).toEqual([2, 3, undefined]);
+    expect(queue.size()).toBe(2);
+
+    expect(queue.push(4)).toBe(3);
+    expect(queue.arr).toEqual([2, 3, 4]);
+    expect(queue.size()).toBe(3);
+
+    expect(queue.out()).toBe(2);
+    expect(queue.arr).toEqual([3, 4, undefined]);
+    expect(queue.size()).toBe(2);
+
+    expect(queue.out()).toBe(3);
+    expect(queue.arr).toEqual([4, undefined, undefined]);
+    expect(queue.size()).toBe(1);
+
+    expect(queue.out()).toBe(4);
+    expect(queue.arr).toEqual([undefined, undefined, undefined]);
+    expect(queue.size()).toBe(0);
+    try {
+      queue.out();
     } catch (error) {
       expect(error).toBeTruthy();
     };
