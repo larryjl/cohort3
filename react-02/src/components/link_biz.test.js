@@ -14,7 +14,7 @@ describe('linkList', () => {
   ];
   test('show', () => {
     const node = new linkNode({subject: 'a', amount: 0}, null);
-    expect(node.show()).toBe('amount: 0, subject: a');
+    expect(node.show()).toBe('subject: a, amount: 0');
   });
 
   test('naive list', () => {
@@ -218,7 +218,7 @@ describe('aggregate functions', () => {
   test('show list', () => {
     const list = new linkListDouble(data)
     expect(list.showList()).toBe(
-      'amount: 0, subject: a; amount: 1, subject: b; amount: 2, subject: c');
+      'subject: a, amount: 0; subject: b, amount: 1; subject: c, amount: 2');
   });
   test('array list', () => {
     const list = new linkListDouble(data);
@@ -242,8 +242,8 @@ describe('aggregate functions', () => {
 
 test('clone object with prototype', () => {
   const node = new linkNode({subject: 'a', amount: 0}, null);
-  expect(node.show()).toBe('amount: 0, subject: a');
+  expect(node.show()).toBe('subject: a, amount: 0');
 
   let nodeClone = functions.clonePrototype(node);
-  expect(nodeClone.show()).toBe('amount: 0, subject: a');
+  expect(nodeClone.show()).toBe('subject: a, amount: 0');
 });

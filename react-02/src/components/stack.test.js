@@ -3,19 +3,19 @@ import Stack from './stack.js';
 describe('stack constructor', () => {
   it('constructor size 1', () => {
     const stack = new Stack(1);
-    expect(stack).toEqual({arr: [undefined], capacity: 1, top: -1});
+    expect(stack).toEqual(expect.objectContaining({arr: [undefined], capacity: 1, top: -1}));
   });
   it('constructor size 3', () => {
     const stack = new Stack(3);
-    expect(stack).toEqual({arr: [undefined, undefined, undefined], capacity: 3, top: -1});
+    expect(stack).toEqual(expect.objectContaining({arr: [undefined, undefined, undefined], capacity: 3, top: -1}));
   });
   it('constructor size 0', () => {
     const stack = new Stack(0);
-    expect(stack).toEqual({arr: [], capacity: 0, top: -1});
+    expect(stack).toEqual(expect.objectContaining({arr: [], capacity: 0, top: -1}));
   });
   it('constructor no size', () => {
     const stack = new Stack();
-    expect(stack).toEqual({arr: [undefined], capacity: undefined, top: -1});
+    expect(stack).toEqual(expect.objectContaining({arr: [undefined], capacity: undefined, top: -1}));
   });
 });
 describe('stack methods', () => {
