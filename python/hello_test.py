@@ -1,4 +1,5 @@
 import hello
 
-def test_hello():
-    assert hello.hello() == "Hello World"
+class Test_hello:
+    def test_hello(self):
+        assert hello.hello() == "Hello World"
