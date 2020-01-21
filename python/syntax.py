@@ -19,20 +19,24 @@ def ifElse(bool):
 # # // functions
 # # //  parameters
 # # //  returns
-# funParameters: (a) => {
-#     let foo = (b) => b;
-#     return foo(a);
-# }
+def funParameters(a):
+    return define(a)
 
-# # // arrays
-# funArray: (array,first,last) => {
-#     //  add to the front
-#     array.unshift(first);
+# # // lists
+def funList(list,last, second, extension, remove):
 #     //  add to the end
-#     array.push(last);
-#     //  update values
-#     return array;
-# }
+    list.append(last)
+#     //  insert
+    list.insert(2, second)
+#     //  add second list to first
+    list.extend(extension)
+#     sort reverse
+    list.sort(reverse=True)
+    # remove index (default last)
+    list.pop()
+    # remove value
+    list.remove(remove)
+    return list
 
 # # // loops 
 # # // for
