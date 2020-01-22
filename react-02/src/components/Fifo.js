@@ -47,7 +47,7 @@ function Fifo(props) {
           ...functions[command].p
         ));
         setTop(stack.top);
-      }, 300);
+      }, 500);
     };
     return function cleanup() {
       clearTimeout(timer);
