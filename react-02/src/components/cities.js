@@ -222,6 +222,7 @@ class Cities extends Component {
             };
           };
           this.setController();
+          this.report();
           this.setMessage('Retrieved saved data.', 'check');
         };
       } else {
