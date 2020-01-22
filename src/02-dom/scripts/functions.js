@@ -44,8 +44,14 @@ const functions = {
         const arrCardBtns = [btnBefore, btnAfter, btnDelete];
         return arrCardBtns;
     },
+    count: 0,
+    incrementCount: () => {
+        functions.count++
+        return functions.count;
+    },
+
     addCard: (panel) => {
-        let cardCount =panel.children.length; // starts with 1 child: add card button
+        let cardCount = functions.incrementCount(); // starts with 1 child: add card button
         const newCard = functions.makeTag( 'div', '', ['classCard']);
         panel.appendChild(newCard);
         const arrBtns = functions.cardContents(newCard, cardCount);
