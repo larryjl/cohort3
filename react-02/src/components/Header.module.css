@@ -16,6 +16,9 @@ header {
     cursor: pointer;
 }
 .icon.light path {
+  fill: #000;
+}
+.icon.dark path {
   fill: #fff;
 }
 .button {
