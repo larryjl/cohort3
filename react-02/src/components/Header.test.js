@@ -40,7 +40,8 @@ describe('header click', () => {
         />, container
       );
     });
-    const button = document.getElementById("themeBtn"); // dummy button
+    // button in the Header component which calls onChange
+    const button = document.getElementById("themeBtn"); 
   
     act(() => {
       button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
