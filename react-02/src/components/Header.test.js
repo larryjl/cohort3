@@ -23,7 +23,7 @@ describe('header click', () => {
   });
 
   test('click', () => {
-    const onChange = jest.fn();
+    const onChange = jest.fn(); // mock function
     function Comp(props) {
       return (
         <ThemeContext.Provider value = {'dark'}>
@@ -40,18 +40,16 @@ describe('header click', () => {
         />, container
       );
     });
-    const button = document.getElementById("themeBtn");
+    const button = document.getElementById("themeBtn"); // dummy button
   
     act(() => {
       button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
     expect(onChange).toHaveBeenCalledTimes(1);
-    // expect(onChange.mock.calls[0][0]).toBe('light'); // todo: mock context
 
     act(() => {
       button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
     expect(onChange).toHaveBeenCalledTimes(2);
-    // expect(onChange.mock.calls[1][0]).toBe('dark'); // todo: mock context
   });
 });
