@@ -34,7 +34,7 @@ const f = {
   combinations: function (n,r=n) {
     return (
       (n===r)?1
-      :functions.permutations(n,r)/functions.factorial(r)
+      :this.permutations(n,r)/this.factorial(r)
     );
   },
 
@@ -71,10 +71,10 @@ const f = {
       return mid;
     } else if (arr[mid] < target) {
       // search right half
-      return f.bsearchRecursive(arr, target, mid +1, right);
+      return this.bsearchRecursive(arr, target, mid +1, right);
     } else {
       // search left half
-      return f.bsearchRecursive(arr, target, left, mid -1);
+      return this.bsearchRecursive(arr, target, left, mid -1);
     };
   },
 
@@ -90,7 +90,7 @@ const f = {
     for (let j=0; j<arr.length-1; j++) {
       for (let i=0; i<arr.length-1; i++) {
         if (arr[i] > arr[i+1]) {
-          f.swap(arr, i, i+1);
+          this.swap(arr, i, i+1);
         };
       };
     };
@@ -98,12 +98,41 @@ const f = {
   bubbleSortRecursive: function (arr, n=arr.length) {
     for (let i=0; i<n-1; i++) {
       if (arr[i] > arr[i+1]) {
-        f.swap(arr, i, i+1);
+        this.swap(arr, i, i+1);
       };
     };
     if (n-1 > 1) {
-      f.bubbleSortRecursive(arr, n-1);
+      this.bubbleSortRecursive(arr, n-1);
     };
+  },
+
+  // Quick sort
+  // Lomuto partition
+  partition: function (arr, start, end) {
+    // pick rightmost element as pivot
+    let pivotValue = arr[end];
+    // move elements to left of pivot 
+    let pivot = start;
+    for (let i=start; i < end; i++) {
+      if (arr[i] <= pivotValue) {
+        this.swap(arr, i, pivot);
+        pivot++;
+      };
+    };
+    this.swap(arr, end, pivot);
+    return pivot;
+  },
+  quickSort: function (arr, start=0, end=arr.length-1) {
+    // base
+    if (start>=end) {
+      return;
+    };
+    // rearrange around pivot
+    let pivot = this.partition(arr, start, end);
+    // recur below pivot
+    this.quickSort(arr, start, pivot -1);
+    // recur above pivot
+    this.quickSort(arr, pivot +1, end);
   }
 };
 

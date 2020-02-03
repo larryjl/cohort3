@@ -98,7 +98,7 @@ test('swap', () => {
   f.swap(arr,1,2);
   expect(arr).toEqual([3,1,2,0]);
 });
-describe.only('bubble sort', () => {
+describe('bubble sort', () => {
   test('sort', () => {
     const arr=[3,2,1,0];
     f.bubbleSort(arr);
@@ -107,6 +107,23 @@ describe.only('bubble sort', () => {
   test('recursive sort', () => {
     const arr=[3,2,1,0];
     f.bubbleSortRecursive(arr);
+    expect(arr).toEqual([0,1,2,3]);
+  });
+});
+describe('quick sort', () => {
+  test('partition', () => {
+    const arr=[3,2,1,0];
+    expect(f.partition(arr,0,3)).toBe(0);
+    expect(arr).toEqual([0,2,1,3]);
+  });
+  test('partition', () => {
+    const arr=[4,2,1,3];
+    expect(f.partition(arr,0,3)).toBe(2);
+    expect(arr).toEqual([2,1,3,4]);
+  });
+  test('sort', () => {
+    const arr=[3,2,1,0];
+    f.quickSort(arr);
     expect(arr).toEqual([0,1,2,3]);
   });
 });
