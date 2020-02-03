@@ -1,4 +1,4 @@
-const functions = {
+const f = {
   
   factorial: function (n) {
     if (n>0) {
@@ -37,17 +37,19 @@ const functions = {
       :functions.permutations(n,r)/functions.factorial(r)
     );
   },
-  bsearch: function (array, target) {
+
+  // Binary search
+  bsearch: function (arr, target) {
     // search space is between left and right indexes
     let left = 0;
-    let right = array.length -1;
+    let right = arr.length -1;
     while (left <= right) {
       // find the mid-point
       let mid = Math.floor((left+right)/2);
-      if (array[mid]===target) {
+      if (arr[mid]===target) {
         // value found
         return mid;
-      } else if (array[mid] < target) {
+      } else if (arr[mid] < target) {
         // search the right half
         left = mid +1;
       } else {
@@ -57,7 +59,52 @@ const functions = {
     };
     // searched all values without match
     return -1;
+  },
+  bsearchRecursive: function (arr, target, left=0, right=arr.length-1) {
+    // no match after recursion
+    if (left > right) {
+      return -1;
+    };
+    // find midpoint
+    let mid = Math.floor((left + right) /2);
+    if (arr[mid]===target) {
+      return mid;
+    } else if (arr[mid] < target) {
+      // search right half
+      return f.bsearchRecursive(arr, target, mid +1, right);
+    } else {
+      // search left half
+      return f.bsearchRecursive(arr, target, left, mid -1);
+    };
+  },
+
+  // Swap two indices in arr
+  swap: function (arr, i, j) {
+    const temp = arr[i];
+    arr[i]=arr[j];
+    arr[j]=temp;
+  },
+
+  // Bubble sort
+  bubbleSort: function (arr) {
+    for (let j=0; j<arr.length-1; j++) {
+      for (let i=0; i<arr.length-1; i++) {
+        if (arr[i] > arr[i+1]) {
+          f.swap(arr, i, i+1);
+        };
+      };
+    };
+  },
+  bubbleSortRecursive: function (arr, n=arr.length) {
+    for (let i=0; i<n-1; i++) {
+      if (arr[i] > arr[i+1]) {
+        f.swap(arr, i, i+1);
+      };
+    };
+    if (n-1 > 1) {
+      f.bubbleSortRecursive(arr, n-1);
+    };
   }
 };
 
-export default functions;
+export default f;
