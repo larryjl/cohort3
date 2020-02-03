@@ -111,16 +111,22 @@ const f = {
   partition: function (arr, start, end) {
     // pick rightmost element as pivot
     let pivotValue = arr[end];
-    // move elements to left of pivot 
-    let pivot = start;
+    // move elements smaller than pivot to left 
+    // start at far left
+    let j = start;
     for (let i=start; i < end; i++) {
+      // compare each value
       if (arr[i] <= pivotValue) {
-        this.swap(arr, i, pivot);
-        pivot++;
+        // move to the left
+        this.swap(arr, i, j);
+        // increment to next most left
+        j++;
       };
     };
-    this.swap(arr, end, pivot);
-    return pivot;
+    // move the pivot to the next left index
+    this.swap(arr, end, j);
+    // return the new pivot index
+    return j;
   },
   quickSort: function (arr, start=0, end=arr.length-1) {
     // base
