@@ -6,15 +6,17 @@
 # # //  dictionary / objects
 # # //  undefined
 def define(a):
-    b=a
+    b = a
     return b
+
 
 # # // sample if / else
 def ifElse(bool):
-    if bool: 
-        return True 
+    if bool:
+        return True
     else:
-        return  False
+        return False
+
 
 # # // functions
 # # //  parameters
@@ -22,15 +24,16 @@ def ifElse(bool):
 def funParameters(a):
     return define(a)
 
+
 # # // lists
-def funList(list,last, second, extension, remove):
-#     //  add to the end
+def funList(list, last, second, extension, remove):
+    #     //  add to the end
     list.append(last)
-#     //  insert
+    #     //  insert
     list.insert(2, second)
-#     //  add second list to first
+    #     //  add second list to first
     list.extend(extension)
-#     sort reverse
+    #     sort reverse
     list.sort(reverse=True)
     # remove index (default last)
     list.pop()
@@ -38,7 +41,8 @@ def funList(list,last, second, extension, remove):
     list.remove(remove)
     return list
 
-# # // loops 
+
+# # // loops
 # # // for
 # funFor: (a) => {
 #     for (let i=0;i<3;i++) { // loop 3x
@@ -52,11 +56,11 @@ def funList(list,last, second, extension, remove):
 #     let obj = {a:'a',b:'b'};
 #     for (let i in obj) {
 #         obj[i]=obj[i]+a;
-#     }; 
+#     };
 #     return obj;
 # }
 
-# # // while 
+# # // while
 # funWhile: (a) => {
 #     let n=0;
 #     while (n<3) { // loop 3x
