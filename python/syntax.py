@@ -1,37 +1,34 @@
-# # // define attributes / variables
-# # //  number
-# # //  string
-# # //  boolean
-# # //  array
-# # //  dictionary / objects
-# # //  undefined
-def define(a):
+
+# data types
+def datatype(a):
     b = a
-    return b
+    return type(b)
 
-
-# # // sample if / else
+# sample if / else
 def ifElse(bool):
     if bool:
         return True
     else:
         return False
 
+#  in keyword
+def ifIn(set, target):
+    if target in set:
+        return True
+    else:
+        return False
 
-# # // functions
-# # //  parameters
-# # //  returns
+# functions
 def funParameters(a):
-    return define(a)
+    return ifElse(a)
 
-
-# # // lists
+# lists
 def funList(list, last, second, extension, remove):
-    #     //  add to the end
+    #     add to the end
     list.append(last)
-    #     //  insert
+    #     insert
     list.insert(2, second)
-    #     //  add second list to first
+    #     add second list to first
     list.extend(extension)
     #     sort reverse
     list.sort(reverse=True)
@@ -42,16 +39,16 @@ def funList(list, last, second, extension, remove):
     return list
 
 
-# # // loops
-# # // for
+# loops
+# for
 # funFor: (a) => {
-#     for (let i=0;i<3;i++) { // loop 3x
+#     for (let i=0;i<3;i++) {loop 3x
 #         a++;
-#     }; // add 3 to a
+#     };add 3 to a
 #     return a;
 # }
 
-# # // for/in
+# for/in
 # funForIn: (a) => {
 #     let obj = {a:'a',b:'b'};
 #     for (let i in obj) {
@@ -60,44 +57,44 @@ def funList(list, last, second, extension, remove):
 #     return obj;
 # }
 
-# # // while
+# while
 # funWhile: (a) => {
 #     let n=0;
-#     while (n<3) { // loop 3x
+#     while (n<3) {loop 3x
 #         a++;
 #         n++;
-#     }; // add 3 to a
+#     };add 3 to a
 #     return a;
 # }
 
-# # // do while
+# do while
 # funDoWhile: (a) => {
 #     let n=0;
 #     do {
 #         a++;
 #         n++;
-#     } while (n<3); // add 3 to a
+#     } while (n<3);add 3 to a
 #     return a;
 # }
 
-# # // forEach
+# forEach
 # funForEach: (x) => {
 #     let arr = ['a','b'];
 #     let str = x.toString();
 #     arr.forEach( function(v) {
 #         str=str+v;
-#     }); // e.g. '0ab'
+#     });e.g. '0ab'
 #     return str;
 # }
 
-# # // Objects / Dictionaries
+# Objects / Dictionaries
 # funObject: (arr) => {
-#     //  declare object
+#     declare object
 #     let obj=[];
 #     arr.forEach( function(v, i) {
 #         obj[i]=v;
-#     }); // e.g. obj = {0:'a',1:'b'}
-#     //  lookup key to retrieve value
+#     });e.g. obj = {0:'a',1:'b'}
+#     lookup key to retrieve value
 #     let values = Object.values(obj);
 #     let keys = Object.keys(obj);
 #     let str = '';

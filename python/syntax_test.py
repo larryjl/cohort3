@@ -2,41 +2,51 @@ import pytest
 import syntax
 
 
-class TestVariable:
-    def test1(self):
-        assert syntax.define(1) == 1
+class TestType:
+    def test_type_int(self):
+        assert syntax.datatype(1) == int
+        
+    def test_type_float(self):
+        assert syntax.datatype(1.0) == float
 
-    def test2(self):
-        assert syntax.define("string") == "string"
+    def test_type_string(self):
+        assert syntax.datatype("string") == str
 
-    def test3(self):
-        assert syntax.define(True) == True
+    def test_type_bool(self):
+        assert syntax.datatype(True) == bool
 
-    def test4(self):
-        assert syntax.define(["a", 1]) == ["a", 1]
+    def test_type_tuple(self):
+        assert syntax.datatype(("a", 1)) == tuple
 
-    def test5(self):
-        assert syntax.define({"a": 1, "b": 2}) == {"a": 1, "b": 2}
+    def test_type_list(self):
+        assert syntax.datatype(["a", 1]) == list
 
-    def test6(self):
-        assert syntax.define(None) == None
+    def test_type_set(self):
+        assert syntax.datatype({"a", "b"}) == set
+        
+    def test_type_dictionary(self):
+        assert syntax.datatype({"a": 1, "b": 2}) == dict
 
+    def test_type_none(self):
+        assert syntax.datatype(None) == type(None)
 
 class TestIfElse:
-    def test7(self):
+    def test_if_else_true(self):
         assert syntax.ifElse(True) == True
 
-    def test8(self):
+    def test_if_else_false(self):
         assert syntax.ifElse(False) == False
 
+class TestIfIn:
+    def test_if_in_true(self):
+        assert syntax.ifIn({"a","b"}, "a") == True
+
+    def test_if_in_true(self):
+        assert syntax.ifIn({"a","b"}, "A") == False
 
 class TestFunParameters:
-    def test9(self):
+    def test_fun(self):
         assert syntax.funParameters(True) == True
-
-    def test10(self):
-        assert syntax.funParameters("a") == "a"
-
 
 class TestFunList:
     def test11(self):
