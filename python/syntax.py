@@ -1,8 +1,8 @@
-
 # data types
 def datatype(a):
     b = a
     return type(b)
+
 
 # sample if / else
 def ifElse(bool):
@@ -11,6 +11,7 @@ def ifElse(bool):
     else:
         return False
 
+
 #  in keyword
 def ifIn(set, target):
     if target in set:
@@ -18,18 +19,22 @@ def ifIn(set, target):
     else:
         return False
 
+
 # casting and switch
-def castSwitch(input, type):
+def castSwitch(input, datatype):
     switch = {
-        'int': int(input),
-        'float': float(input),
-        'str': str(input)
+        "int": int,
+        "float": float,
+        "str": str,
+        "bool": bool
     }
-    return switch.get(type, None)
+    return switch.get(datatype, None)(input)
+
 
 # functions
 def fun(a):
     return ifElse(a)
+
 
 # lists
 def funList(list, last, second, extension, remove):
