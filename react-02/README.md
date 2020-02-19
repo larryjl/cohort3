@@ -1,3 +1,8 @@
+See the deployed build at https://larryjl.github.io/cohort3-react/
+
+Create React App readme below:
+
+---
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
