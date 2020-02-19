@@ -18,8 +18,17 @@ def ifIn(set, target):
     else:
         return False
 
+# casting and switch
+def castSwitch(input, type):
+    switch = {
+        'int': int(input),
+        'float': float(input),
+        'str': str(input)
+    }
+    return switch.get(type, None)
+
 # functions
-def funParameters(a):
+def fun(a):
     return ifElse(a)
 
 # lists

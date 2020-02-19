@@ -9,6 +9,9 @@ class TestType:
     def test_type_float(self):
         assert syntax.datatype(1.0) == float
 
+    def test_type_complex(self):
+        assert syntax.datatype(1j) == complex
+
     def test_type_string(self):
         assert syntax.datatype("string") == str
 
@@ -44,9 +47,19 @@ class TestIfIn:
     def test_if_in_true(self):
         assert syntax.ifIn({"a","b"}, "A") == False
 
-class TestFunParameters:
+class TestCastSwitch:
+    def test_cast_switch_int(self):
+        assert syntax.castSwitch(1.9, 'int') == 1
+
+    def test_cast_switch_float(self):
+        assert syntax.castSwitch('1', 'float') == 1.0
+
+    def test_cast_switch_str(self):
+        assert syntax.castSwitch(1.0, 'str') == '1.0'
+
+class test_fun:
     def test_fun(self):
-        assert syntax.funParameters(True) == True
+        assert syntax.fun(True) == True
 
 class TestFunList:
     def test11(self):
