@@ -5,7 +5,7 @@ import syntax
 class TestType:
     def test_type_int(self):
         assert syntax.datatype(1) == int
-        
+
     def test_type_float(self):
         assert syntax.datatype(1.0) == float
 
@@ -13,6 +13,16 @@ class TestType:
         assert syntax.datatype(1j) == complex
 
     def test_type_string(self):
+        assert (
+            syntax.datatype(
+                """multi
+                line
+                string"""
+            )
+            == str
+        )
+
+    def test_type_string_multi(self):
         assert syntax.datatype("string") == str
 
     def test_type_bool(self):
@@ -26,12 +36,13 @@ class TestType:
 
     def test_type_set(self):
         assert syntax.datatype({"a", "b"}) == set
-        
+
     def test_type_dictionary(self):
         assert syntax.datatype({"a": 1, "b": 2}) == dict
 
     def test_type_none(self):
         assert syntax.datatype(None) == type(None)
+
 
 class TestIfElse:
     def test_if_else_true(self):
@@ -40,26 +51,36 @@ class TestIfElse:
     def test_if_else_false(self):
         assert syntax.ifElse(False) == False
 
+
 class TestIfIn:
     def test_if_in_true(self):
-        assert syntax.ifIn({"a","b"}, "a") == True
+        assert syntax.ifIn({"a", "b"}, "a") == True
 
     def test_if_in_true(self):
-        assert syntax.ifIn({"a","b"}, "A") == False
+        assert syntax.ifIn({"a", "b"}, "A") == False
+
 
 class TestCastSwitch:
     def test_cast_switch_int(self):
-        assert syntax.castSwitch(1.9, 'int') == 1
+        assert syntax.castSwitch(1.9, "int") == 1
 
     def test_cast_switch_float(self):
-        assert syntax.castSwitch('1', 'float') == 1.0
+        assert syntax.castSwitch("1", "float") == 1.0
 
     def test_cast_switch_str(self):
-        assert syntax.castSwitch(1.0, 'str') == '1.0'
+        assert syntax.castSwitch(1.0, "str") == "1.0"
+
+    def test_cast_switch_bool_true(self):
+        assert syntax.castSwitch("hello", "bool") == True
+
+    def test_cast_switch_bool_false(self):
+        assert syntax.castSwitch(0, "bool") == False
+
 
 class test_fun:
     def test_fun(self):
         assert syntax.fun(True) == True
+
 
 class TestFunList:
     def test11(self):
