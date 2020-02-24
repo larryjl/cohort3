@@ -30,90 +30,68 @@ def castSwitch(input, datatype):
     }
     return switch.get(datatype, None)(input)
 
+# list comprehension comparison
+def notComprehension(numList):
+    doubled = []
+    for num in numList:
+        doubled.append(num*2)
+    return doubled
+    
+# list comprehension
+def comprehension(numList):
+    doubled = [num * 2 for num in numList]
+    return doubled
 
-# functions
-def fun(a):
-    return ifElse(a)
+# function arguments
+def args(*args):
+    argList = []
+    for num in args:
+        argList.append(num)
+    return sum(argList)
 
+def kwargs(num, string):
+    return f'There are {num} {string}s!'
 
 # lists
-def funList(list, last, second, extension, remove):
-    #     add to the end
-    list.append(last)
-    #     insert
-    list.insert(2, second)
-    #     add second list to first
-    list.extend(extension)
-    #     sort reverse
-    list.sort(reverse=True)
-    # remove index (default last)
-    list.pop()
-    # remove value
-    list.remove(remove)
-    return list
-
+def funList(method, myList, *params):
+    newList = myList.copy()
+    listMethods = {
+        "append": newList.append,
+        "remove": newList.remove,
+        "pop": newList.pop,
+        "clear": newList.clear,
+        "count": newList.count,
+        "extend": newList.extend,
+        "insert": newList.insert,
+        "sort": newList.sort,
+        "reverse": newList.reverse
+    }
+    result = listMethods[method](*params)
+    if not result:
+        result = newList
+    return result
 
 # loops
-# for
-# funFor: (a) => {
-#     for (let i=0;i<3;i++) {loop 3x
-#         a++;
-#     };add 3 to a
-#     return a;
-# }
+def funWhile():
+    i = 0
+    iList = []
+    while i < 6:
+        i += 1
+        if (i % 2 == 0):
+            continue
+        iList.append(i)
+    else: 
+        iList.append(99)
+    return iList
 
-# for/in
-# funForIn: (a) => {
-#     let obj = {a:'a',b:'b'};
-#     for (let i in obj) {
-#         obj[i]=obj[i]+a;
-#     };
-#     return obj;
-# }
+def funFor():
+    iList = []
+    for i in range(3,7):
+        if (i % 2 == 0):
+            continue
+        iList.append(i)
+    else:
+        iList.append(99)
+    return iList
 
-# while
-# funWhile: (a) => {
-#     let n=0;
-#     while (n<3) {loop 3x
-#         a++;
-#         n++;
-#     };add 3 to a
-#     return a;
-# }
-
-# do while
-# funDoWhile: (a) => {
-#     let n=0;
-#     do {
-#         a++;
-#         n++;
-#     } while (n<3);add 3 to a
-#     return a;
-# }
-
-# forEach
-# funForEach: (x) => {
-#     let arr = ['a','b'];
-#     let str = x.toString();
-#     arr.forEach( function(v) {
-#         str=str+v;
-#     });e.g. '0ab'
-#     return str;
-# }
-
-# Objects / Dictionaries
-# funObject: (arr) => {
-#     declare object
-#     let obj=[];
-#     arr.forEach( function(v, i) {
-#         obj[i]=v;
-#     });e.g. obj = {0:'a',1:'b'}
-#     lookup key to retrieve value
-#     let values = Object.values(obj);
-#     let keys = Object.keys(obj);
-#     let str = '';
-#     for (let i in obj) {
-#         str = str + obj[i];
-#     };
-#     return str;
-# }
+funLambda = lambda n: n+1

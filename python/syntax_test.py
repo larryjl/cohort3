@@ -77,41 +77,47 @@ class TestCastSwitch:
         assert syntax.castSwitch(0, "bool") == False
 
 
-class test_fun:
-    def test_fun(self):
-        assert syntax.fun(True) == True
+class Test_comprehension:
+    def test_notComprehension(self):
+        assert syntax.notComprehension([1, 2, 3]) == [2, 4, 6]
 
+    def test_comprehension(self):
+        assert syntax.comprehension([1, 2, 3]) == [2, 4, 6]
+
+
+class Test_args:
+    def test_args1(self):
+        assert syntax.args(1) == 1
+    def test_args2(self):
+        assert syntax.args(1,2) == 3
+
+class Test_kwargs:
+    def test_kwargs1(self):
+        assert syntax.kwargs(2, 'apple') == 'There are 2 apples!'
+    def test_kwargs2(self):
+        assert syntax.kwargs(string = 'apple', num = 2) == 'There are 2 apples!'
 
 class TestFunList:
-    def test11(self):
-        list = [1, 2, 3]
-        assert syntax.funList(list, 4, 1.5, [5, 6], 3) == [6, 5, 4, 2, 1.5]
+    def test_list(self):
+        myList = [1, 2, 3]
+        assert syntax.funList("append", myList, 4) == [1, 2, 3, 4]
+        assert syntax.funList("remove", myList, 2) == [1, 3]
+        assert syntax.funList("pop", myList, 1) == 2
+        assert syntax.funList("clear", myList) == []
+        assert syntax.funList("count", myList, 2) == 1
+        assert syntax.funList("extend", myList, [4,5]) == [1, 2, 3, 4, 5]
+        assert syntax.funList("insert", myList, 2, 4) == [1, 2, 4, 3]
+        assert syntax.funList("sort", myList) == [1, 2, 3]
+        assert syntax.funList("reverse", myList) == [3, 2, 1]
 
 
-# test('test array manipulation', () => {
-#     expect(JSON.stringify(functions.funArray([0,1],'a','z'))).toBe(JSON.stringify(['a',0,1,'z']));
-# });
+class TestLoop:
+    def test_while(self):
+        assert syntax.funWhile() == [1, 3, 5, 99]
+    def test_for(self):
+        assert syntax.funFor() == [3, 5, 99]
 
-# test('test function with for loop', () => {
-#     expect(functions.funFor(0)).toBe(3);
-# });
+class TestLambda:
+    def test_lambda(self):
+        assert syntax.funLambda(1) == 2
 
-# test('test function with for in loop', () => {
-#     expect(JSON.stringify(functions.funForIn(0))).toBe(JSON.stringify({a:'a0',b:'b0'}));
-# });
-
-# test('test function with while loop', () => {
-#     expect(functions.funWhile(0)).toBe(3);
-# });
-
-# test('test function with do-while loop', () => {
-#     expect(functions.funDoWhile(0)).toBe(3);
-# });
-
-# test('test function with for-each loop', () => {
-#     expect(functions.funForEach(0)).toBe('0ab');
-# });
-
-# test('test objects', () => {
-#     expect(functions.funObject(['a','b'])).toBe('ab');
-# });
