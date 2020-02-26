@@ -9,6 +9,7 @@ black = "*"
 pytest-cov = "*"
 
 [packages]
+flask = "*"
 
 [requires]
 python_version = "3.6"
