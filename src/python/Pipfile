@@ -11,6 +11,7 @@ pytest-cov = "*"
 [packages]
 flask = "*"
 flask-restful = "*"
+flask-jwt = "*"
 
 [requires]
 python_version = "3.6"
