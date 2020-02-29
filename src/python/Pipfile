@@ -12,6 +12,7 @@ pytest-cov = "*"
 flask = "*"
 flask-restful = "*"
 flask-jwt = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.6"
