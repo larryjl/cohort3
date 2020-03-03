@@ -15,6 +15,7 @@ flask-jwt = "*"
 mypy = "*"
 flask-sqlalchemy = "*"
 psycopg2 = "*"
+jupyter = "*"
 
 [requires]
 python_version = "3.6"
