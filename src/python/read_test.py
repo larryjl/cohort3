@@ -15,5 +15,7 @@ class Test_read:
 
 class Test_folder:
     path = '../javascript/'
-    def test_read(self):
-        assert len(read.folderFiles(self.path)) == 12
+    def test_lines(self):
+        result = read.folderFiles(self.path)
+        print(result)
+        assert len(result) == 12

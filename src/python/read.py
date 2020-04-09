@@ -26,10 +26,14 @@ def substrings(path, substring):
 
 
 def folderFiles(path):
-    # pick a folder you have ...
-    contents = []
-    i = 0
-    for (dirpath, dirnames, filenames) in os.walk(path):
-        contents.extend(filenames)
-        break
-    return contents
+    fileList = list()
+    for fname in os.listdir(path):
+        fpath = os.path.join(path, fname)
+        if os.path.isdir(fpath):
+            continue
+        fsize = os.stat(fpath).st_size
+        fileList.append(
+            {"filename": fname, "size": fsize}
+        )   
+        print(f"Filename: {fname:20} Size: {fsize:6} Bytes")
+    return fileList
