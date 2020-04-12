@@ -37,28 +37,63 @@ def folderFiles(path):
     return fileList
 
 
-# write a python program that will:
-# only read the csv file once. Do not load the file into memory and then process it. The intent of this exercise is to pretend that the file is so massive it can only be read once and can not fit into memory.
-# use a dictionary to total “res_cnt” by “CLASS” and “SECTOR”. Do not use lists, or sort the file, or any other library. You do not know from execution to execution what the Class or Sector names will be. Write the code so there is only one loop through the data.
-# Create a total line for each of the following independently:
-# CLASS
-# SECTOR
-# count the number of lines
-# print a nice little report at the end
-# as a stretch goal; can you do this with no “if” statement
-# write the report to a file called report.txt.
-
-
 def lineToList(line):
     return [item.strip() for item in line.split(",")]
 
 
-def communityReport(path, selectFields):
-    with open("data/Census_by_Community_2019.csv", "r") as f:
+def getIndices(itemList, items):
+    return [itemList.index(item) for item in items]
+
+
+def lineListToDict(fieldList, lineList, groupIndices, valueIndices):
+    resultGroup = {}
+    for groupIndex in groupIndices:
+        resultGroup[fieldList[groupIndex]] = lineList[groupIndex]
+    for valueIndex in valueIndices:
+        resultGroup[fieldList[valueIndex]] = float(lineList[valueIndex])
+    return resultGroup
+
+
+def findDict(dictList, matchDict, fields):
+    resultIndex = 0
+    for existingDict in dictList:
+        match = None
+        for field in fields:
+            if existingDict[field] != matchDict[field]:
+                match = False
+                break
+        if match != False:
+            return resultIndex
+        resultIndex += 1
+
+
+def addListDictValues(list, index, item, valueFields):
+    for field in valueFields:
+        list[index][field] += item[field]
+
+
+def outputReport():
+    # write the report to a file called report.txt.
+    pass
+
+
+def csvReport(path, valueFields, groupFields):
+    with open(path, "r") as f:
+        results = []
         i = 0
         for line in f:
+            lineList = lineToList(line)
             if i == 0:
-                fields = lineToList(line)
-                indices = [fields.index(item) for item in selectFields]
+                fieldList = lineList
+                valueIndices = getIndices(lineList, valueFields)
+                groupIndices = getIndices(lineList, groupFields)
+            else:
+                lineDict = lineListToDict(fieldList, lineList, groupIndices, valueIndices)
+                resultIndex = findDict(results, lineDict, groupFields)
+                if resultIndex != None:
+                    addListDictValues(results, resultIndex, lineDict, valueFields)
+                else:
+                    results.append(lineDict)
             i += 1
-    return i, len(fields), len(indices)
+    print(results)
+    return results
