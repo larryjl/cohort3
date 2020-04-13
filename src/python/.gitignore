@@ -3,5 +3,5 @@
 data.db
 postgres.config.json
 
-.data/*
-.reports/*
+data/
+reports/
