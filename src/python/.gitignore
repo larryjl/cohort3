@@ -2,3 +2,6 @@
 .mypy_cache
 data.db
 postgres.config.json
+
+.data/*
+.reports/*
