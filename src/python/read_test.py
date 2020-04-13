@@ -25,12 +25,9 @@ class Test_folder:
 
 
 class Test_csv:
-    # path = "./data/Census_by_Community_2018.csv"
-    path = "./data/Census_test.csv"
-    values = ("RES_CNT",)
-    groups = ("CLASS", "SECTOR")
 
     # def test_length(self):
+    #     path = "./data/Census_by_Community_2018.csv"
     #     assert read.communityReport(self.path) == 307
 
     def test_lineToList(self):
@@ -82,10 +79,25 @@ class Test_csv:
             {"a": "a3", "b": "b3", "x": 0, "y": 0}
         ]
 
-    def test_output(self):
-        assert read.outputReport()
+    def test_dictString(self):
+        lineDict = {"a": "a1", "b": "b1", "x": 1, "y": 2}
+        groupFields = ["a", "b"]
+        assert read.dictToString(lineDict, groupFields, 5, 5) == "a:    a1   , b:    b1   , "
 
     def test_csv(self):
-        result = read.csvReport(self.path, self.values, self.groups)
+        inPath = "./data/Census_test.csv"
+        outPath = "./reports/reportTest.txt"
+        values = ("RES_CNT",)
+        groups = ("CLASS", "SECTOR")
+        result = read.csvReport(inPath, outPath, values, groups)
+        assert type(result) == list
+        assert len(result) > 0
+
+    def test_csv2018(self):
+        inPath = "./data/Census_by_Community_2018.csv"
+        outPath = "./reports/report.txt"
+        values = ("RES_CNT",)
+        groups = ("CLASS", "SECTOR")
+        result = read.csvReport(inPath, outPath, values, groups)
         assert type(result) == list
         assert len(result) > 0

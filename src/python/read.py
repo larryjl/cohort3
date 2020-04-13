@@ -72,21 +72,25 @@ def addListDictValues(list, index, item, valueFields):
         list[index][field] += item[field]
 
 
-def outputReport():
-    # write the report to a file called report.txt.
-    pass
+def dictToString(lineDict, keys, keyLength, valueLength):
+    string = ""
+    for key in keys:
+        name = key + ":"
+        value = str(lineDict[key])
+        string += f"{name:{keyLength}} {value:{valueLength}}, "
+    return string
+    
 
-
-def csvReport(path, valueFields, groupFields):
-    with open(path, "r") as f:
+def csvReport(inPath, outPath, valueFields, groupFields):
+    with open(inPath, "r") as inFile, open(outPath, "w") as outFile:
         results = []
         i = 0
-        for line in f:
+        for line in inFile:
             lineList = lineToList(line)
             if i == 0:
                 fieldList = lineList
-                valueIndices = getIndices(lineList, valueFields)
                 groupIndices = getIndices(lineList, groupFields)
+                valueIndices = getIndices(lineList, valueFields)
             else:
                 lineDict = lineListToDict(fieldList, lineList, groupIndices, valueIndices)
                 resultIndex = findDict(results, lineDict, groupFields)
@@ -95,5 +99,12 @@ def csvReport(path, valueFields, groupFields):
                 else:
                     results.append(lineDict)
             i += 1
-    print(results)
+        for j in range(len(groupFields)-1,-1,-1):
+            results.sort(key=lambda item: item[groupFields[j]])
+        for lineDict in results:
+            string = ""
+            string += dictToString(lineDict, groupFields, 8, 20)
+            string += dictToString(lineDict, valueFields, 8, 20)
+            string = string[:-2] + "\r\n"
+            outFile.write(string)
     return results
