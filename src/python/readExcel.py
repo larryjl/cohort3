@@ -56,7 +56,7 @@ def jobReport(
 ):
     ## todo: differentiate between row num and id value, or make them the same in the dictionary creation
     jobDict = wbDict[jobSheet][jobId]
-    jobInfo = dictToString(jobDict, jobFields, 10, 10,"\r\n")
+    jobInfo = dictToString(jobDict, jobFields, 10, 10,"  \r\n")
     company = jobDict[companyField]
 
     connectionIdList = matching(wbDict, connectionSheet, companyField, company)
@@ -64,7 +64,7 @@ def jobReport(
         "- " + dictToString(wbDict[connectionSheet][id], connectionFields, 10, 10)
         for id in connectionIdList
     ]
-    connectionInfo = "\r\n".join(connectionStrList)
+    connectionInfo = "  \r\n".join(connectionStrList)
 
     jobKeywordIdList = matching(wbDict, jobKeywordSheet, jobIdField, jobId)
     
@@ -75,9 +75,9 @@ def jobReport(
         keywordId = matching(wbDict, keywordSheet, keywordField, keyword)[0]
         keywordString = "- " + dictToString(wbDict[keywordSheet][keywordId], keywordFields, 10, 10)
         keywordStrList.append(keywordString)
-    keywordInfo = "\r\n".join(keywordStrList)
+    keywordInfo = "  \r\n".join(keywordStrList)
 
-    string = "\r\n".join(
+    string = "  \r\n".join(
         (
             "# " + title,
             jobInfo,
