@@ -11,33 +11,6 @@
 
 ---
 
-## Getting Started
-
-This project is the "Getting Started" project for EvolveU Full Stack Development program. It is a baseline to demonstrate:
-
-- development environment
-- development tools
-- best practices
-
-## Required Tools
-
-The following tools are required to run the sample project:
-
-- git - If you do not have git installed, install with default parameters. See [git](https://git-scm.com). To check, enter:
-```sh
-git --version
-```
-- Node - If you do not have Node installed, install the LTS version (left). See [node](https://nodejs.org/en/). To check, enter: 
-```sh
-node -v
-```
-- VSCode - If you do not have VSCode installed see [VSCode](https://code.visualstudio.com/).
-- live-server - is a little development server with live reload capability. 
-```sh
-npm install -g live-server
-```
----
-
 ## Authors
 
 * **Larry Shumlich**, Instructor - [reference repository](https://github.com/larryevolveu/reference/)
@@ -45,4 +18,4 @@ npm install -g live-server
 
 ## Acknowledgments
 
-* Thanks to the rest of the evolveU team for continued inspiration.
+* Thanks to the entire EvolveU team for continued inspiration.
